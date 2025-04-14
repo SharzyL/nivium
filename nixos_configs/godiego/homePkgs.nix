@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  setup.defaultBrowser = "firefox";
+  nivium.defaultBrowser = "firefox";
 
   home.packages = with pkgs; [
     # dev

@@ -12,14 +12,14 @@
     dates = "weekly";
   };
 
-  setup = {
+  nivium = {
     hostName = "jethro";
     enableDNSACME = true;
 
     home.users."root" = {
       enable = true;
       config = {
-        setup = {
+        nivium = {
           nvim.enable = true;
           fish.enable = true;
           tmux.enable = true;
@@ -30,7 +30,7 @@
     home.users."sharzy" = {
       enable = true;
       config = {
-        setup = {
+        nivium = {
           nvim.enable = true;
           fish.enable = true;
           tmux.enable = true;

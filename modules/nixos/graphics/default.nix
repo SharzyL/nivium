@@ -2,14 +2,14 @@
 
 with lib;
 let
-  cfg = config.setup.graphics;
+  cfg = config.nivium.graphics;
 in
 {
   imports = [
     ./xserver.nix
     ./sway.nix
   ];
-  options.setup.graphics = {
+  options.nivium.graphics = {
     enable = mkEnableOption "graphics base config";
 
     user = mkOption {

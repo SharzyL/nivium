@@ -13,7 +13,7 @@
 
   security.auditd.enable = true;
 
-  setup.services = {
+  nivium.services = {
     exporters = {
       enable = true;
       enableNode = true;
@@ -72,13 +72,13 @@
       };
       syncplay-d-shz-al = {
         # syncplay's ssl update detection is based on mtime of cert file, thus not working
-        certNames = [ config.setup.services.nginx.wildcard-proxy.cert-name ];
+        certNames = [ config.nivium.services.nginx.wildcard-proxy.cert-name ];
         servicesToRestart = [ "syncplay.service" ];
       };
     };
   };
 
-  setup.enableDNSACME = true;
+  nivium.enableDNSACME = true;
 
   services.openssh.settings.X11Forwarding = true;
 
@@ -145,7 +145,7 @@
 
   systemd.services.syncplay.serviceConfig =
     let
-      name = config.setup.services.nginx.wildcard-proxy.cert-name;
+      name = config.nivium.services.nginx.wildcard-proxy.cert-name;
     in
     { 
       LoadCredential = [

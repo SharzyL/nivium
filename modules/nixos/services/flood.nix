@@ -2,10 +2,10 @@
 
 with lib;
 let
-  cfg = config.setup.services.flood;
+  cfg = config.nivium.services.flood;
 in
 {
-  options.setup.services.flood = {
+  options.nivium.services.flood = {
     enable = mkEnableOption "enable flood";
     package = mkPackageOption pkgs "flood" { };
     baseuri = mkOption { type = types.nullOr types.str; default = null; };
@@ -13,7 +13,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    setup.systemd-hardening.flood = {
+    nivium.systemd-hardening.flood = {
       enable = true;
       onlyLocalNetwork = true;
       memoryDenyWriteExecute = false;  # node has some magic

@@ -10,14 +10,14 @@
   sops.secrets."restic_env" = { owner = "sharzy"; sopsFile = ../../secrets/desktop.yaml; };
   sops.secrets."oomori_rsync_env" = { sopsFile = ../../secrets/desktop.yaml; };
 
-  setup.services = {
+  nivium.services = {
     goauthing = {
       enable = true;
       configFile = config.sops.secrets."goauthing_config".path;
     };
     ddns = {
       enable = true;
-      configFile = "/var/lib/setup/ddns.json";
+      configFile = "/var/lib/nivium/ddns.json";
     };
     flood.enable = true;
     sing-box-client.enable = true;
@@ -44,9 +44,9 @@
         port = 2443;
         base-domain = "akiko.d.shz.al";
         proxies = {
-          flood.port = config.setup.services.flood.port;
+          flood.port = config.nivium.services.flood.port;
           qb = {
-            port = config.setup.services.qbittorrent.webui-port;
+            port = config.nivium.services.qbittorrent.webui-port;
             extraProxyConfig = ''
               proxy_cookie_path  /  "/; Secure";
             '';
@@ -55,7 +55,7 @@
       };
     };
   };
-  setup.enableDNSACME = true;
+  nivium.enableDNSACME = true;
 
   users.users."sharzy".extraGroups = lib.mkBefore [ "qbittorrent" ];
 
@@ -102,7 +102,7 @@
   };
 
   services.openvpn.servers = {
-    felix = { config = '' config /var/lib/setup/felix.ovpn ''; };
+    felix = { config = '' config /var/lib/nivium/felix.ovpn ''; };
   };
   systemd.services.openvpn-felix.unitConfig = {
     After = lib.mkForce [ "network-online.target" ];

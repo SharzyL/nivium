@@ -2,7 +2,7 @@
 
 with lib;
 let
-  cfg = config.setup.fish;
+  cfg = config.nivium.fish;
   fish-colored-man = pkgs.fetchFromGitHub {
     owner = "decors";
     repo = "fish-colored-man";
@@ -11,8 +11,8 @@ let
   }; # TODO: upstream
 in
 {
-  options.setup.fish = {
-    enable = mkOption { type = types.bool; default = config.setup.profile != "bare"; };
+  options.nivium.fish = {
+    enable = mkOption { type = types.bool; default = config.nivium.profile != "bare"; };
     extraScript = mkOption { type = types.str; default = ""; };
   };
 

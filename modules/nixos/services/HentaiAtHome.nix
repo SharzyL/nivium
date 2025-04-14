@@ -2,10 +2,10 @@
 
 with lib;
 let
-  cfg = config.setup.services.HentaiAtHome;
+  cfg = config.nivium.services.HentaiAtHome;
 in
 {
-  options.setup.services.HentaiAtHome = {
+  options.nivium.services.HentaiAtHome = {
     enable = mkEnableOption "enable HentaiAtHome";
     port = mkOption { type = lib.types.port; };
     package = mkPackageOption pkgs "HentaiAtHome" { };
@@ -13,7 +13,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    setup.systemd-hardening.HentaiAtHome = {
+    nivium.systemd-hardening.HentaiAtHome = {
       enable = true;
       memoryDenyWriteExecute = false;
     };

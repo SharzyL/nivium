@@ -2,12 +2,12 @@
 
 with lib;
 let
-  cfg = config.setup.nvim;
+  cfg = config.nivium.nvim;
 in
 {
-  options.setup.nvim = {
-    enable = mkOption { type = types.bool; default = config.setup.profile != "bare"; };
-    lspPackages = mkOption { type = types.bool; default = config.setup.profile == "full"; };
+  options.nivium.nvim = {
+    enable = mkOption { type = types.bool; default = config.nivium.profile != "bare"; };
+    lspPackages = mkOption { type = types.bool; default = config.nivium.profile == "full"; };
     extraLuaConfig = mkOption { type = types.lines; default = ""; };
   };
 

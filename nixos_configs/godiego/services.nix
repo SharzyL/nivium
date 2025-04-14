@@ -4,7 +4,7 @@
   sops.secrets."thu_passwd" = { sopsFile = ../../secrets/desktop.yaml; };
   sops.secrets."goauthing_config" = { sopsFile = ../../secrets/desktop.yaml; };
 
-  setup.services = {
+  nivium.services = {
     goauthing = {
       enable = true;
       configFile = config.sops.secrets."goauthing_config".path;
@@ -13,16 +13,16 @@
     mihomo.enable = true;
     ddns = {
       enable = true;
-      configFile = "/var/lib/setup/ddns.json";
+      configFile = "/var/lib/nivium/ddns.json";
     };
     cloudflare-warp = {
       enable = true;
     };
   };
-  setup.enableDNSACME = true;
+  nivium.enableDNSACME = true;
 
   # services.openvpn.servers = {
-  #   felix = { config = '' config /var/lib/setup/felix.ovpn ''; };
+  #   felix = { config = '' config /var/lib/nivium/felix.ovpn ''; };
   # };
 
   services.smartdns = {

@@ -3,7 +3,7 @@
 {
   home.username = "luoyunqian";
   home.homeDirectory = "/scorpio/home/luoyunqian";
-  setup.profile = "full";
+  nivium.profile = "full";
 
   programs.bash = {
     enable = true;

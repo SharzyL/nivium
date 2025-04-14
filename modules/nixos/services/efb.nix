@@ -2,16 +2,16 @@
 
 with lib;
 let
-  cfg = config.setup.services.efb;
+  cfg = config.nivium.services.efb;
 in
 {
-  options.setup.services.efb = {
+  options.nivium.services.efb = {
     package = mkPackageOption pkgs "efb" { };
     enable = mkEnableOption "efb wechat to telegram forwarder";
   };
 
   config = mkIf cfg.enable {
-    setup.systemd-hardening.efb = {
+    nivium.systemd-hardening.efb = {
       enable = true;
     };
 

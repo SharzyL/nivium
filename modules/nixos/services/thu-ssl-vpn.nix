@@ -2,10 +2,10 @@
 
 with lib;
 let
-  cfg = config.setup.services.thu-ssl-vpn;
+  cfg = config.nivium.services.thu-ssl-vpn;
 in
 {
-  options.setup.services.thu-ssl-vpn = with lib.types; {
+  options.nivium.services.thu-ssl-vpn = with lib.types; {
     enable = mkEnableOption "thu ssl vpn";
     username = mkOption { type = str; };
 

@@ -54,7 +54,7 @@
     # distributedBuilds = true;
   };
 
-  setup = {
+  nivium = {
     behindGFW = true;
     httpProxy = { port = 1094; };
 
@@ -73,7 +73,7 @@
     home.users."root" = {
       enable = true;
       config = {
-        setup = {
+        nivium = {
           nvim.enable = true;
           fish.enable = true;
           tmux.enable = true;

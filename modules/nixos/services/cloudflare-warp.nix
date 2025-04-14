@@ -2,17 +2,17 @@
 
 with lib;
 let
-  cfg = config.setup.services.cloudflare-warp;
+  cfg = config.nivium.services.cloudflare-warp;
 in
 {
-  options.setup.services.cloudflare-warp = {
+  options.nivium.services.cloudflare-warp = {
     enable = mkEnableOption "enable cloudflare-warp";
     package = mkPackageOption pkgs "cloudflare-warp" { };
     configFile = mkOption { type = types.str; };
   };
 
   config = mkIf cfg.enable {
-    setup.systemd-hardening.cloudflare-warp = {
+    nivium.systemd-hardening.cloudflare-warp = {
       enable = true;
       ambientCapabilities = [ "CAP_NET_ADMIN" "CAP_NET_BIND_SERVICE" "CAP_SYS_PTRACE" ];
       extraAF = [ "AF_NETLINK" ];

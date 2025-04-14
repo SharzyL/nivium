@@ -1,10 +1,10 @@
 { config, lib, ... }:
 
 let
-  cfg = config.setup.services.nginx;
+  cfg = config.nivium.services.nginx;
 in
 {
-  options.setup.services.nginx = {
+  options.nivium.services.nginx = {
     enable = lib.mkEnableOption "enable nginx service";
 
     sni-blocker = {
@@ -61,7 +61,7 @@ in
           group = "nginx";
         };
 
-        setup.services.nginx.wildcard-proxy.cert-name = wpCertName;
+        nivium.services.nginx.wildcard-proxy.cert-name = wpCertName;
 
         services.nginx.virtualHosts = lib.mapAttrs'
           (name: pcfg: lib.nameValuePair "${name}.${wpCfg.base-domain}" {

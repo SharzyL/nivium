@@ -2,11 +2,11 @@
 
 with lib;
 let
-  cfg = config.setup.graphics.xserver;
-  user = config.setup.graphics.user;
+  cfg = config.nivium.graphics.xserver;
+  user = config.nivium.graphics.user;
 in
 {
-  options.setup.graphics.xserver = {
+  options.nivium.graphics.xserver = {
     enable = mkEnableOption "xserver base config";
   };
 
@@ -23,7 +23,7 @@ in
 
       xserver =
         let
-          user = config.setup.graphics.user;
+          user = config.nivium.graphics.user;
         in
         {
           enable = true;

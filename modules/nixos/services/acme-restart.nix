@@ -1,11 +1,11 @@
 { lib, config, ... }:
 
 let
-  cfg = config.setup.services.acme-restart;
+  cfg = config.nivium.services.acme-restart;
 in
 {
   options = {
-    setup.services.acme-restart = lib.mkOption {
+    nivium.services.acme-restart = lib.mkOption {
       type = with lib.types; attrsOf (submodule (
         {
           options = {

@@ -2,10 +2,10 @@
 
 with lib;
 let
-  cfg = config.setup.services.ddns;
+  cfg = config.nivium.services.ddns;
 in
 {
-  options.setup.services.ddns = {
+  options.nivium.services.ddns = {
     enable = mkEnableOption "enable ddns";
     package = mkPackageOption pkgs "python-ddns" { };
     configFile = mkOption { type = types.str; };  # TODO: generate it
@@ -13,7 +13,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    setup.systemd-hardening.ddns = {
+    nivium.systemd-hardening.ddns = {
       enable = true;
     };
 

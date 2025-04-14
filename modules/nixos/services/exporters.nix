@@ -2,10 +2,10 @@
 
 with lib;
 let
-  cfg = config.setup.services.exporters;
+  cfg = config.nivium.services.exporters;
 in
 {
-  options.setup.services.exporters = {
+  options.nivium.services.exporters = {
     enable = mkEnableOption "enable exporters basic";
     enableNode = mkEnableOption "enable node exporter";
     enableSmart = mkEnableOption "enable smart exporter";

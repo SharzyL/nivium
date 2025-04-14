@@ -2,10 +2,10 @@
 
 with lib;
 let
-  cfg = config.setup.home;
+  cfg = config.nivium.home;
 in
 {
-  options.setup.home = {
+  options.nivium.home = {
     users = mkOption {
       default = { };
       type = with types; attrsOf (submodule {

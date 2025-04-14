@@ -9,13 +9,13 @@
       self.nixosModules.default
     ];
 
-  setup = {
+  nivium = {
     hostName = "holland";
 
     home.users."root" = {
       enable = true;
       config = {
-        setup = {
+        nivium = {
           nvim.enable = true;
           fish.enable = true;
           tmux.enable = true;
@@ -26,7 +26,7 @@
     home.users."sharzy" = {
       enable = true;
       config = {
-        setup = {
+        nivium = {
           nvim.enable = true;
           fish.enable = true;
           tmux.enable = true;

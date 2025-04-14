@@ -2,7 +2,7 @@
 
 with lib;
 let
-  cfg = config.setup.services.sing-box-server;
+  cfg = config.nivium.services.sing-box-server;
   sbCfg = config.services.sing-box;
   genJqSecretsEnvReplacementSnippet' = attr: set: output:
     let
@@ -35,7 +35,7 @@ let
   genJqSecretsEnvReplacementSnippet = genJqSecretsEnvReplacementSnippet' "_secret_from_env";
 in
 {
-  options.setup.services.sing-box-server = {
+  options.nivium.services.sing-box-server = {
     enable = mkEnableOption "sing-box server";
     host = mkOption { type = types.str; };
     port = mkOption { type = types.port; default = 7853; };
@@ -85,7 +85,7 @@ in
     };
 
     # TODO: user sing-box is used to build config, remove it!
-    setup.systemd-hardening.sing-box = {
+    nivium.systemd-hardening.sing-box = {
       enable = true;
       extraAF = [ "AF_NETLINK" ];
     };

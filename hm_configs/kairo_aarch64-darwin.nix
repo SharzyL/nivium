@@ -7,7 +7,7 @@
   home.homeDirectory = "/Users/sharzy";
   manual.manpages.enable = false;
 
-  setup = {
+  nivium = {
     profile = "full";
     withGraphics = true;
     bashProfileExecFish = true;

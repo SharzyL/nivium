@@ -10,7 +10,7 @@ let
 in
 {
   sops.secrets.hath_login = { sopsFile = ../../secrets/holland.yaml; };
-  setup.services = {
+  nivium.services = {
     HentaiAtHome = {
       enable = true;
       port = 20377;

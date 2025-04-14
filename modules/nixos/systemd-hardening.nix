@@ -1,10 +1,10 @@
 { config, lib, ... }:
 
 let
-  cfg = config.setup.systemd-hardening;
+  cfg = config.nivium.systemd-hardening;
 in
 {
-  options.setup.systemd-hardening = lib.mkOption (with lib.types; {
+  options.nivium.systemd-hardening = lib.mkOption (with lib.types; {
     type = attrsOf (submodule {
       options = {
         enable = lib.mkOption { type = bool; default = false; };

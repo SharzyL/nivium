@@ -2,7 +2,7 @@
 
 with lib;
 let
-  cfg = config.setup;
+  cfg = config.nivium;
   get_nixos_module = flake:
     if flake ? nixosModule
     then flake.nixosModule else flake.nixosModules.default;
@@ -16,7 +16,7 @@ in
     chatgpt-telegram-bot
   ]));
 
-  options.setup = {
+  options.nivium = {
     user = mkOption {
       type = types.str;
       default = "sharzy";
@@ -48,7 +48,7 @@ in
       sops = {
         defaultSopsFile = ../../secrets/general.yaml;
         age = {
-          keyFile = lib.mkDefault "/var/lib/setup/sops.key";
+          keyFile = lib.mkDefault "/var/lib/nivium/sops.key";
           sshKeyPaths = [ ];
         };
         gnupg.sshKeyPaths = [ ];
@@ -56,7 +56,7 @@ in
         secrets."user_passwd" = { neededForUsers = true; };
       };
 
-      systemd.tmpfiles.rules = [ "d /var/lib/setup 0755 root root - -" ];
+      systemd.tmpfiles.rules = [ "d /var/lib/nivium 0755 root root - -" ];
 
       security.sudo.extraConfig = ''
         Defaults lecture="never"

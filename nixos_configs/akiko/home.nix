@@ -7,7 +7,7 @@
     ./homePkgs.nix
   ];
 
-  setup = {
+  nivium = {
     withGraphics = true;
 
     attic-cache = {
@@ -38,10 +38,10 @@
         { name = "nicotine"; path = "${pkgs.nicotine-plus}/bin/nicotine-plus"; }
       ];
       extraConfig = ''
-        exec_always --no-startup-id env -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY -u http_proxy -u https_proxy -u all_proxy ${config.setup.defaultBrowser}
+        exec_always --no-startup-id env -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY -u http_proxy -u https_proxy -u all_proxy ${config.nivium.defaultBrowser}
         exec_always --no-startup-id thunderbird
         exec_always --no-startup-id obsidian
-        exec_always --no-startup-id i3-msg 'workspace 0; exec ${config.setup.defaultTerminal}'
+        exec_always --no-startup-id i3-msg 'workspace 0; exec ${config.nivium.defaultTerminal}'
       '';
     };
   };

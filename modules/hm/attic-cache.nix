@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.setup.attic-cache;
+  cfg = config.nivium.attic-cache;
   getURLHost = url:
     let
       protocolRemoved = lib.last (builtins.split "[[:alnum:]]://" url); # from "https://foo.bar/xxx" to "foo.bar/xxx";
@@ -14,7 +14,7 @@ in
     default = "";
   };
 
-  options.setup.attic-cache = with lib; {
+  options.nivium.attic-cache = with lib; {
     enable = mkEnableOption "enable attic cache nix configuration";
     caches = mkOption {
       type = types.listOf (types.submodule {

@@ -2,7 +2,7 @@
 
 with lib;
 let
-  cfg = config.setup.fish;
+  cfg = config.nivium.fish;
 in
 {
   config = mkIf cfg.enable {

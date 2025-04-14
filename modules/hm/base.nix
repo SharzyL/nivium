@@ -1,10 +1,10 @@
 { config, pkgs, lib, inputs, self, ... }:
 
 let
-  profile = config.setup.profile;
+  profile = config.nivium.profile;
 in
 {
-  options.setup = {
+  options.nivium = {
     profile = with lib; mkOption {
       # bare: has fish
       # minimal: has nvim
@@ -23,7 +23,7 @@ in
 
     home.stateVersion = "22.05";
 
-    home.file.".bash_profile" = lib.mkIf config.setup.bashProfileExecFish {
+    home.file.".bash_profile" = lib.mkIf config.nivium.bashProfileExecFish {
       text = ''
         if [[ $- == *i* ]] && which fish >/dev/null; then
           exec fish

@@ -3,11 +3,11 @@
 with lib;
 
 let
-  cfg = config.setup.services.qbittorrent;
+  cfg = config.nivium.services.qbittorrent;
 in
 {
   options = {
-    setup.services.qbittorrent = {
+    nivium.services.qbittorrent = {
       enable = mkEnableOption "qbittorrent client";
       download-dir = mkOption { type = types.str; };
 
@@ -39,7 +39,7 @@ in
       qbittorrent = { };
     });
 
-    setup.systemd-hardening.qbittorrent = {
+    nivium.systemd-hardening.qbittorrent = {
       enable = true;
       dynamicUser = false;  # it writes files to torrent directory
       extraAF = [ "AF_NETLINK" ];

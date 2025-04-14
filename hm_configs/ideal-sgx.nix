@@ -1,7 +1,7 @@
 { ... }:
 
 {
-  setup.profile = "minimal";
+  nivium.profile = "minimal";
 
   home.username = "yunqian";
   home.homeDirectory = "/home/yunqian";

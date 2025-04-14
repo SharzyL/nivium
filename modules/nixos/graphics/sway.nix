@@ -2,11 +2,11 @@
 
 with lib;
 let
-  cfg = config.setup.graphics.sway;
-  user = config.setup.graphics.user;
+  cfg = config.nivium.graphics.sway;
+  user = config.nivium.graphics.user;
 in
 {
-  options.setup.graphics.sway = {
+  options.nivium.graphics.sway = {
     enable = mkEnableOption "sway base config";
   };
 
@@ -38,7 +38,7 @@ in
     services.greetd = {
       enable = true;
       settings.default_session = {
-        user = config.setup.graphics.user;
+        user = config.nivium.graphics.user;
         command = pkgs.writeShellScript "sway" ''
           export $(${pkgs.systemd}/lib/systemd/user-environment-generators/30-systemd-environment-d-generator)
           ${pkgs.findutils}/bin/find /run/user/$(id -u) -maxdepth 1 -name "sway-ipc.$(id -u).*.sock" -delete

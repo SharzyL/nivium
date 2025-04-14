@@ -26,10 +26,10 @@ let
   mkConfig = mapAttrsToList (fileName: text:
     pkgs.writeTextDir "/share/rime-data/${fileName}" text
   );
-  cfg = config.setup.fcitx5-rime;
+  cfg = config.nivium.fcitx5-rime;
 in
 {
-  options.setup.fcitx5-rime = {
+  options.nivium.fcitx5-rime = {
     enable = mkEnableOption "use customized fcitx5 with rime";
     extraAddons = with types; mkOption {
       type = listOf package;

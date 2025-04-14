@@ -2,7 +2,7 @@
 
 with lib;
 let
-  cfg = config.setup.tmux;
+  cfg = config.nivium.tmux;
   mkTmuxOption = options: concatStringsSep "\n" (mapAttrsToList
     (name: value:
       "set-option -g ${name} ${toString value}"
@@ -16,7 +16,7 @@ let
   defaultOptions = {
     mouse = "on";
     escape-time = 10;
-    terminal-overrides = "',${config.setup.defaultTerminal}:RGB'";
+    terminal-overrides = "',${config.nivium.defaultTerminal}:RGB'";
     renumber-windows = "on";
     allow-passthrough = "on";
   };
@@ -48,7 +48,7 @@ let
   };
 in
 {
-  options.setup.tmux = {
+  options.nivium.tmux = {
     enable = mkOption { type = types.bool; default = false; };
     extraScript = mkOption { type = types.str; default = ""; };
   };

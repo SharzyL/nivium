@@ -2,17 +2,17 @@
 
 with lib;
 let
-  cfg = config.setup.services.sing-box-client;
+  cfg = config.nivium.services.sing-box-client;
 in
 {
-  options.setup.services.sing-box-client = {
+  options.nivium.services.sing-box-client = {
     enable = mkEnableOption "sing-box server";
     package = mkPackageOption pkgs "sing-box" { };
-    configFile = mkOption { type = lib.types.path; default = "/var/lib/setup/sb.json"; };
+    configFile = mkOption { type = lib.types.path; default = "/var/lib/nivium/sb.json"; };
   };
 
   config = mkIf cfg.enable {
-    setup.systemd-hardening.sing-box = {
+    nivium.systemd-hardening.sing-box = {
       enable = true;
       extraAF = [ "AF_NETLINK" ];
     };

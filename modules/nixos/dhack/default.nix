@@ -1,12 +1,12 @@
 { config, lib, ... }:
 
 let
-  cfg = config.setup.dhack;
+  cfg = config.nivium.dhack;
 
 in
 {
   options = {
-    setup.dhack = {
+    nivium.dhack = {
       enable = lib.mkEnableOption (lib.mdDoc "dhack kernel module");
     };
   };

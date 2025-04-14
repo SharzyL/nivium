@@ -2,11 +2,11 @@
 
 with lib;
 let
-  cfg = config.setup.i3;
+  cfg = config.nivium.i3;
   defaultStartup = [ ];
 in
 {
-  options.setup.i3 = {
+  options.nivium.i3 = {
     enable = mkEnableOption "use customized i3";
     extraConfig = mkOption { type = types.str; default = ""; };
     extraStartup = mkOption {
@@ -45,7 +45,7 @@ in
     xsession.windowManager.i3 =
       let
         modifier = "Mod4";
-        terminal = config.setup.defaultTerminal;
+        terminal = config.nivium.defaultTerminal;
         locker = "i3lock -c 000000";
         polybar = "systemctl --user start polybar";
         ns = "--no-startup-id";
@@ -79,7 +79,7 @@ in
           focus.followMouse = false;
           floating.modifier = modifier;
           window.hideEdgeBorders = "both";
-          terminal = config.setup.defaultTerminal;
+          terminal = config.nivium.defaultTerminal;
 
           keybindings = lib.mkOptionDefault (workspaceShortcuts // {
             "${modifier}+k" = "focus up";
@@ -172,7 +172,7 @@ in
                 { class = "flameshot"; }
               ]
             ) ++ [
-              { criteria = { class = config.setup.defaultBrowser; }; command = "move to workspace 1"; }
+              { criteria = { class = config.nivium.defaultBrowser; }; command = "move to workspace 1"; }
               { criteria = { class = "thunderbird"; }; command = "move to workspace 3"; }
               { criteria = { class = "obsidian"; }; command = "move to workspace 3"; }
               { criteria = { instance = "org.nicotine_plus.Nicotine"; }; command = "move to workspace 5"; }

@@ -2,11 +2,11 @@
 
 with lib;
 let
-  cfg = config.setup.services.derper;
+  cfg = config.nivium.services.derper;
   derpHttpsPort = 3044;
 in
 {
-  options.setup.services.derper = with lib.types; {
+  options.nivium.services.derper = with lib.types; {
     package = mkPackageOption pkgs "derper" { };
     enable = mkEnableOption "derper";
     hostname = mkOption { type = str; };
@@ -20,7 +20,7 @@ in
       "net.ipv6.conf.all.forwarding" = 1;
     };
 
-    setup.systemd-hardening.derper = {
+    nivium.systemd-hardening.derper = {
       enable = true;
 
       # derper uses `setrlimit` in @resources group

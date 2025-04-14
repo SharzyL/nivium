@@ -1,7 +1,7 @@
 { config, ... }:
 
 {
-  setup = {
+  nivium = {
     services = {
       exporters = {
         enable = true;

@@ -2,7 +2,7 @@
 
 with lib;
 let
-  cfg = config.setup;
+  cfg = config.nivium;
 
   dir-openner = pkgs.makeDesktopItem {
     name = "dir-openner";
@@ -12,13 +12,13 @@ let
   };
 in
 {
-  options.setup = with lib.types; {
+  options.nivium = with lib.types; {
     withGraphics = lib.mkEnableOption "graphics";
     defaultBrowser = lib.mkOption { type = str; default = "firefox"; };
     defaultTerminal = lib.mkOption { type = str; default = "kitty"; };
   };
 
-  config = mkIf (config.setup.i3.enable || config.setup.sway.enable) {
+  config = mkIf (config.nivium.i3.enable || config.nivium.sway.enable) {
     assertions = [
       { assertion = cfg.withGraphics; messsage = "You should enable graphics to use wm"; }
     ];

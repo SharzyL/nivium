@@ -3,7 +3,7 @@
 {
   home.username = "sharzy";
   home.homeDirectory = "/home/sharzy";
-  setup.profile = "full";
+  nivium.profile = "full";
 
   home.packages = with pkgs; [
     torrenttools

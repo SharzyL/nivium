@@ -2,7 +2,7 @@
 
 with lib;
 let
-  cfg = config.setup.sway;
+  cfg = config.nivium.sway;
   defaultStartup = [
     { name = "mako"; path = "${pkgs.mako}/bin/mako"; }
   ];
@@ -41,13 +41,13 @@ let
     '';
   };
 
-  terminal = config.setup.defaultTerminal;
+  terminal = config.nivium.defaultTerminal;
   locker = "${pkgs.swaylock}/bin/swaylock -c 000000";
   lockerPic = "${pkgs.swaylock}/bin/swaylock -i ${cfg.wallpaper}";
   lockerPicDaemon = "${pkgs.swaylock}/bin/swaylock -f -i ${cfg.wallpaper}";
 in
 {
-  options.setup.sway = {
+  options.nivium.sway = {
     enable = mkEnableOption "use customized sway";
     extraConf = mkOption { type = types.str; default = ""; };
     extraStartup = mkOption {
@@ -230,7 +230,7 @@ in
           ];
 
           assigns = {
-            "1" = [{ app_id = config.setup.defaultBrowser; }];
+            "1" = [{ app_id = config.nivium.defaultBrowser; }];
             "3" = [{ app_id = "obsidian"; } { app_id = "thunderbird"; }];
           };
           window.commands =

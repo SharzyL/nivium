@@ -2,18 +2,18 @@
 
 with lib;
 let
-  cfg = config.setup.services.goauthing;
+  cfg = config.nivium.services.goauthing;
   bin = "${cfg.package}/bin/auth-thu";
 in
 {
-  options.setup.services.goauthing = {
+  options.nivium.services.goauthing = {
     package = mkPackageOption pkgs "goauthing" { };
     enable = mkEnableOption "goauthing service";
     configFile = mkOption { type = types.nullOr types.str; };
   };
 
   config = mkIf cfg.enable {
-    setup.systemd-hardening.goauthing = {
+    nivium.systemd-hardening.goauthing = {
       enable = true;
       systemCallFilter = [ "@system-service" "~@privileged" ];
     };

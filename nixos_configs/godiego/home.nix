@@ -5,7 +5,7 @@
     ./homePkgs.nix
   ];
 
-  setup = {
+  nivium = {
     withGraphics = true;
 
     nvim = {
@@ -35,10 +35,10 @@
     #
     #     input "10182:291:GXTP7936:00_27C6:0123" map_to_output eDP-1
     #
-    #     exec ${config.setup.defaultBrowser}
+    #     exec ${config.nivium.defaultBrowser}
     #     exec thunderbird
     #     exec obsidian
-    #     exec swaymsg 'workspace 0; exec ${config.setup.defaultTerminal}'
+    #     exec swaymsg 'workspace 0; exec ${config.nivium.defaultTerminal}'
     #   '';
     #   extraStartup = [
     #     { name = "dropbox"; path = "${pkgs.dropbox}/bin/dropbox"; }
@@ -54,10 +54,10 @@
         { name = "nicotine"; path = "${pkgs.nicotine-plus}/bin/nicotine-plus"; }
       ];
       extraConfig = ''
-        exec_always --no-startup-id env -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY -u http_proxy -u https_proxy -u all_proxy ${config.setup.defaultBrowser}
+        exec_always --no-startup-id env -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY -u http_proxy -u https_proxy -u all_proxy ${config.nivium.defaultBrowser}
         exec_always --no-startup-id thunderbird
         exec_always --no-startup-id obsidian
-        exec_always --no-startup-id i3-msg 'workspace 0; exec ${config.setup.defaultTerminal}'
+        exec_always --no-startup-id i3-msg 'workspace 0; exec ${config.nivium.defaultTerminal}'
       '';
     };
 
@@ -93,7 +93,7 @@
   systemd.user.services.sc_monitor = {
     Unit = {
       Description = "copy image from clipboard directory";
-      After = [ "systemd-tmpfiles-setup.service" "graphical-session-pre.target" ];
+      After = [ "systemd-tmpfiles-nivium.service" "graphical-session-pre.target" ];
       PartOf = [ "graphical-session.target" ];
     };
     Service = {

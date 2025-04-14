@@ -2,17 +2,17 @@
 
 with lib;
 let
-  cfg = config.setup.services.mihomo;
+  cfg = config.nivium.services.mihomo;
 in
 {
-  options.setup.services.mihomo = {
+  options.nivium.services.mihomo = {
     enable = mkEnableOption "mihomo server";
     package = mkPackageOption pkgs "clash-meta" { };
-    configFile = mkOption { type = lib.types.path; default = "/var/lib/setup/mihomo.yaml"; };
+    configFile = mkOption { type = lib.types.path; default = "/var/lib/nivium/mihomo.yaml"; };
   };
 
   config = mkIf cfg.enable {
-    setup.systemd-hardening.mihomo = {
+    nivium.systemd-hardening.mihomo = {
       enable = true;
       extraAF = [ "AF_NETLINK" ];
       systemCallFilter = [ "@system-service" "~@resources" "~@privileged" "bpf" ];

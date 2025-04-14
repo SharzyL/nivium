@@ -6,7 +6,7 @@
     user = "sharzy";
   };
 
-  setup.services.nginx.wildcard-proxy.proxies.jellyfin = { };
+  nivium.services.nginx.wildcard-proxy.proxies.jellyfin = { };
 
   services.nginx.virtualHosts = {
     "jellyfin.akiko.d.shz.al".locations =

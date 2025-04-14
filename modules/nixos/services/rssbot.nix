@@ -2,10 +2,10 @@
 
 with lib;
 let
-  cfg = config.setup.services.rssbot;
+  cfg = config.nivium.services.rssbot;
 in
 {
-  options.setup.services.rssbot = {
+  options.nivium.services.rssbot = {
     enable = mkEnableOption "rss bot";
 
     package = mkPackageOption pkgs "rssbot" {
@@ -28,7 +28,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    setup.systemd-hardening.rssbot = {
+    nivium.systemd-hardening.rssbot = {
       enable = true;
     };
 
