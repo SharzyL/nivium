@@ -1,0 +1,333 @@
+diff --git a/Cargo.lock b/Cargo.lock
+index 530d1d4..4dc5241 100644
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -69,21 +69,22 @@ dependencies = [
+ 
+ [[package]]
+ name = "bindgen"
+-version = "0.59.2"
++version = "0.68.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "2bd2a9a458e8f4304c52c43ebb0cfbd520289f8379a52e329a38afda99bf8eb8"
++checksum = "726e4313eb6ec35d2730258ad4e15b547ee75d6afaa1361a922e78e59b7d8078"
+ dependencies = [
+- "bitflags",
++ "bitflags 2.4.2",
+  "cexpr",
+  "clang-sys",
+  "lazy_static",
+  "lazycell",
+  "peeking_take_while",
+- "proc-macro2 1.0.44",
+- "quote 1.0.21",
++ "proc-macro2 1.0.78",
++ "quote 1.0.35",
+  "regex",
+  "rustc-hash",
+  "shlex",
++ "syn 2.0.51",
+ ]
+ 
+ [[package]]
+@@ -92,6 +93,12 @@ version = "1.3.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
+ 
++[[package]]
++name = "bitflags"
++version = "2.4.2"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "ed570934406eb16438a4e976b1b4500774099c13b8cb96eec99f620f05090ddf"
++
+ [[package]]
+ name = "bstr"
+ version = "0.2.17"
+@@ -166,7 +173,7 @@ checksum = "a0610544180c38b88101fecf2dd634b174a62eef6946f84dfc6a7127512b381c"
+ dependencies = [
+  "ansi_term",
+  "atty",
+- "bitflags",
++ "bitflags 1.3.2",
+  "strsim 0.8.0",
+  "textwrap",
+  "unicode-width",
+@@ -179,7 +186,7 @@ version = "0.0.3"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "ddfc5b9aa5d4507acaf872de71051dfd0e309860e88966e1051e462a077aac4f"
+ dependencies = [
+- "bitflags",
++ "bitflags 1.3.2",
+ ]
+ 
+ [[package]]
+@@ -317,8 +324,8 @@ checksum = "f0c960ae2da4de88a91b2d920c2a7233b400bc33cb28453a2987822d8392519b"
+ dependencies = [
+  "fnv",
+  "ident_case",
+- "proc-macro2 1.0.44",
+- "quote 1.0.21",
++ "proc-macro2 1.0.78",
++ "quote 1.0.35",
+  "strsim 0.9.3",
+  "syn 1.0.101",
+ ]
+@@ -330,7 +337,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "d9b5a2f4ac4969822c62224815d069952656cadc7084fdca9751e6d959189b72"
+ dependencies = [
+  "darling_core",
+- "quote 1.0.21",
++ "quote 1.0.35",
+  "syn 1.0.101",
+ ]
+ 
+@@ -342,8 +349,8 @@ checksum = "a2658621297f2cf68762a6f7dc0bb7e1ff2cfd6583daef8ee0fed6f7ec468ec0"
+ dependencies = [
+  "darling",
+  "derive_builder_core",
+- "proc-macro2 1.0.44",
+- "quote 1.0.21",
++ "proc-macro2 1.0.78",
++ "quote 1.0.35",
+  "syn 1.0.101",
+ ]
+ 
+@@ -354,8 +361,8 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "2791ea3e372c8495c0bc2033991d76b512cd799d07491fbd6890124db9458bef"
+ dependencies = [
+  "darling",
+- "proc-macro2 1.0.44",
+- "quote 1.0.21",
++ "proc-macro2 1.0.78",
++ "quote 1.0.35",
+  "syn 1.0.101",
+ ]
+ 
+@@ -381,8 +388,8 @@ version = "0.1.8"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "aa4da3c766cd7a0db8242e326e9e4e081edd567072893ed320008189715366a4"
+ dependencies = [
+- "proc-macro2 1.0.44",
+- "quote 1.0.21",
++ "proc-macro2 1.0.78",
++ "quote 1.0.35",
+  "syn 1.0.101",
+  "synstructure",
+ ]
+@@ -500,20 +507,22 @@ checksum = "830d08ce1d1d941e6b30645f1a0eb5643013d835ce3779a5fc208261dbe10f55"
+ 
+ [[package]]
+ name = "libc"
+-version = "0.2.133"
++version = "0.2.153"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "c0f80d65747a3e43d1596c7c5492d95d5edddaabd45a7fcdb02b95f644164966"
++checksum = "9c198f91728a82281a64e1f4f9eeb25d82cb32a5de251c6bd1b5154d63a8e7bd"
+ 
+ [[package]]
+ name = "libcryptsetup-rs"
+-version = "0.5.1"
++version = "0.9.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "0fe68061beaa409d095b8010a37cb611685a627889aa29d79a0380c93ff89c13"
++checksum = "67dd3f8d51b4feb4acc765c063d45434fb7926fe979b20ee6f95dcd974b4dc0c"
+ dependencies = [
++ "bitflags 2.4.2",
+  "either",
+  "lazy_static",
+  "libc",
+  "libcryptsetup-rs-sys",
++ "log",
+  "pkg-config",
+  "semver",
+  "serde_json",
+@@ -522,9 +531,9 @@ dependencies = [
+ 
+ [[package]]
+ name = "libcryptsetup-rs-sys"
+-version = "0.2.1"
++version = "0.3.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "0af91b644699911c839309edbb8c8f6addd61e6b9553aa6d02ba71c37597afbe"
++checksum = "20fc299fd05078d353a895d940fc463d1008d94258fc8096c095467549324707"
+ dependencies = [
+  "bindgen",
+  "cc",
+@@ -542,6 +551,12 @@ dependencies = [
+  "winapi",
+ ]
+ 
++[[package]]
++name = "log"
++version = "0.4.20"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "b5e6163cb8c49088c2c36f57875e58ccd8c87c7427f7fbd50ea6710b2f3f2e8f"
++
+ [[package]]
+ name = "maybe-uninit"
+ version = "2.0.0"
+@@ -636,8 +651,8 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "da25490ff9892aab3fcf7c36f08cfb902dd3e71ca0f9f9517bea02a73a5ce38c"
+ dependencies = [
+  "proc-macro-error-attr",
+- "proc-macro2 1.0.44",
+- "quote 1.0.21",
++ "proc-macro2 1.0.78",
++ "quote 1.0.35",
+  "syn 1.0.101",
+  "version_check",
+ ]
+@@ -648,8 +663,8 @@ version = "1.0.4"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "a1be40180e52ecc98ad80b184934baf3d0d29f979574e439af5a55274b35f869"
+ dependencies = [
+- "proc-macro2 1.0.44",
+- "quote 1.0.21",
++ "proc-macro2 1.0.78",
++ "quote 1.0.35",
+  "version_check",
+ ]
+ 
+@@ -664,9 +679,9 @@ dependencies = [
+ 
+ [[package]]
+ name = "proc-macro2"
+-version = "1.0.44"
++version = "1.0.78"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "7bd7356a8122b6c4a24a82b278680c73357984ca2fc79a0f9fa6dea7dced7c58"
++checksum = "e2422ad645d89c99f8f3e6b88a9fdeca7fabeac836b1002371c4367c8f984aae"
+ dependencies = [
+  "unicode-ident",
+ ]
+@@ -682,11 +697,11 @@ dependencies = [
+ 
+ [[package]]
+ name = "quote"
+-version = "1.0.21"
++version = "1.0.35"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "bbe448f377a7d6961e30f5955f9b8d106c3f5e449d493ee1b125c1d43c2b5179"
++checksum = "291ec9ab5efd934aaf503a6466c5d5251535d108ee747472c3977cc5acc868ef"
+ dependencies = [
+- "proc-macro2 1.0.44",
++ "proc-macro2 1.0.78",
+ ]
+ 
+ [[package]]
+@@ -931,8 +946,8 @@ version = "1.0.145"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "81fa1584d3d1bcacd84c277a0dfe21f5b0f6accf4a23d04d4c6d61f1af522b4c"
+ dependencies = [
+- "proc-macro2 1.0.44",
+- "quote 1.0.21",
++ "proc-macro2 1.0.78",
++ "quote 1.0.35",
+  "syn 1.0.101",
+ ]
+ 
+@@ -984,8 +999,8 @@ checksum = "dcb5ae327f9cc13b68763b5749770cb9e048a99bd9dfdfa58d0cf05d5f64afe0"
+ dependencies = [
+  "heck",
+  "proc-macro-error",
+- "proc-macro2 1.0.44",
+- "quote 1.0.21",
++ "proc-macro2 1.0.78",
++ "quote 1.0.35",
+  "syn 1.0.101",
+ ]
+ 
+@@ -1006,8 +1021,19 @@ version = "1.0.101"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "e90cde112c4b9690b8cbe810cba9ddd8bc1d7472e2cae317b69e9438c1cba7d2"
+ dependencies = [
+- "proc-macro2 1.0.44",
+- "quote 1.0.21",
++ "proc-macro2 1.0.78",
++ "quote 1.0.35",
++ "unicode-ident",
++]
++
++[[package]]
++name = "syn"
++version = "2.0.51"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "6ab617d94515e94ae53b8406c628598680aa0c9587474ecbe58188f7b345d66c"
++dependencies = [
++ "proc-macro2 1.0.78",
++ "quote 1.0.35",
+  "unicode-ident",
+ ]
+ 
+@@ -1017,8 +1043,8 @@ version = "0.12.6"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "f36bdaa60a83aca3921b5259d5400cbf5e90fc51931376a9bd4a0eb79aa7210f"
+ dependencies = [
+- "proc-macro2 1.0.44",
+- "quote 1.0.21",
++ "proc-macro2 1.0.78",
++ "quote 1.0.35",
+  "syn 1.0.101",
+  "unicode-xid 0.2.4",
+ ]
+diff --git a/Cargo.toml b/Cargo.toml
+index 7edf572..7914686 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -20,7 +20,7 @@ ring = "0.13.5"
+ failure = "0.1.5"
+ rpassword = "4.0.1"
+ structopt = "0.3.2"
+-libcryptsetup-rs = "0.5.1"
++libcryptsetup-rs = "0.9.1"
+ serde_json = "1.0.51"
+ serde_derive = "1.0.106"
+ serde = "1.0.106"
+@@ -31,7 +31,7 @@ hex = "0.3.2"
+ ring = "0.13.5"
+ failure = "0.1.5"
+ rpassword = "4.0.1"
+-libcryptsetup-rs = "0.5.1"
++libcryptsetup-rs = "0.9.1"
+ structopt = "0.3.2"
+ 
+ [profile.release]
+diff --git a/src/luks.rs b/src/luks.rs
+index f753b9d..a22a0f3 100644
+--- a/src/luks.rs
++++ b/src/luks.rs
+@@ -1,9 +1,9 @@
+ use crate::error::*;
+ 
+-use libcryptsetup_rs::{
+-    CryptActivateFlag, CryptActivateFlags, CryptDevice, CryptInit, CryptTokenInfo,
+-    EncryptionFormat, KeyslotInfo, TokenInput,
+-};
++use libcryptsetup_rs::consts::flags::CryptActivate;
++use libcryptsetup_rs::consts::vals::{EncryptionFormat, KeyslotInfo};
++use libcryptsetup_rs::{CryptDevice, CryptInit, CryptTokenInfo, TokenInput};
++
+ use std::collections::{HashMap, HashSet};
+ use std::path::Path;
+ 
+@@ -190,7 +190,7 @@ impl LuksDevice {
+             None,
+             None,
+             old_secret,
+-            CryptActivateFlags::empty(),
++            CryptActivate::empty(),
+         )?;
+         self.device.keyslot_handle().change_by_passphrase(
+             Some(slot),
+@@ -223,9 +223,9 @@ impl LuksDevice {
+         slot_hint: Option<u32>,
+         allow_discard: bool,
+     ) -> Fido2LuksResult<u32> {
+-        let mut flags = CryptActivateFlags::empty();
++        let mut flags = CryptActivate::empty();
+         if allow_discard {
+-            flags = CryptActivateFlags::new(vec![CryptActivateFlag::AllowDiscards]);
++            flags = flags | CryptActivate::ALLOW_DISCARDS;
+         }
+         self.device
+             .activate_handle()

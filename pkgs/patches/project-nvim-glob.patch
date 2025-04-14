@@ -1,0 +1,13 @@
+diff --git a/lua/project_nvim/utils/path.lua b/lua/project_nvim/utils/path.lua
+index 69ac7ad..076c0ce 100644
+--- a/lua/project_nvim/utils/path.lua
++++ b/lua/project_nvim/utils/path.lua
+@@ -31,7 +31,7 @@ function M.is_excluded(dir)
+ end
+ 
+ function M.exists(path)
+-  return vim.fn.empty(vim.fn.glob(path)) == 0
++  return vim.fn.empty(path) == 0
+ end
+ 
+ return M

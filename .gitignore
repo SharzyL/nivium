@@ -1,0 +1,6 @@
+.gcroots
+result*
+venv
+.idea
+**/.envrc
+.DS_Store

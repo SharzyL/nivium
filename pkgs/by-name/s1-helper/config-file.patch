@@ -1,0 +1,21 @@
+diff --git a/start.py b/start.py
+index a4b0c30..0996fe3 100644
+--- a/start.py
++++ b/start.py
+@@ -3,6 +3,7 @@ import logging
+ import time
+ import os
+ from member import Member
++import sys
+ 
+ logging.basicConfig(
+     level=logging.INFO,
+@@ -11,7 +12,7 @@ logging.basicConfig(
+ )
+ logger = logging.getLogger(__name__)
+ 
+-config = json.load(open('./config.json', 'r', encoding='utf-8'))
++config = json.load(open(sys.argv[1] if len(sys.argv) > 1 else 'config.json', 'r', encoding='utf-8'))
+ refresh_time = config['refresh_time']
+ member_list = []
+ # 保存登录成功的对象

@@ -1,0 +1,24 @@
+diff --git a/music_tag/__init__.py b/music_tag/__init__.py
+index 3c8fa07..23c7589 100644
+--- a/music_tag/__init__.py
++++ b/music_tag/__init__.py
+@@ -80,3 +80,5 @@ __all__ = ['file', 'util',
+ ##
+ ## EOF
+ ##
++
++from .__main__ import _main
+diff --git a/setup.py b/setup.py
+index 536684d..c6970ba 100644
+--- a/setup.py
++++ b/setup.py
+@@ -79,6 +79,9 @@ def _main():
+           cmdclass=cmdclass,
+           scripts=scripts,
+           zip_safe=True,
++          entry_points = {
++              'console_scripts': ['music-tag = music_tag:_main']
++          },
+           classifiers=(
+               "Programming Language :: Python :: 3",
+               "Programming Language :: Python :: 3.3",

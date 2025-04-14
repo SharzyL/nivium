@@ -1,0 +1,118 @@
+diff --git a/music_tag/apev2.py b/music_tag/apev2.py
+index 0c29a28..b3b5238 100644
+--- a/music_tag/apev2.py
++++ b/music_tag/apev2.py
+@@ -91,8 +91,7 @@ class Apev2File(AudioFile):
+                                     remover='Disc',
+                                     type=int),
+         'genre': TAG_MAP_ENTRY(getter='Genre', setter='Genre', type=str),
+-        'year': TAG_MAP_ENTRY(getter='Year', setter='Year', type=int,
+-                              sanitizer=util.sanitize_year),
++        'year': TAG_MAP_ENTRY(getter='Year', setter='Year', type=str),
+         'comment': TAG_MAP_ENTRY(getter='Comment', setter='Comment', type=str),
+         'lyrics': TAG_MAP_ENTRY(getter='Lyrics', setter='Lyrics', type=str),
+         'isrc': TAG_MAP_ENTRY(getter='ISRC', setter='ISRC', type=str),
+diff --git a/music_tag/file.py b/music_tag/file.py
+index c9ae6b2..4630ace 100644
+--- a/music_tag/file.py
++++ b/music_tag/file.py
+@@ -302,7 +302,7 @@ class AudioFile(object):
+         'discnumber': TAG_MAP_ENTRY(type=int),
+         'totaldiscs': TAG_MAP_ENTRY(type=int),
+         'genre': TAG_MAP_ENTRY(type=str),
+-        'year': TAG_MAP_ENTRY(type=int, sanitizer=util.sanitize_year),
++        'year': TAG_MAP_ENTRY(type=str),
+         'compilation': TAG_MAP_ENTRY(type=bool),
+         'lyrics': TAG_MAP_ENTRY(type=str),
+         'isrc': TAG_MAP_ENTRY(type=str),
+diff --git a/music_tag/flac.py b/music_tag/flac.py
+index 2b0356d..3a72e81 100644
+--- a/music_tag/flac.py
++++ b/music_tag/flac.py
+@@ -58,7 +58,7 @@ class FlacFile(AudioFile):
+         'genre': TAG_MAP_ENTRY(getter='genre', setter='genre', type=str),
+         'year': TAG_MAP_ENTRY(getter=('date', 'originaldate'),
+                               setter=('date', 'originaldate'),
+-                              type=int, sanitizer=util.sanitize_year),
++                              type=str),
+         'lyrics': TAG_MAP_ENTRY(getter='lyrics', setter='lyrics', type=str),
+         'isrc': TAG_MAP_ENTRY(getter='isrc', setter='isrc', type=str),
+         'comment': TAG_MAP_ENTRY(getter='comment', setter='comment', type=str),
+diff --git a/music_tag/id3.py b/music_tag/id3.py
+index ff8d2d4..a9d3639 100644
+--- a/music_tag/id3.py
++++ b/music_tag/id3.py
+@@ -88,8 +88,7 @@ _TAG_MAP_ID3_1 = {
+     'tracktitle': TAG_MAP_ENTRY(getter='title', setter='title', type=str),
+     'artist': TAG_MAP_ENTRY(getter='artist', setter='artist', type=str),
+     'album': TAG_MAP_ENTRY(getter='album', setter='album', type=str),
+-    'year': TAG_MAP_ENTRY(getter='year', setter='year', type=int,
+-                          sanitizer=util.sanitize_year),
++    'year': TAG_MAP_ENTRY(getter='year', setter='year', type=str),
+     'comment': TAG_MAP_ENTRY(getter='comment', setter='comment', type=str),
+     'tracknumber': TAG_MAP_ENTRY(getter='track', setter='track', type=int),
+     'genre': TAG_MAP_ENTRY(getter='genre', setter='genre', type=str),
+@@ -116,7 +115,7 @@ _TAG_MAP_ID3_2_2 = {
+     'genre': TAG_MAP_ENTRY(getter='TCO', setter='TCO', type=str),
+     'year': TAG_MAP_ENTRY(getter=('TYE', 'TDA', 'TRD', 'TOR'),
+                           setter=('TYE', 'TDA', 'TRD', 'TOR'),
+-                          type=int, sanitizer=util.sanitize_year),
++                          type=str),
+     'isrc': TAG_MAP_ENTRY(getter='TRC', setter='TRC', type=str),
+     # 'comment': TAG_MAP_ENTRY(getter='COMM', setter='COMM', type=str,
+     #                          sanitizer=util.sanitize_bool),
+@@ -148,7 +147,7 @@ _TAG_MAP_ID3_2_3 = {
+     'genre': TAG_MAP_ENTRY(getter='TCON', setter='TCON', type=str),
+     'year': TAG_MAP_ENTRY(getter=('TYER', 'TDAT', 'TDRC'),
+                           setter=('TYER', 'TDAT', 'TDRC'),
+-                          type=int, sanitizer=util.sanitize_year),
++                          type=str),
+     'comment': TAG_MAP_ENTRY(getter='COMM', setter='COMM', type=str),
+     'lyrics': TAG_MAP_ENTRY(getter='USLT', setter='USLT', type=str),
+     'isrc': TAG_MAP_ENTRY(getter='TSRC', setter='TSRC', type=str),
+@@ -185,7 +184,7 @@ _TAG_MAP_ID3_2_4 = {
+                            type=str),
+     'year': TAG_MAP_ENTRY(getter=('TDOR', 'TORY', 'TYER', 'TDAT', 'TDRC'),
+                           setter=('TDOR', 'TYER', 'TDAT', 'TDRC'),
+-                          type=int, sanitizer=util.sanitize_year),
++                          type=str),
+     'comment': TAG_MAP_ENTRY(getter='COMM', setter='COMM', type=str),
+     'lyrics': TAG_MAP_ENTRY(getter='USLT', setter='USLT', type=str),
+     'isrc': TAG_MAP_ENTRY(getter='TSRC', setter='TSRC', type=str),
+diff --git a/music_tag/mp4.py b/music_tag/mp4.py
+index 196687f..63ee2ee 100644
+--- a/music_tag/mp4.py
++++ b/music_tag/mp4.py
+@@ -132,8 +132,7 @@ class Mp4File(AudioFile):
+                                     setter=set_totaldiscs,
+                                     type=int),
+         'genre': TAG_MAP_ENTRY(getter='©gen', setter='©gen', type=str),
+-        'year': TAG_MAP_ENTRY(getter='©day', setter='©day', type=int,
+-                              sanitizer=util.sanitize_year),
++        'year': TAG_MAP_ENTRY(getter='©day', setter='©day', type=str),
+         'lyrics': TAG_MAP_ENTRY(getter='©lyr', setter='©lyr', type=str),
+         'isrc': TAG_MAP_ENTRY(getter=lambda f, k: freeform_get(f, _MP4_ISRC_KEY),
+                               setter=lambda f, k, v: freeform_set(f, _MP4_ISRC_KEY, v),
+@@ -171,8 +170,7 @@ class EasyMp4File(Mp4File):
+                                     setter=util.set_easy_totaldiscs,
+                                     type=int),
+         'genre': TAG_MAP_ENTRY(getter='genre', setter='genre', type=str),
+-        'year': TAG_MAP_ENTRY(getter='date', setter='date', type=int,
+-                              sanitizer=util.sanitize_year),
++        'year': TAG_MAP_ENTRY(getter='date', setter='date', type=str),
+         'compilation': TAG_MAP_ENTRY(getter='compilation', setter='compilation',
+                                      type=bool),
+ 
+diff --git a/music_tag/vorbis.py b/music_tag/vorbis.py
+index 9973482..c153861 100644
+--- a/music_tag/vorbis.py
++++ b/music_tag/vorbis.py
+@@ -79,7 +79,7 @@ class OggFile(AudioFile):
+         'genre': TAG_MAP_ENTRY(getter='genre', setter='genre', type=str),
+         'year': TAG_MAP_ENTRY(getter=('date', 'originaldate'),
+                               setter=('date', 'originaldate'),
+-                              type=int, sanitizer=util.sanitize_year),
++                              type=str),
+         'lyrics': TAG_MAP_ENTRY(getter='lyrics', setter='lyrics', type=str),
+         'isrc': TAG_MAP_ENTRY(getter='isrc', setter='isrc', type=str),
+         'comment': TAG_MAP_ENTRY(getter='comment', setter='comment', type=str),

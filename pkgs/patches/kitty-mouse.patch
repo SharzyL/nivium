@@ -1,0 +1,188 @@
+--- a/kitty/boss.py
++++ b/kitty/boss.py
+@@ -13,6 +13,7 @@
+ from contextlib import contextmanager, suppress
+ from functools import partial
+ from gettext import gettext as _
++from math import floor
+ from gettext import ngettext
+ from time import sleep
+ from typing import (
+@@ -224,6 +225,7 @@ def as_text(**kw: bool) -> str:
+ class DumpCommands:  # {{{
+ 
+     def __init__(self, args: CLIOptions):
++        self.drag_resize_active = False
+         self.draw_dump_buf: list[str] = []
+         if args.dump_bytes:
+             self.dump_bytes_to = open(args.dump_bytes, 'wb')
+@@ -2129,6 +2131,52 @@ def switch_focus_to(self, window_id: int) -> None:
+         if tab:
+             tab.set_active_window(window_id)
+ 
++    def drag_resize_start(self, x: float, y: float, cell_width: int, cell_height: int) -> None:
++        tab = self.active_tab
++        if not tab:
++            return
++
++        (horizontal, vertical) = tab.current_layout.drag_resize_target_windows(x, y, tab.windows)
++
++        self.drag_resize_cell_width = cell_width
++        self.drag_resize_cell_height = cell_height
++        self.drag_resize_target_horizontal = horizontal
++        self.drag_resize_target_vertical = vertical
++        self.drag_resize_active = True
++        self.drag_resize_initial_x = x
++        self.drag_resize_initial_y = y
++        self.drag_resize_last_step_x = 0
++        self.drag_resize_last_step_y = 0
++
++    def drag_resize_update(self, x: float, y: float) -> None:
++        if not self.drag_resize_active:
++            return
++
++        if self.drag_resize_target_horizontal is not None:
++            step_x = floor((x - self.drag_resize_initial_x) / self.drag_resize_cell_width)
++            dx = step_x - self.drag_resize_last_step_x
++            if not dx == 0:
++                self.resize_layout_window(self.drag_resize_target_horizontal, float(dx), True, False)
++                self.drag_resize_last_step_x = step_x
++
++        if self.drag_resize_target_vertical is not None:
++            step_y = floor((y - self.drag_resize_initial_y) / self.drag_resize_cell_height)
++            dy = step_y - self.drag_resize_last_step_y
++            if not dy == 0:
++                self.resize_layout_window(self.drag_resize_target_vertical, float(dy), False, False)
++                self.drag_resize_last_step_y = step_y
++
++    def drag_resize_end(self) -> None:
++        self.drag_resize_cell_width = 0
++        self.drag_resize_cell_height = 0
++        self.drag_resize_target_horizontal = None
++        self.drag_resize_target_vertical = None
++        self.drag_resize_active = False
++        self.drag_resize_initial_x = 0.0
++        self.drag_resize_initial_y = 0.0
++        self.drag_resize_last_step_x = 0
++        self.drag_resize_last_step_y = 0
++
+     def open_kitty_website(self) -> None:
+         self.open_url(website_url())
+ 
+--- a/kitty/layout/base.py
++++ b/kitty/layout/base.py
+@@ -428,3 +428,36 @@ def layout_action(self, action_name: str, args: Sequence[str], all_windows: Wind
+ 
+     def layout_state(self) -> Dict[str, Any]:
+         return {}
++
++    def drag_resize_target_windows(self, x: float, y: float, all_windows: WindowList) -> tuple[WindowType, WindowType]:
++        # Identify the window where the click occurred and which horizontal and
++        # vertical half it was in
++        click_window, left_half_clicked, top_half_clicked = (None, False, False)
++        for w in all_windows.all_windows:
++            g = w.geometry
++            if x >= g.left and x <= g.right and y >= g.top and y <= g.bottom:
++                click_window = w
++                left_half_clicked = g.left <= x and x <= g.left + (float(g.right - g.left) / 2.0)
++                top_half_clicked = g.top <= y and y <= g.top + (float(g.bottom - g.top) / 2.0)
++                break
++
++        if click_window is None:
++            raise Exception("Failed to determine click window")
++
++        neighbors = self.neighbors_for_window(click_window, all_windows)
++
++        # Infer which window should be horizontally resized based on click
++        # position and layout state
++        horizontal_target = click_window
++        if ((left_half_clicked and len(neighbors["left"]) > 0) or
++            (not left_half_clicked and len(neighbors["left"]) > 0 and len(neighbors["right"]) == 0)):
++            horizontal_target = all_windows.id_map[neighbors["left"][0]]
++
++        # Infer which window should be vertically resized based on click
++        # position and layout state
++        vertical_target = click_window
++        if ((top_half_clicked and len(neighbors["top"]) > 0) or
++            (not top_half_clicked and len(neighbors["top"]) > 0 and len(neighbors["bottom"]) == 0)):
++            vertical_target = all_windows.id_map[neighbors["top"][0]]
++
++        return (horizontal_target, vertical_target)
+\ No newline at end of file
+--- a/kitty/mouse.c
++++ b/kitty/mouse.c
+@@ -660,6 +660,35 @@ closest_window_for_event(unsigned int *window_idx) {
+     return ans;
+ }
+ 
++static void
++drag_resize_start(double mouse_x, double mouse_y, unsigned int cell_width, unsigned int cell_height) {
++    call_boss(drag_resize_start, "ddII", mouse_x, mouse_y, cell_width, cell_height);
++}
++
++static void
++drag_resize_update(double mouse_x, double mouse_y) {
++    call_boss(drag_resize_update, "dd", mouse_x, mouse_y);
++}
++
++static void
++drag_resize_end(void) {
++    call_boss(drag_resize_end, "");
++}
++
++static bool
++is_in_window(double mouse_x, double mouse_y) {
++    Tab *active_tab = global_state.callback_os_window->tabs + global_state.callback_os_window->active_tab;
++
++    for (unsigned int i = 0; i < active_tab->num_windows; ++i) {
++        WindowGeometry *g = &active_tab->windows[i].geometry;
++        if (g->left <= mouse_x && mouse_x <= g->right && g->top <= mouse_y && mouse_y <= g->bottom) {
++            return true;
++        }
++    }
++
++    return false;
++}
++
+ void
+ focus_in_event(void) {
+     // Ensure that no URL is highlighted and the mouse cursor is in default shape
+@@ -770,6 +799,27 @@ mouse_event(const int button, int modifiers, int action) {
+     bool in_tab_bar;
+     unsigned int window_idx = 0;
+     Window *w = NULL;
++
++    OSWindow *osw = global_state.callback_os_window;
++
++    // Handle mouse drag window resizing
++    if (!global_state.active_drag_resize && button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && modifiers & GLFW_MOD_CONTROL) {
++        if (is_in_window(osw->mouse_x, osw->mouse_y)) {
++            drag_resize_start(osw->mouse_x, osw->mouse_y, osw->fonts_data->fcm.cell_width, osw->fonts_data->fcm.cell_height);
++            global_state.active_drag_resize = true;
++            return;
++        }
++    } else if (global_state.active_drag_resize) {
++        if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
++            drag_resize_end();
++            global_state.active_drag_resize = false;
++            return;
++        } else if (button < 0) {
++            drag_resize_update(osw->mouse_x, osw->mouse_y);
++            return;
++        }
++    }
++
+     if (OPT(debug_keyboard)) {
+         if (button < 0) { debug("%s x: %.1f y: %.1f ", "\x1b[36mMove\x1b[m", global_state.callback_os_window->mouse_x, global_state.callback_os_window->mouse_y); }
+         else { debug("%s mouse_button: %d %s", action == GLFW_RELEASE ? "\x1b[32mRelease\x1b[m" : "\x1b[31mPress\x1b[m", button, format_mods(modifiers)); }
+--- a/kitty/state.h
++++ b/kitty/state.h
+@@ -315,7 +315,7 @@ typedef struct {
+     bool has_pending_resizes, has_pending_closes;
+     bool check_for_active_animated_images;
+     struct { double x, y; } default_dpi;
+-    id_type active_drag_in_window, tracked_drag_in_window;
++    id_type active_drag_in_window, tracked_drag_in_window, active_drag_resize;
+     int active_drag_button, tracked_drag_button;
+     CloseRequest quit_request;
+     bool redirect_mouse_handling;

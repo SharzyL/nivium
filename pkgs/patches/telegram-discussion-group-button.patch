@@ -1,0 +1,13 @@
+diff --git a/Telegram/SourceFiles/history/history_widget.cpp b/Telegram/SourceFiles/history/history_widget.cpp
+index 4cf3f03c8..33250dafa 100644
+--- a/Telegram/SourceFiles/history/history_widget.cpp
++++ b/Telegram/SourceFiles/history/history_widget.cpp
+@@ -4633,7 +4633,7 @@ bool HistoryWidget::isBlocked() const {
+ }
+ 
+ bool HistoryWidget::isJoinChannel() const {
+-	return _peer && _peer->isChannel() && !_peer->asChannel()->amIn();
++  return false;
+ }
+ 
+ bool HistoryWidget::isChoosingTheme() const {

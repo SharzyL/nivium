@@ -1,0 +1,31 @@
+admin_id = 629325599
+
+endpoints = [
+  { name = "ohmygpt", url = "https://api.ohmygpt.com/v1" },
+  { name = "novita", url = "https://api.novita.ai/v3/openai"},
+]
+default_endpoint = "ohmygpt"
+
+models = [
+  # openai
+  { prefix = "o ", name = "gpt-4o" },
+  { prefix = "o1 ", name = "o1-mini", no_system_prompt = true },
+  { prefix = "o3 ", name = "o3-mini" },
+
+  # deepseek
+  { prefix = "d ", name = "ark-deepseek-v3-250324" },
+  { prefix = "r ", name = "ark-deepseek-r1-250120" },
+  { prefix = "rn ", name = "deepseek/deepseek-r1", endpoint = "novita" },
+  { prefix = "dn ", name = "deepseek/deepseek_v3", endpoint = "novita" },
+
+  # google
+  { prefix = "gf ", name = "gemini-2.0-flash-legacy-support" },
+  { prefix = "gp ", name = "gemini-2.5-pro-preview-03-25-legacy-support" },
+  { prefix = "gt ", name = "gemini-2.0-flash-thinking-exp-01-21-legacy-support" },
+
+  # claude
+  { prefix = "h ", name = "claude-3-5-haiku-latest" },
+  { prefix = "35 ", name = "claude-3-5-sonnet-latest" },
+  { prefix = "37 ", name = "claude-3-7-sonnet-latest" },
+]
+

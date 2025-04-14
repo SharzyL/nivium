@@ -1,0 +1,13 @@
+diff --git a/music_tag/file.py b/music_tag/file.py
+index e59a9e3..fcffc4b 100644
+--- a/music_tag/file.py
++++ b/music_tag/file.py
+@@ -257,7 +257,7 @@ class RawProxy(object):
+             md_item = self.parent.get(norm_key, default=default, typeless=True)
+             return md_item
+         else:
+-            return self.parent.mfile[raw_key]
++            return self.parent.mfile.get(raw_key, default)
+
+     def set(self, norm_key, val):
+         raw_key = norm_key

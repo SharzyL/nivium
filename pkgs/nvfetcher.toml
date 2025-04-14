@@ -1,0 +1,155 @@
+[aribb24]
+src.github = "nkoriyama/aribb24"
+fetch.github = "nkoriyama/aribb24"
+
+[libaribcaption]
+src.github = "xqq/libaribcaption"
+fetch.github = "xqq/libaribcaption"
+
+[bullet]
+src.pypi = "bullet"
+fetch.pypi = "bullet"
+
+# efb
+[ehforwarderbot]
+src.pypi = "ehforwarderbot"
+fetch.pypi = "ehforwarderbot"
+
+[efb-search_msg-middleware]
+src.pypi = "efb-search_msg-middleware"
+fetch.pypi = "efb-search_msg-middleware"
+
+[efb-wechat-slave]
+src.pypi = "efb-wechat-slave"
+fetch.pypi = "efb-wechat-slave"
+
+[efb-telegram-master]
+src.pypi = "efb-telegram-master"
+fetch.pypi = "efb-telegram-master"
+# end elf
+
+[elf-info]
+src.github_tag = "kevin-lesenechal/elf-info"
+fetch.github = "kevin-lesenechal/elf-info"
+
+[goauthing]
+src.github = "z4yx/GoAuthing"
+fetch.github = "z4yx/GoAuthing"
+
+# logchecker
+[pprp]
+src.pypi = "pprp"
+fetch.pypi = "pprp"
+
+[eac-logchecker]
+src.pypi = "eac-logchecker"
+fetch.pypi = "eac_logchecker"
+
+[logchecker]
+src.github = "OPSnet/Logchecker"
+fetch.github = "OPSnet/Logchecker"
+# end logchecker
+
+[music-tag]
+src.pypi = "music-tag"
+fetch.pypi = "music-tag"
+
+[opentype-feature-freezer]
+src.pypi = "opentype-feature-freezer"
+fetch.pypi = "opentype-feature-freezer"
+
+[pb]
+src.git = "https://github.com/SharzyL/pastebin-worker"
+src.branch = "goshujin"
+fetch.github = "SharzyL/pastebin-worker"
+
+[python-ddns]
+src.pypi = "ddns"
+fetch.pypi = "ddns"
+
+[rait]
+src.git = "https://gitlab.com/NickCao/RAIT"
+fetch.git = "https://gitlab.com/NickCao/RAIT"
+
+# rime
+[rime-prelude]
+src.git = "https://github.com/rime/rime-prelude"
+src.branch = "master"
+fetch.github = "rime/rime-prelude"
+
+[rime-luna-pinyin]
+src.git = "https://github.com/rime/rime-luna-pinyin"
+src.branch = "master"
+fetch.github = "rime/rime-luna-pinyin"
+
+[rime-double-pinyin]
+src.git = "https://github.com/rime/rime-double-pinyin"
+src.branch = "master"
+fetch.github = "rime/rime-double-pinyin"
+
+[rime-dict]
+src.git = "https://github.com/xiaoTaoist/rime-dict"
+src.branch = "master"
+fetch.github = "xiaoTaoist/rime-dict"
+
+[rime-essay]
+src.git = "https://github.com/rime/rime-essay"
+src.branch = "master"
+fetch.github = "rime/rime-essay"
+
+[rime-ice]
+src.git = "https://github.com/iDvel/rime-ice"
+src.branch = "main"
+fetch.github = "iDvel/rime-ice"
+# end rime
+
+[rssbot]
+src.github = "iovxw/rssbot"
+fetch.url = "https://github.com/iovxw/rssbot/releases/download/$ver/rssbot-en-x86_64-unknown-linux-musl"
+
+[s1-helper]
+src.git = "https://github.com/Fungx/Stage1stHelper"
+src.branch = "master"
+fetch.github = "Fungx/Stage1stHelper"
+
+[i3-volume]
+src.github = "hastinbe/i3-volume"
+fetch.github = "hastinbe/i3-volume"
+
+[tree-sitter-just]
+src.git = "https://github.com/IndianBoy42/tree-sitter-just"
+fetch.github = "IndianBoy42/tree-sitter-just"
+src.branch = "main"
+
+[vim-barbaric]
+src.git = "https://github.com/rlue/vim-barbaric"
+fetch.github = "rlue/vim-barbaric"
+src.branch = "master"
+
+[filetype-nvim]
+src.git = "https://github.com/nathom/filetype.nvim"
+fetch.github = "nathom/filetype.nvim"
+src.branch = "main"
+
+[spiceForMinted]
+src.git = "https://github.com/salatielGarcia/spiceForMinted"
+fetch.github = "salatielGarcia/spiceForMinted"
+src.branch = "master"
+
+[geoip-cn]
+src.git = "https://github.com/SagerNet/sing-geoip"
+src.branch = "rule-set"
+fetch.url = "https://raw.githubusercontent.com/SagerNet/sing-geoip/$ver/geoip-cn.srs"
+
+[geosite-cn]
+src.git = "https://github.com/SagerNet/sing-geosite"
+src.branch = "rule-set"
+fetch.url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/$ver/geosite-cn.srs"
+
+[subconverter]
+src.github = "tindy2013/subconverter"
+fetch.url = "https://github.com/tindy2013/subconverter/releases/download/$ver/subconverter_linux64.tar.gz"
+
+[wemeet]
+src.manual = "3.19.0.401"
+fetch.url = "https://updatecdn.meeting.qq.com/cos/bb4001c715553579a8b3e496233331d4/TencentMeeting_0300000000_$ver_x86_64_default.publish.deb"
