@@ -16,9 +16,6 @@ final: prev:
     inherit (final.apple_sdk.frameworks) Cocoa;
   };
 
-  # https://github.com/NixOS/nixpkgs/pull/353796
-  dropbox = final.callPackage ./in-overlay/dropbox { };
-
   # other self-packaged packages
   LuaMyNvim = final.callPackage ../modules/hm/LuaMyNvim { };
   python3 = prev.python3.override {

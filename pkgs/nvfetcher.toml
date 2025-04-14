@@ -67,10 +67,6 @@ fetch.github = "SharzyL/pastebin-worker"
 src.pypi = "ddns"
 fetch.pypi = "ddns"
 
-[rait]
-src.git = "https://gitlab.com/NickCao/RAIT"
-fetch.git = "https://gitlab.com/NickCao/RAIT"
-
 # rime
 [rime-prelude]
 src.git = "https://github.com/rime/rime-prelude"
