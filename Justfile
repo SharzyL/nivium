@@ -12,9 +12,6 @@ to-ideal server:
 to-simple server:
 	rsync {{common_rsync_args}} {{hm_rsync_args}} --include home/simple.nix --exclude "home/*" {{extra_rsync_args}} {{server}}:flake/
 
-to-w server:
-	rsync {{common_rsync_args}} {{hm_rsync_args}} --include home/w.nix --exclude "home/*" {{extra_rsync_args}} {{server}}:flake/
-
 to-ideal-sgx:
 	nix copy ".#homeConfigurations.ideal-sgx.activationPackage" --to ssh-ng://sgx1 --no-check-sigs
 	ssh sgx1 $(nix build --no-link --print-out-paths ".#homeConfigurations.ideal-sgx.activationPackage")/activate
@@ -25,6 +22,10 @@ push-cache:
 update-keys:
 	fd '.*\.yml|.*\.yaml' secrets | xargs -n1 sops updatekeys
 
+update-nvfethcer:
+	cd pkgs && nvfetcher
+
 deploy-remote:
 	nsw
 	colmena --experimental-flake-eval apply --verbose --on @remote
+
