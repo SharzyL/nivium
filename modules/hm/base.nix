@@ -154,6 +154,7 @@ in
       cmake
       ninja
       gnumake
+      gdb # to allow clion to find a debugger
     ];
   }
     (lib.mkIf (profile == "full") {
@@ -161,6 +162,7 @@ in
         trash-cli
         gh
         just
+        csync
       ];
       programs.yazi.enable = true;
     })];

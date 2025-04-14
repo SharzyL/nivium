@@ -3,20 +3,15 @@
 {
   home.packages = with pkgs; [
     # dev
-    cmake
     rustup
     python3
     scala
-    poetry
     bear
-    scala
     nodejs
     yarn
     qemu
     man-pages
-    ninja
     flamegraph
-    gdb # to allow clion to find a debugger
     radare2
 
     # media and doc cli
@@ -72,7 +67,6 @@
     android-tools
 
     git-filter-repo
-    # git-branchless  # broken
     git-absorb
     git-revise
 
@@ -97,10 +91,8 @@
     dxvk
 
     # networking cli
-    v2ray
     wireguard-tools
     mtr
-    shadowsocks-libev
     iproute2
     iptables
     nmap
@@ -113,7 +105,6 @@
     cloudflare-warp
 
     # self-packaged cli
-    python-ddns
     goauthing
     pb
     sharzyscripts
@@ -130,7 +121,6 @@
     })
 
     typst
-    typstyle
 
     # gui
     sioyek
@@ -176,6 +166,7 @@
     xclip
     pavucontrol
     dconf
+    xorg.xmodmap
 
     beancount
     subconverter

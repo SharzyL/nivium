@@ -5,7 +5,6 @@
 
   home.packages = with pkgs; [
     # dev
-    cmake
     python3
     poetry
     bear
@@ -13,9 +12,7 @@
     yarn
     qemu
     man-pages
-    ninja
     flamegraph
-    gdb # to allow clion to find a debugger
     rustup
 
     # media and doc cli
@@ -81,7 +78,6 @@
     cloudflare-warp
 
     # self-packaged cli
-    python-ddns
     goauthing
     pb
     sharzyscripts
@@ -144,6 +140,5 @@
     subconverter
 
     typst
-    tinymist
   ];
 }
