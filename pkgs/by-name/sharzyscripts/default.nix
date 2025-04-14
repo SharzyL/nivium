@@ -72,22 +72,6 @@ symlinkJoin {
         ${musictagEnv}/bin/python3 ${./py/vr.py} "$@"
       '';
     })
-
-    (writeShellApplication {
-      name = "csync";
-      text =
-        let
-          pyEnv = python3.withPackages (ps: with ps; [
-            loguru
-            pyinotify
-            pathspec
-          ]);
-        in
-        ''
-          ${pyEnv}/bin/python3 ${./py/csync.py} "$@"
-        '';
-    })
-
   ];
 }
 

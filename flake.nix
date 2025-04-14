@@ -25,6 +25,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    csync = {
+      url = "github:SharzyL/csync/goshujin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -67,6 +72,10 @@
 
         inputs.tg-searcher.overlays.default
         inputs.chatgpt-telegram-bot.overlays.default
+
+        (final: _: {
+          csync = inputs.csync.defaultPackage.${final.stdenv.system};
+        })
       ];
 
       nixosConfigurations = (inputs.colmena.lib.makeHive self.colmena).nodes;
