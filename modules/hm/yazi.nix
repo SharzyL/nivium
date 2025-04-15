@@ -14,7 +14,7 @@
           { on = [ "<Enter>" ]; run = "enter"; desc = "Enter the child directory"; }
         ];
         tasks.prepend_keymap = [
-         { on = [ "q" ]; run = "close"; desc = "Hide the task manager"; }
+          { on = [ "q" ]; run = "close"; desc = "Hide the task manager"; }
         ];
       };
     };

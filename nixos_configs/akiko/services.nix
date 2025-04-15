@@ -22,7 +22,7 @@
     flood.enable = true;
     sing-box-client.enable = true;
     mihomo.enable = true;
-    cloudflare-warp.enable = false;  # it somehow breaks dns
+    cloudflare-warp.enable = false; # it somehow breaks dns
     exporters = {
       enable = true;
       enableNode = true;

@@ -66,9 +66,9 @@
         "ctrl+k>c" = "new_tab";
         "ctrl+k>x" = "close_window";
         "ctrl+k>shift+x" = "close_tab";
-        "ctrl+k>z" = "toggle_layout stack";  # toggle zoom
+        "ctrl+k>z" = "toggle_layout stack"; # toggle zoom
         "ctrl+k+s" = "toggle_layout splits";
-        "ctrl+k>b" = "detach_window new-tab";  # break-pane
+        "ctrl+k>b" = "detach_window new-tab"; # break-pane
         "ctrl+k>shift+b" = "detach_tab";
         "ctrl+k>:" = "kitty_shell";
         "ctrl+p" = "nth_window -1";

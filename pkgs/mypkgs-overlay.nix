@@ -8,7 +8,6 @@ final: prev:
   # self-packaged packages overrides
   efb = prev.efb.override { python3 = final.python310; };
   logchecker = prev.logchecker.override { python3 = final.python311; };
-  derper = prev.derper.override { buildGoModule = final.buildGo123Module; };
 
   # until qbittorrent5 is supported
   qbittorrent-nox = final.libsForQt5.callPackage ./in-overlay/qbittorrent4 {

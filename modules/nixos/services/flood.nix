@@ -16,7 +16,7 @@ in
     nivium.systemd-hardening.flood = {
       enable = true;
       onlyLocalNetwork = true;
-      memoryDenyWriteExecute = false;  # node has some magic
+      memoryDenyWriteExecute = false; # node has some magic
       systemCallFilter = [ "@system-service" "~@privileged" "~@resources" "@pkey" ];
     };
 
@@ -29,7 +29,7 @@ in
         ExecStart = "${cfg.package}/bin/flood --port ${toString cfg.port} --rundir %S/flood"
           + optionalString (cfg.baseuri != null) " -baseurl ${cfg.baseuri}";
         StateDirectory = "flood";
-        Environment = [ "HOME=%S/flood" ];  # let uv_os_homedir happy with PrivateUsers
+        Environment = [ "HOME=%S/flood" ]; # let uv_os_homedir happy with PrivateUsers
       };
     };
   };

@@ -76,7 +76,7 @@ in
     nix = {
       package = lib.mkDefault pkgs.nixVersions.latest; # to ensure that it is using the same nix as installer
       settings = with lib; {
-        use-xdg-base-directories = true;  # necessary for hm to set a correct home.profileDirectory
+        use-xdg-base-directories = true; # necessary for hm to set a correct home.profileDirectory
         extra-experimental-features = mkBefore (
           [ "nix-command" "flakes" ]
           # https://github.com/NixOS/nix/pull/10299

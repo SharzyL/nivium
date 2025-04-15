@@ -21,12 +21,12 @@ in
       texlab
       rust-analyzer
       pyright
-      ruff  # python linter
+      ruff # python linter
       clang-tools
       beancount-language-server
       tinymist
       nixpkgs-fmt
-      coqPackages.coq-lsp
+      # coqPackages.coq-lsp
     ]);
 
     programs.neovim = {

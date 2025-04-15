@@ -139,10 +139,4 @@ in
       ln -s $out/libexec/Mathematica/Executables/wolframscript $out/bin/wolframscript
     '';
   });
-
-  # https://github.com/NixOS/nixpkgs/pull/390243, already merged
-  zotero = prev.zotero.overrideAttrs (oldAttrs: {
-    libPath = assert final.lib.hasSuffix "/lib64" oldAttrs.libPath;
-      final.lib.removeSuffix "64" oldAttrs.libPath;
-  });
 }

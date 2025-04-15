@@ -4,7 +4,7 @@ stdenvNoCC.mkDerivation {
   pname = "inter-ss03";
 
   inherit (inter) version src;
-  
+
   nativeBuildInputs = [
     opentype-feature-freezer
   ];

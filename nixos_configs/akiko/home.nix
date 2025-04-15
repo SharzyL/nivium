@@ -146,8 +146,8 @@
 
   nix.settings = {
     extra-substituters = [
-      "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
-      "https://staging.attic.rs/attic-ci"
+      # "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+      # "https://staging.attic.rs/attic-ci"
     ];
 
     extra-trusted-public-keys = [

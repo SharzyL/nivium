@@ -8,7 +8,7 @@ in
   options.nivium.services.ddns = {
     enable = mkEnableOption "enable ddns";
     package = mkPackageOption pkgs "python-ddns" { };
-    configFile = mkOption { type = types.str; };  # TODO: generate it
+    configFile = mkOption { type = types.str; }; # TODO: generate it
     onCalendar = mkOption { type = types.str; default = "*:0/3"; };
   };
 

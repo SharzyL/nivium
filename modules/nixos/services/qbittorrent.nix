@@ -41,7 +41,7 @@ in
 
     nivium.systemd-hardening.qbittorrent = {
       enable = true;
-      dynamicUser = false;  # it writes files to torrent directory
+      dynamicUser = false; # it writes files to torrent directory
       extraAF = [ "AF_NETLINK" ];
     };
 

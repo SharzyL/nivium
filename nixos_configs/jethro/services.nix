@@ -84,7 +84,7 @@
 
   services.tg-searcher = {
     enable = true;
-    configFile = "%S/tg-searcher/config.yaml";  # require manually copy to host
+    configFile = "%S/tg-searcher/config.yaml"; # require manually copy to host
     redis.enable = true;
   };
 
@@ -140,14 +140,14 @@
     port = 8964;
     passwordFile = config.sops.secrets."syncplay_password".path;
     salt = "BUHV6TIUONBWIWKAWXN6OJZB";
-    extraArgs = [ "--tls" "%d" ];  # since certDir is enforces to be a path
+    extraArgs = [ "--tls" "%d" ]; # since certDir is enforces to be a path
   };
 
   systemd.services.syncplay.serviceConfig =
     let
       name = config.nivium.services.nginx.wildcard-proxy.cert-name;
     in
-    { 
+    {
       LoadCredential = [
         "cert.pem:/var/lib/acme/${name}/cert.pem"
         "privkey.pem:/var/lib/acme/${name}/key.pem"

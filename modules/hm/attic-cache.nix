@@ -36,9 +36,11 @@ in
     )
     (lib.mkIf cfg.enable {
       nix = {
-        netrc = lib.concatLines (map (c: lib.optionalString (c.accessToken != "") ''
-          machine ${getURLHost c.substituter} password ${c.accessToken}
-        '') cfg.caches);
+        netrc = lib.concatLines (map
+          (c: lib.optionalString (c.accessToken != "") ''
+            machine ${getURLHost c.substituter} password ${c.accessToken}
+          '')
+          cfg.caches);
         settings = {
           extra-trusted-public-keys = map (c: c.pubKey) cfg.caches;
           extra-substituters = map (c: c.substituter) cfg.caches;

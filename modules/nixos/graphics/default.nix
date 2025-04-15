@@ -74,7 +74,8 @@ in
 
     xdg.portal = {
       enable = true;
-      config = {  # TODO: find out how
+      config = {
+        # TODO: find out how
         common = {
           default = [ "gtk" ];
         };

@@ -5,6 +5,11 @@
     flake-utils.url = "github:numtide/flake-utils";
     mac-app-util.url = "github:hraban/mac-app-util";
 
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -40,7 +45,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, home-manager, colmena, ... }@inputs:
+  outputs = { self, nixpkgs, flake-utils, home-manager, colmena, treefmt-nix, ... }@inputs:
     let
       mypkgs = import ./pkgs/mypkgs.nix;
     in
@@ -54,11 +59,17 @@
               self.overlays.default
             ];
           };
+          treefmtEval = treefmt-nix.lib.evalModule pkgs {
+            programs.clang-format.enable = true;
+            programs.nixpkgs-fmt.enable = true;
+          };
+
         in
         {
-          formatter = pkgs.nixpkgs-fmt;
           packages = flake-utils.lib.flattenTree (mypkgs.makeMyPkgs pkgs);
           legacyPackages = pkgs;
+          formatter = treefmtEval.config.build.wrapper;
+          checks.formatting = treefmtEval.config.build.check self;
         }
       )
 

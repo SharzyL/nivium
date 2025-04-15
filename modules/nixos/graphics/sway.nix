@@ -32,7 +32,8 @@ in
     };
 
     users.users.${user}.extraGroups = lib.mkBefore [
-      "video" "audio"
+      "video"
+      "audio"
     ];
 
     services.greetd = {

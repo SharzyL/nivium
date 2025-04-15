@@ -68,7 +68,7 @@
 
   programs.fish = {
     shellAbbrs = {
-        "mpv" = "mpv --screenshot-directory=$HOME/tmp/_screenshots";
+      "mpv" = "mpv --screenshot-directory=$HOME/tmp/_screenshots";
     };
     functions = {
       "sdoc" = ''
@@ -98,7 +98,7 @@
     };
     Service = {
       ExecStart = "${pkgs.sharzyscripts}/bin/sc_monitor";
-      ExecSearchPath = [ "${pkgs.wl-clipboard}/bin" ];  # oh hm has no path config
+      ExecSearchPath = [ "${pkgs.wl-clipboard}/bin" ]; # oh hm has no path config
     };
     Install.WantedBy = [ "graphical-session.target" ];
   };
