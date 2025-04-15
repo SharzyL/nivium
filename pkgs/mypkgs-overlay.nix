@@ -6,7 +6,7 @@ final: prev:
   ];
 
   # self-packaged packages overrides
-  efb = prev.efb.override { python3 = final.python310; };
+  efb = prev.efb.override { python3 = final.python311; };
   logchecker = prev.logchecker.override { python3 = final.python311; };
 
   # until qbittorrent5 is supported

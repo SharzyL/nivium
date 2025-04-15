@@ -13,6 +13,12 @@ let
 
     nativeBuildInputs = [ python3.pkgs.setuptools ];
 
+    # nose is not supported in recent Python
+    postPatch = ''
+      substituteInPlace pprp/resources/requirements.txt \
+        --replace "nose>=1.3.7" ""
+    '';
+
     propagatedBuildInputs = with python3.pkgs; [
       # nose
       coverage

@@ -86,6 +86,7 @@ in
       nixPath = [ "nixpkgs=${inputs.nixpkgs}" "home-manager=${inputs.home-manager}" ];
       registry."nixpkgs".flake = inputs.nixpkgs;
       registry."home-manager".flake = inputs.nixpkgs;
+      registry."treefmt-nix".flake = inputs.treefmt-nix;
       registry."p".flake = inputs.nixpkgs;
       registry."f".flake = self;
       registry."hm".flake = inputs.home-manager;
