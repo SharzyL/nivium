@@ -4,7 +4,7 @@ return function (vim)
       view = "cmdline",
     },
     messages = {
-      view = "messages",
+      view_history = "messages",
     },
   }
 end

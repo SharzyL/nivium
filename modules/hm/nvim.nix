@@ -66,7 +66,8 @@ in
         nvim-spectre # file search panel
         indent-blankline-nvim # add indent guide line
         nvim-scrollbar
-        fidget-nvim
+        nvim-notify
+        # fidget-nvim
 
         # "transparent" enhancement
         vim-repeat
