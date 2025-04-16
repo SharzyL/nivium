@@ -3,18 +3,6 @@ return function (vim)
   local d = utils.d
   local map = utils.map
 
-  require('onedark').setup {
-    highlights = {
-      BufferCurrent = { fg = '$fg', bg = '$bg3', fmt = 'bold'},
-      BufferCurrentSign = { fg = '$purple', bg = '$bg3', fmt = 'bold'},
-      BufferInactive = { fg = '#848b98', bg = '$bg_d' },
-      BufferInactiveSign = { bg = '$bg0' },
-      BufferTabpageFill = { bg = '$bg0' },
-      WinBar = { bg = '$bg3' },
-    }
-  }
-  require('onedark').load {}
-
   require('nvim-autopairs').setup({
     enable_check_bracket_line = true,
   })

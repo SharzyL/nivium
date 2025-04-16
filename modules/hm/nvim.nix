@@ -60,6 +60,7 @@ in
         nvim-navbuddy # code outline
         nvim-bqf # better quickfix
         trouble-nvim # diagnostic window
+        noice-nvim # replace messages, cmdline and popups
 
         # visual improvement
         nvim-spectre # file search panel

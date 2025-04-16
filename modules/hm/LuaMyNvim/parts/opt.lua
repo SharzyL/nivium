@@ -66,7 +66,7 @@ return function (vim)
   vim.opt.virtualedit = 'block'
 
   -- screen will not redraw when exec marcro, register
-  vim.opt.lazyredraw = true
+  -- vim.opt.lazyredraw = true
 
   -- always draw signcolumn, with 1 fixed space to show 2 icon at the same time
   vim.opt.signcolumn = 'yes:1'
