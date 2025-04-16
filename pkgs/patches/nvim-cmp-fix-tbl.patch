@@ -1,0 +1,150 @@
+diff --git a/lua/cmp/types/lsp.lua b/lua/cmp/types/lsp.lua
+index a62e0e7..f8402fb 100644
+--- a/lua/cmp/types/lsp.lua
++++ b/lua/cmp/types/lsp.lua
+@@ -65,9 +65,7 @@ lsp.Position = {
+       return position
+     end
+ 
+-    local ok, byteindex = pcall(function()
+-      return vim.str_byteindex(text, position.character, from_encoding == lsp.PositionEncodingKind.UTF16)
+-    end)
++    local ok, byteindex = pcall(vim.str_byteindex, text, position.character, from_encoding == lsp.PositionEncodingKind.UTF16)
+     if not ok then
+       return position
+     end
+@@ -202,7 +200,10 @@ lsp.CompletionItemKind = {
+   Operator = 24,
+   TypeParameter = 25,
+ }
+-lsp.CompletionItemKind = vim.tbl_add_reverse_lookup(lsp.CompletionItemKind)
++for _, k in ipairs(vim.tbl_keys(lsp.CompletionItemKind)) do
++  local v = lsp.CompletionItemKind[k]
++  lsp.CompletionItemKind[v] = k
++end
+ 
+ ---@class lsp.internal.CompletionItemDefaults
+ ---@field public commitCharacters? string[]
+diff --git a/lua/cmp/utils/misc.lua b/lua/cmp/utils/misc.lua
+index fda6f47..5eafc55 100644
+--- a/lua/cmp/utils/misc.lua
++++ b/lua/cmp/utils/misc.lua
+@@ -1,5 +1,7 @@
+ local misc = {}
+ 
++local islist = vim.islist or vim.tbl_islist
++
+ ---Create once callback
+ ---@param callback function
+ ---@return function
+@@ -47,7 +49,7 @@ misc.rep = function(str_or_tbl, count)
+   return rep
+ end
+ 
+----Return the valu is empty or not.
++---Return whether the value is empty or not.
+ ---@param v any
+ ---@return boolean
+ misc.empty = function(v)
+@@ -69,6 +71,16 @@ misc.empty = function(v)
+   return false
+ end
+ 
++---Search value in table
++misc.contains = function(tbl, v)
++  for _, value in ipairs(tbl) do
++    if value == v then
++      return true
++    end
++  end
++  return false
++end
++
+ ---The symbol to remove key in misc.merge.
+ misc.none = vim.NIL
+ 
+@@ -78,8 +90,8 @@ misc.none = vim.NIL
+ ---@param tbl2 T
+ ---@return T
+ misc.merge = function(tbl1, tbl2)
+-  local is_dict1 = type(tbl1) == 'table' and (not vim.tbl_islist(tbl1) or vim.tbl_isempty(tbl1))
+-  local is_dict2 = type(tbl2) == 'table' and (not vim.tbl_islist(tbl2) or vim.tbl_isempty(tbl2))
++  local is_dict1 = type(tbl1) == 'table' and (not islist(tbl1) or vim.tbl_isempty(tbl1))
++  local is_dict2 = type(tbl2) == 'table' and (not islist(tbl2) or vim.tbl_isempty(tbl2))
+   if is_dict1 and is_dict2 then
+     local new_tbl = {}
+     for k, v in pairs(tbl2) do
+@@ -144,28 +156,39 @@ misc.set = function(t, keys, v)
+   c[keys[#keys]] = v
+ end
+ 
+----Copy table
+----@generic T
+----@param tbl T
+----@return T
+-misc.copy = function(tbl)
+-  if type(tbl) ~= 'table' then
+-    return tbl
+-  end
++do
++  local function do_copy(tbl, seen)
++    if type(tbl) ~= 'table' then
++      return tbl
++    end
++    if seen[tbl] then
++      return seen[tbl]
++    end
++
++    if islist(tbl) then
++      local copy = {}
++      seen[tbl] = copy
++      for i, value in ipairs(tbl) do
++        copy[i] = do_copy(value, seen)
++      end
++      return copy
++    end
+ 
+-  if vim.tbl_islist(tbl) then
+     local copy = {}
+-    for i, value in ipairs(tbl) do
+-      copy[i] = misc.copy(value)
++    seen[tbl] = copy
++    for key, value in pairs(tbl) do
++      copy[key] = do_copy(value, seen)
+     end
+     return copy
+   end
+ 
+-  local copy = {}
+-  for key, value in pairs(tbl) do
+-    copy[key] = misc.copy(value)
++  ---Copy table
++  ---@generic T
++  ---@param tbl T
++  ---@return T
++  misc.copy = function(tbl)
++    return do_copy(tbl, {})
+   end
+-  return copy
+ end
+ 
+ ---Safe version of vim.str_utfindex
+@@ -174,6 +197,9 @@ end
+ ---@return integer
+ misc.to_utfindex = function(text, vimindex)
+   vimindex = vimindex or #text + 1
++  if vim.fn.has('nvim-0.11') == 1 then
++    return vim.str_utfindex(text, 'utf-16', math.max(0, math.min(vimindex - 1, #text)))
++  end
+   return vim.str_utfindex(text, math.max(0, math.min(vimindex - 1, #text)))
+ end
+ 
+@@ -185,7 +211,7 @@ misc.to_vimindex = function(text, utfindex)
+   utfindex = utfindex or #text
+   for i = utfindex, 1, -1 do
+     local s, v = pcall(function()
+-      return vim.str_byteindex(text, i) + 1
++      return vim.str_byteindex(text, 'utf-16', i) + 1
+     end)
+     if s then
+       return v

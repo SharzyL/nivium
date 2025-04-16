@@ -112,13 +112,29 @@ in
       ];
     });
 
-    # https://github.com/hrsh7th/nvim-cmp/issues/1877
     nvim-cmp = vprev.nvim-cmp.overrideAttrs (oldAttrs: {
+      # https://github.com/hrsh7th/nvim-cmp/issues/1877
       src = final.fetchFromGitHub {
         owner = "hrsh7th";
         repo = "nvim-cmp";
         rev = "b356f2c80cb6c5bae2a65d7f9c82dd5c3fdd6038";
         hash = "sha256-ndZlp3GYReSgoxlhpddHofetbibxTEblBuBxbaPuCKY=";
+      };
+
+      patches = (oldAttrs.patches or [ ]) ++ [
+        # merging https://github.com/hrsh7th/nvim-cmp/pull/1991
+        # and https://github.com/hrsh7th/nvim-cmp/pull/1931
+        ./patches/nvim-cmp-fix-tbl.patch
+      ];
+    });
+
+    nui-nvim = vprev.nui-nvim.overrideAttrs (oldAttrs: {
+      # https://github.com/MunifTanjim/nui.nvim/pull/365
+      src = final.fetchFromGitHub {
+        owner = "MunifTanjim";
+        repo = "nui.nvim";
+        rev = "8d3bce9764e627b62b07424e0df77f680d47ffdb";
+        hash = "sha256-BYTY2ezYuxsneAl/yQbwL1aQvVWKSsN3IVqzTlrBSEU=";
       };
     });
   });
