@@ -95,6 +95,7 @@
               enable = true;
             };
             shellcheck.enable = true;
+            black.enable = true;
           };
         };
 
