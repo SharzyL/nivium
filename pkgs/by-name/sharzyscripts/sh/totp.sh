@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 set -e
 
 # Before we get the token, redirect stdout to stderr.

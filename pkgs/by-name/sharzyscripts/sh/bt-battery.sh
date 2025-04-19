@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 readonly COMMAND="$1"
 readonly DEVICE="$2"
 readonly ICON="$3"

@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 runVerbose() {
   echo "$" "$@" >&2
   "$@"

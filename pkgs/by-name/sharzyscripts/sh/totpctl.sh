@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 RECIPIENT="me@sharzy.in"
 KEYDIR=$HOME/.config/totp
 

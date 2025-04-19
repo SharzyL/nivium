@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 resolve() {
   getent hosts "$1" | awk '{print $1}'
 }

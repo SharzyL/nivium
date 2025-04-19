@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 SC_DIR="${1:-$HOME/tmp/_screenshots}"
 echo "monitoring '$SC_DIR'"
 [ -d "$SC_DIR" ] || echo "directory '$SC_DIR' not existing" || exit 1
