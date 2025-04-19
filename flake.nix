@@ -90,11 +90,12 @@
         };
 
         flake = {
-          nixosModules = import ./modules/nixos;
+          inherit inputs;
+          nixosModules.default = import ./modules/nixos;
 
           homeModules = {
             default = import ./modules/hm;
-            standalone = import ./modules/hm/standalone;
+            standalone = import ./modules/hm/standalone-base.nix;
           };
 
           # TODO: find out why lib.modules.importApply not working
@@ -102,7 +103,7 @@
             inherit self inputs withSystem;
           };
 
-          colmenaConfigurations = import ./nixos_configs/colmena.nix {
+          colmenaHive = import ./nixos_configs/colmena.nix {
             inherit self inputs withSystem;
           };
         };

@@ -1,23 +1,16 @@
-{ lib, inputs, config, ... }:
+{ lib, config, ... }:
 
 let
   inherit (lib) types mkOption;
-  inherit (inputs) colmena;
-  cfg = config.flake.colmenaConfigurations;
+  cfg = config.flake.colmenaHive;
 in
 {
-  options.flake.colmenaConfigurations = mkOption {
-    type = types.attrsOf types.raw;
-    default = { };
-  };
-
   options.flake.colmenaHive = mkOption {
     type = types.attrsOf types.raw;
     default = { };
   };
 
   config = {
-    flake.nixosConfigurations = (colmena.lib.makeHive cfg).nodes;
-    flake.colmenaHive = colmena.lib.makeHive cfg;
+    flake.nixosConfigurations = cfg.nodes;
   };
 }

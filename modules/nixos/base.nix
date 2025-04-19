@@ -3,18 +3,15 @@
 with lib;
 let
   cfg = config.nivium;
-  get_nixos_module = flake:
-    if flake ? nixosModule
-    then flake.nixosModule else flake.nixosModules.default;
 in
 {
-  imports = (map get_nixos_module (with self.inputs; [
+  imports = map (flake: flake.nixosModules.default) (with self.inputs; [
     sops-nix
     home-manager
     impermanence
     tg-searcher
     chatgpt-telegram-bot
-  ]));
+  ]);
 
   options.nivium = {
     user = mkOption {

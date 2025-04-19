@@ -1,6 +1,6 @@
 { self, inputs, withSystem }:
 
-{
+inputs.colmena.lib.makeHive {
   meta = {
     specialArgs = {
       inherit self inputs;

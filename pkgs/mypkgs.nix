@@ -3,7 +3,7 @@
 let
   map-by-name-pkgs = f: # f maps a pkg name to anything
     (lib.mapAttrs
-      (name: _: f name )
+      (name: _: f name)
       (lib.filterAttrs
         (k: v: v == "directory" && k != "_sources")
         (builtins.readDir ./by-name)
@@ -13,7 +13,7 @@ in
 {
   makeMyPkgs = pkgs:
     inputs.flake-utils.lib.flattenTree
-    (map-by-name-pkgs (name: pkgs.${name}));
+      (map-by-name-pkgs (name: pkgs.${name}));
 
   overlay = final: prev:
     (map-by-name-pkgs (name: final.callPackage (import ./by-name/${name}) { }))
