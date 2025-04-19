@@ -1,5 +1,5 @@
-return function (vim)
-  local utils = require "LuaMyNvim/utils" (vim)
+return function(vim)
+  local utils = require('LuaMyNvim/utils')(vim)
   local d = utils.d
   local nmap = utils.nmap
 

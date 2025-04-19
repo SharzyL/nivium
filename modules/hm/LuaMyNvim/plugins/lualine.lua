@@ -1,5 +1,5 @@
-return function (vim)
-  require('lualine').setup {
+return function(vim)
+  require('lualine').setup({
     options = {
       disabled_filetypes = { 'neo-tree', 'qf' },
       icons_enabled = false,
@@ -15,17 +15,17 @@ return function (vim)
           end,
           cond = function()
             return require('nvim-navic').is_available()
-          end
+          end,
         },
-      }
+      },
     },
     sections = {
       lualine_c = {
         {
           'filename',
-          path = 1
-        }
-      }
-    }
-  }
+          path = 1,
+        },
+      },
+    },
+  })
 end

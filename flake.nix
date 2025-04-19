@@ -86,6 +86,14 @@
           legacyPackages = pkgs;
           treefmt = {
             programs.nixpkgs-fmt.enable = true;
+            programs.stylua = {
+              settings = {
+                indent_type = "Spaces";
+                indent_width = 2;
+                quote_style = "AutoPreferSingle";
+              };
+              enable = true;
+            };
           };
         };
 

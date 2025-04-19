@@ -1,5 +1,5 @@
-return function (vim)
-  local utils = require "LuaMyNvim/utils" (vim)
+return function(vim)
+  local utils = require('LuaMyNvim/utils')(vim)
   local d = utils.d
   local map = utils.map
 
@@ -7,11 +7,11 @@ return function (vim)
     enable_check_bracket_line = true,
   })
 
-  require('smartyank').setup {
+  require('smartyank').setup({
     highlight = {
       timeout = 400,
     },
-  }
+  })
 
   require('leap').add_default_mappings()
 
@@ -27,28 +27,28 @@ return function (vim)
       auto_attach = true,
     },
   })
-  map('n', '<leader>a', require('nvim-navbuddy').open, d("open navbuddy"))
+  map('n', '<leader>a', require('nvim-navbuddy').open, d('open navbuddy'))
 
   -- indent blank line
   require('ibl').setup({})
 
   require('Comment').setup()
 
-  require('nvim-lastplace').setup {
+  require('nvim-lastplace').setup({
     lastplace_ignore_buftype = { 'quickfix', 'nofile', 'help' },
     lastplace_ignore_filetype = { 'gitcommit', 'gitrebase', 'svn', 'hgcommit' },
-    lastplace_open_folds = true
-  }
+    lastplace_open_folds = true,
+  })
 
-  require("scrollbar").setup({
+  require('scrollbar').setup({
     excluded_buftypes = {
-      "terminal",
+      'terminal',
     },
     excluded_filetypes = {
-      "prompt",
-      "TelescopePrompt",
-      "noice",
-      "Git",
+      'prompt',
+      'TelescopePrompt',
+      'noice',
+      'Git',
     },
     handlers = {
       cursor = false,

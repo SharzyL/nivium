@@ -1,5 +1,5 @@
-return function (vim)
-  local utils = require "LuaMyNvim/utils" (vim)
+return function(vim)
+  local utils = require('LuaMyNvim/utils')(vim)
   local d = utils.d
   local nmap = utils.nmap
 
@@ -8,7 +8,7 @@ return function (vim)
     auto_resize_height = true,
     preview = {
       win_height = 5,
-    }
+    },
   })
 
   nmap('[q', ':cprevious<CR>', d('previous quicifix'))

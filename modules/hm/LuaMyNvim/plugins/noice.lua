@@ -1,10 +1,10 @@
-return function (vim)
-  require('noice').setup {
+return function(vim)
+  require('noice').setup({
     cmdline = {
-      view = "cmdline",
+      view = 'cmdline',
     },
     messages = {
-      view_history = "messages",
+      view_history = 'messages',
     },
-  }
+  })
 end

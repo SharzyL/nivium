@@ -1,11 +1,11 @@
-return function (vim)
-  local utils = require "LuaMyNvim/utils" (vim)
+return function(vim)
+  local utils = require('LuaMyNvim/utils')(vim)
   local map = utils.map
 
   vim.g.barbar_auto_setup = false
-  require('barbar').setup {
+  require('barbar').setup({
     icons = { filetype = { enabled = false } },
-  }
+  })
 
   local buffer_kb_opts = { noremap = true, silent = true }
   -- Move to previous/next
@@ -39,5 +39,7 @@ return function (vim)
 
   require('which-key').setup()
   -- workaround for https://github.com/folke/which-key.nvim/issues/476
-  map("n", "<localleader>", function() require("which-key").show "\\" end, { buffer = true })
+  map('n', '<localleader>', function()
+    require('which-key').show('\\')
+  end, { buffer = true })
 end

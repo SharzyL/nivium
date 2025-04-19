@@ -1,4 +1,4 @@
-return function (vim)
+return function(vim)
   -- Enables the experimental Lua module loader
   vim.loader.enable()
 
@@ -17,10 +17,10 @@ return function (vim)
   vim.opt.softtabstop = 2
 
   vim.opt.textwidth = 80
-  vim.opt.colorcolumn = "+1"
+  vim.opt.colorcolumn = '+1'
 
   vim.opt.cindent = true
-  vim.opt.cinkeys:remove { '0#' } -- default but no 0#
+  vim.opt.cinkeys:remove({ '0#' }) -- default but no 0#
 
   -- A List is an ordered sequence of items.
   vim.opt.list = true
