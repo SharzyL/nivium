@@ -2,7 +2,8 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
     nixpkgs_master.url = "nixpkgs/master";
-    flake-utils.url = "github:numtide/flake-utils";
+    flake-parts.url = "flake-parts";
+    flake-utils.url = "flake-utils";
     mac-app-util.url = "github:hraban/mac-app-util";
 
     treefmt-nix = {
@@ -45,97 +46,63 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, home-manager, colmena, treefmt-nix, ... }@inputs:
+  outputs = { flake-parts, ... }@inputs:
     let
       mypkgs = import ./pkgs/mypkgs.nix;
-    in
-
-    flake-utils.lib.eachDefaultSystem
-      (system:
-        let
-          pkgs = import nixpkgs {
-            inherit system;
-            overlays = [
-              self.overlays.default
-            ];
-          };
-          treefmtEval = treefmt-nix.lib.evalModule pkgs {
-            programs.clang-format.enable = true;
-            programs.nixpkgs-fmt.enable = true;
-          };
-
-        in
-        {
-          packages = flake-utils.lib.flattenTree (mypkgs.makeMyPkgs pkgs);
-          legacyPackages = pkgs;
-          formatter = treefmtEval.config.build.wrapper;
-          checks.formatting = treefmtEval.config.build.check self;
-        }
-      )
-
-    // {
-      inherit inputs; # expose input for convenience of nix repl
-
-      overlays.default = nixpkgs.lib.composeManyExtensions [
+      lib = inputs.nixpkgs.lib;
+      overlay = lib.composeManyExtensions [
         mypkgs.overlay
         (import ./pkgs/mypkgs-overlay.nix)
         (import ./pkgs/overlay.nix { inherit inputs; })
 
         inputs.tg-searcher.overlays.default
         inputs.chatgpt-telegram-bot.overlays.default
-
-        (final: _: {
-          csync = inputs.csync.defaultPackage.${final.stdenv.system};
-        })
+        inputs.csync.overlays.default
       ];
+    in
+    flake-parts.lib.mkFlake { inherit inputs; }
+      ({ self, config, withSystem, ... }: {
+        imports = [
+          inputs.treefmt-nix.flakeModule
+          inputs.home-manager.flakeModules.home-manager
+          ./modules/flake/colmena.nix
+        ];
 
-      nixosConfigurations = (inputs.colmena.lib.makeHive self.colmena).nodes;
+        systems = lib.systems.flakeExposed;
 
-      nixosModules = import ./modules/nixos;
+        perSystem = { system, pkgs, ... }: {
+          _module.args.pkgs = import inputs.nixpkgs {
+            inherit system;
+            overlays = [ overlay ];
 
-      homeConfigurations = builtins.mapAttrs
-        (name: { system, config }:
-          let
-            pkgs = import inputs.nixpkgs { inherit system; overlays = [ self.overlays.default ]; };
-            userConfig = config;
-          in
-          home-manager.lib.homeManagerConfiguration {
-            inherit pkgs;
-            extraSpecialArgs = { inherit self inputs; };
-            modules = [
-              (import ./modules/hm)
-              (import ./modules/hm/standalone-base.nix)
-              userConfig
-            ] ++ pkgs.lib.optionals pkgs.stdenv.isDarwin [
-              inputs.mac-app-util.homeManagerModules.default
-            ];
-          })
-        (
-          with builtins;
-          let
-            parseFileName = fname:
-              let
-                splits = split "_" (head (split "\\." fname));
-                confName = head splits;
-                system = if (length splits) >= 3 then (elemAt splits 2) else "x86_64-linux";
-                config = import ./home/${fname};
-              in
-              { name = confName; value = { inherit system config; }; };
-            filenames = filter
-              (v: v != null)
-              (attrValues # [ "b" ]
-                (mapAttrs # { b = "directory" }
-                  (k: v:
-                    if v == "regular" then k else null
-                  )
-                  (readDir ./hm_configs)  # { a = "regular", b = "directory" }
-                )
-              );
-          in
-          listToAttrs (map parseFileName filenames)
-        );
+            # to make `nix flake check` happy
+            config.allowUnfreePredicate = pkg:
+              builtins.elem (lib.getName pkg) [ "utools" ];
+          };
 
-      colmenaHive = colmena.lib.makeHive self.outputs.colmena;
-      colmena = import ./nixos_configs { inherit self inputs; };
-    };
+          packages = inputs.flake-utils.lib.flattenTree (mypkgs.makeMyPkgs pkgs);
+          legacyPackages = pkgs;
+          treefmt = {
+            programs.nixpkgs-fmt.enable = true;
+          };
+        };
+
+        flake = {
+          nixosModules = import ./modules/nixos;
+
+          homeModules = {
+            default = import ./modules/hm;
+            standalone = import ./modules/hm/standalone;
+          };
+
+          # TODO: find out why lib.modules.importApply not working
+          homeConfigurations = import ./hm_configs {
+            inherit self inputs withSystem;
+          };
+
+          colmenaConfigurations = import ./nixos_configs/colmena.nix {
+            inherit self inputs withSystem;
+          };
+        };
+      });
 }

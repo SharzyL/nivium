@@ -1,4 +1,4 @@
-{ self, inputs }:
+{ self, inputs, withSystem }:
 
 {
   meta = {
@@ -6,10 +6,9 @@
       inherit self inputs;
     };
     allowApplyAll = false;
-    nixpkgs = import inputs.nixpkgs {
-      system = "x86_64-linux";
-      overlays = [ self.overlays.default ];
-    };
+
+    # colmena requires an initialized nixpkgs, so pick an arbitrary system
+    nixpkgs = withSystem "x86_64-linux" ({ pkgs, ... }: pkgs);
   };
 
   akiko = { ... }: {
