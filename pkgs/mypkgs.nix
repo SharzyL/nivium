@@ -1,26 +1,22 @@
+{ lib, inputs }:
+
 let
-  mapPackages = f: with builtins;
-    listToAttrs # { b: f "b" }
-      (map
-        (name: { inherit name; value = f name; })
-        (filter
-          (v: v != null)
-          (attrValues # [ "directory" ]
-            (mapAttrs # { b = "directory" }
-              (k: v:
-                if v == "directory" && k != "_sources" then k else null
-              )
-              (readDir ./by-name)  # { a = "regular", b = "directory" }
-            )
-          )
-        )
-      );
+  map-by-name-pkgs = f: # f maps a pkg name to anything
+    (lib.mapAttrs
+      (name: _: f name )
+      (lib.filterAttrs
+        (k: v: v == "directory" && k != "_sources")
+        (builtins.readDir ./by-name)
+      )
+    );
 in
 {
-  makeMyPkgs = pkgs: mapPackages (name: pkgs.${name});
+  makeMyPkgs = pkgs:
+    inputs.flake-utils.lib.flattenTree
+    (map-by-name-pkgs (name: pkgs.${name}));
 
   overlay = final: prev:
-    (mapPackages (name: final.callPackage (import ./by-name/${name}) { }))
+    (map-by-name-pkgs (name: final.callPackage (import ./by-name/${name}) { }))
     // rec {
       srcs = final.callPackage ./_sources/generated.nix { };
 

@@ -7,12 +7,12 @@ let
 in
 {
   options.flake.colmenaConfigurations = mkOption {
-    type = types.lazyAttrsOf types.raw;
+    type = types.attrsOf types.raw;
     default = { };
   };
 
   options.flake.colmenaHive = mkOption {
-    type = types.lazyAttrsOf types.raw;
+    type = types.attrsOf types.raw;
     default = { };
   };
 

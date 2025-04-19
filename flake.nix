@@ -48,17 +48,18 @@
 
   outputs = { flake-parts, ... }@inputs:
     let
-      mypkgs = import ./pkgs/mypkgs.nix;
       lib = inputs.nixpkgs.lib;
-      overlay = lib.composeManyExtensions [
+      mypkgs = import ./pkgs/mypkgs.nix { inherit lib inputs; };
+      overlay = lib.composeManyExtensions ([
         mypkgs.overlay
         (import ./pkgs/mypkgs-overlay.nix)
         (import ./pkgs/overlay.nix { inherit inputs; })
-
-        inputs.tg-searcher.overlays.default
-        inputs.chatgpt-telegram-bot.overlays.default
-        inputs.csync.overlays.default
-      ];
+      ] ++ (map (f: f.overlays.default) (with inputs; [
+        tg-searcher
+        chatgpt-telegram-bot
+        csync
+        colmena
+      ])));
     in
     flake-parts.lib.mkFlake { inherit inputs; }
       ({ self, config, withSystem, ... }: {
@@ -80,7 +81,8 @@
               builtins.elem (lib.getName pkg) [ "utools" ];
           };
 
-          packages = inputs.flake-utils.lib.flattenTree (mypkgs.makeMyPkgs pkgs);
+          packages = mypkgs.makeMyPkgs pkgs;
+
           legacyPackages = pkgs;
           treefmt = {
             programs.nixpkgs-fmt.enable = true;
