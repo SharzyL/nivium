@@ -84,9 +84,9 @@
           packages = mypkgs.makeMyPkgs pkgs;
 
           legacyPackages = pkgs;
-          treefmt = {
-            programs.nixpkgs-fmt.enable = true;
-            programs.stylua = {
+          treefmt.programs = {
+            nixpkgs-fmt.enable = true;
+            stylua = {
               settings = {
                 indent_type = "Spaces";
                 indent_width = 2;
@@ -94,6 +94,7 @@
               };
               enable = true;
             };
+            shellcheck.enable = true;
           };
         };
 

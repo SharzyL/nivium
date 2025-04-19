@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 netnsName="lux"
 outLink="ens19"
 v4Addr="10.0.2.103/24"
