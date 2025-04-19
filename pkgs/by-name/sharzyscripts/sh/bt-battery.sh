@@ -63,7 +63,7 @@ case $COMMAND in
 
     *)
         echo "No command specified."
-        echo "Commands availaible"
+        echo "Commands available"
         echo "--is_device_connected : return an exit code 0 if device connected or 1 if not"
         echo "--show_icon           : show the icon"
         exit 1

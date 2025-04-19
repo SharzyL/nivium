@@ -20,7 +20,7 @@ return function(vim)
   nmap('<leader>k', '<C-w>k', d('Jump to window above'))
   nmap('<leader>j', '<C-w>j', d('Jump to window below'))
   nmap('<leader>l', '<C-w>l', d('Jump to the left window'))
-  nmap('<leader>h', '<C-w>h', d('Jump to the righ window'))
+  nmap('<leader>h', '<C-w>h', d('Jump to the right window'))
 
   -- resize the window
   nmap('<C-S-up>', ':res +5<CR>', d('Extend the upper boundary of the current window'))

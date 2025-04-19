@@ -20,7 +20,7 @@ in
 
   config = mkIf (config.nivium.i3.enable || config.nivium.sway.enable) {
     assertions = [
-      { assertion = cfg.withGraphics; messsage = "You should enable graphics to use wm"; }
+      { assertion = cfg.withGraphics; message = "You should enable graphics to use wm"; }
     ];
 
     xsession.enable = true;

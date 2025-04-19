@@ -9,7 +9,7 @@ return function(vim)
   vim.opt.number = true
   vim.opt.cursorline = true
 
-  -- Use 2 spaces forcely. But vim-sleuth will handle the indent gracefully.
+  -- Use 2 spaces forcibly. But vim-sleuth will handle the indent gracefully.
   -- Use the appropriate number of spaces to insert a <Tab>.
   vim.opt.expandtab = true
   vim.opt.tabstop = 2

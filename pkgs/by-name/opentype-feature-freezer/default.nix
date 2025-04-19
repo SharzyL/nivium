@@ -24,7 +24,7 @@ python3.pkgs.buildPythonApplication {
   pythonImportsCheck = [ "opentype_feature_freezer" ];
 
   meta = with lib; {
-    description = "Turns OpenType features 'on' by default in a font: reassigns the font's Unicode-to-glyph mapping fo permanently 'freeze' the 1-to-1 substitution features, and creates a new font";
+    description = "Turns OpenType features 'on' by default in a font: reassigns the font's Unicode-to-glyph mapping to permanently 'freeze' the 1-to-1 substitution features, and creates a new font";
     homepage = "https://pypi.org/project/opentype-feature-freezer/";
     license = licenses.asl20;
     mainProgram = "opentype-feature-freezer";
