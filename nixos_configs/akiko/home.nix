@@ -100,11 +100,6 @@
         torrenttools create -a $tracker -o $HOME/tmp/$tracker.torrent $argv[2]
       '';
 
-      "tywatch" = ''
-        typst compile $argv[1]; or return
-        zathura (path change-extension pdf $argv[1]) &
-        typst watch $argv[1]
-      '';
     };
 
     shellAbbrs = {
@@ -112,6 +107,7 @@
       "mtp" = "music-tag --print";
       "mt" = "music-tag";
       "tt" = "torrenttools";
+      "tyw" = "typst watch --open zathura";
     };
 
     shellAliases = {

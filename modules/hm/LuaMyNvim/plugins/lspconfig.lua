@@ -29,6 +29,7 @@ return function(vim, lsp_autostart)
       },
     },
     lua_ls = {},
+    ts_ls = {},
     jsonls = {
       cmd = { 'vscode-json-languageserver', '--stdio' },
     },
@@ -37,6 +38,9 @@ return function(vim, lsp_autostart)
     },
     beancount = {
       init_options = { journal_file = '~/ws/beancount/root.beancount' },
+    },
+    efm = {
+      init_options = { documentFormatting = true },
     },
     tinymist = {
       settings = {

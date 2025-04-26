@@ -15,6 +15,7 @@ in
     home.packages = mkIf cfg.lspPackages (with pkgs; [
       lua-language-server
       nodePackages.vscode-json-languageserver
+      nodePackages.typescript-language-server
       nodePackages.yaml-language-server
       nil
       gopls
@@ -26,6 +27,7 @@ in
       beancount-language-server
       tinymist
       nixpkgs-fmt
+      efm-langserver
       # coqPackages.coq-lsp
     ]);
 

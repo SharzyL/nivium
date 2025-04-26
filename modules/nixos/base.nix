@@ -1,20 +1,12 @@
-{ config, pkgs, lib, self, ... }:
+{ config, pkgs, lib, ... }:
 
 with lib;
 let
   cfg = config.nivium;
 in
 {
-  imports = map (flake: flake.nixosModules.default) (with self.inputs; [
-    sops-nix
-    home-manager
-    impermanence
-    tg-searcher
-    chatgpt-telegram-bot
-  ]);
-
   options.nivium = {
-    user = mkOption {
+    adminUser = mkOption {
       type = types.str;
       default = "sharzy";
     };
@@ -63,7 +55,7 @@ in
         package = pkgs.nix;
         channel.enable = false;
         settings = {
-          trusted-users = mkBefore [ "root" cfg.user ];
+          trusted-users = mkBefore [ "root" cfg.adminUser ];
           experimental-features = mkBefore [ "auto-allocate-uids" "cgroups" "ca-derivations" ];
           use-xdg-base-directories = true;
           auto-optimise-store = mkDefault true;

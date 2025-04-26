@@ -6,7 +6,7 @@ let
     )
   );
 in
-{ ... }:
+{ self, ... }:
 {
   imports = [
     ./base.nix
@@ -14,6 +14,12 @@ in
     ./graphics
     ./dhack
     ./systemd-hardening.nix
-  ] ++ (dirFiles "services") ++ (dirFiles "programs");
+  ] ++ (map (flake: flake.nixosModules.default) (with self.inputs; [
+    sops-nix
+    home-manager
+    impermanence
+    tg-searcher
+    chatgpt-telegram-bot
+  ])) ++ (dirFiles "services") ++ (dirFiles "programs");
 }
 
