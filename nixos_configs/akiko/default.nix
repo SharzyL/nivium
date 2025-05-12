@@ -121,6 +121,10 @@
     };
   };
 
+  networking.wireless.iwd = {
+    enable = true;
+  };
+
   boot.supportedFilesystems = [ "zfs" "nfs4" ];
   boot.zfs.extraPools = [ "tank" ];
   networking.hostId = "2741c380"; # first 8 chars of /etc/machine-id, required by ZFS

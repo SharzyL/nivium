@@ -104,6 +104,10 @@ in
         package = pkgs.numix-icon-theme-circle;
         name = "Numix-Circle";
       };
+      cursorTheme = {
+        package = pkgs.numix-cursor-theme;
+        name = "Numix-Cursor";
+      };
       font = {
         package = pkgs.inter-ss03;
         name = "Inter ss03";
