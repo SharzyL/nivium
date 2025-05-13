@@ -16,7 +16,8 @@ in
       type = types.str;
     };
 
-    hidpi = mkEnableOption "i3 with hidpi";
+    hidpi.enable = mkEnableOption "i3 with hidpi";
+    i3lock.enable = mkEnableOption "i3 with i3lock";
   };
 
   config = mkIf cfg.enable {
@@ -81,6 +82,11 @@ in
         };
       };
       extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    };
+
+    programs.i3lock = lib.mkIf cfg.i3lock.enable {
+      enable = true;
+      u2fSupport = true;
     };
   };
 }

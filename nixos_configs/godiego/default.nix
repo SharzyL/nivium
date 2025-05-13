@@ -50,7 +50,8 @@
       enable = true;
       # sway.enable = true;
       xserver.enable = true;
-      hidpi = true;
+      hidpi.enable = true;
+      i3lock.enable = true;
       user = "sharzy";
     };
     home.users."sharzy" = {
@@ -124,8 +125,6 @@
   };
 
   security.pam.services = {
-    # swaylock.u2fAuth = true;
-    i3lock.u2fAuth = true;
     sudo.u2fAuth = true;
   };
 

@@ -63,7 +63,8 @@
     graphics = {
       enable = true;
       xserver.enable = true;
-      hidpi = true;
+      hidpi.enable = true;
+      i3lock.enable = true;
       user = "sharzy";
     };
     home.users."sharzy" = {
@@ -148,7 +149,6 @@
     };
   };
 
-  security.pam.services.i3lock.u2fAuth = true;
   security.pam.services.sudo.u2fAuth = true;
 
   security.auditd.enable = true;

@@ -35,11 +35,11 @@ in
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       libnotify
-      i3lock
       rofi
       dmenu
       scrot
       i3-volume
+      # we must use i3lock provided by nixos for its security wrapper
     ];
 
     xsession.windowManager.i3 =
