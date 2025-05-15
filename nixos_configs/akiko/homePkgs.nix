@@ -30,7 +30,7 @@
     audacity
     mediainfo
     lame
-    # logchecker  # to be fixed
+    logchecker
     torrenttools
 
     # extra cli
