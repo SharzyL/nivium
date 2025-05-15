@@ -31,7 +31,7 @@
     mediainfo
     lame
     # logchecker  # to be fixed
-    # torrenttools  # to be fixed
+    torrenttools
 
     # extra cli
     w3m

@@ -15,6 +15,8 @@ final: prev:
     inherit (final.apple_sdk.frameworks) Cocoa;
   };
 
+  torrenttools = final.callPackage ./in-overlay/torrenttools { };
+
   # other self-packaged packages
   LuaMyNvim = final.callPackage ../modules/hm/LuaMyNvim { };
   python3 = prev.python3.override {

@@ -1,0 +1,166 @@
+commit 72acc742ca9d49125c3f4d15a05ce4c9a36d7d2d
+Author: SharzyL <me@sharzy.in>
+Date:   Thu May 15 15:59:54 2025 +0800
+
+    fix: test failures
+
+diff --git a/include/file_matcher.hpp b/include/file_matcher.hpp
+index c10c7be..73f7916 100644
+--- a/include/file_matcher.hpp
++++ b/include/file_matcher.hpp
+@@ -47,7 +47,7 @@ public:
+         }
+ 
+         std::string error;
+-        std::string pattern = ".*.{}$"_format(extension);
++        std::string pattern = fmt::format(".*.{}$", extension);
+         file_include_list_.Add(pattern, &error);
+         file_include_list_empty_ = false;
+         Ensures(error.empty());
+@@ -62,7 +62,7 @@ public:
+         }
+ 
+         std::string error;
+-        std::string pattern = ".*\\.{}$"_format(extension);
++        std::string pattern = fmt::format(".*\\.{}$", extension);
+         file_exclude_list_.Add(pattern, &error);
+         file_exclude_list_empty_ = false;
+         Ensures(error.empty());
+diff --git a/src/config_parser.cpp b/src/config_parser.cpp
+index 301ba54..451896e 100644
+--- a/src/config_parser.cpp
++++ b/src/config_parser.cpp
+@@ -177,9 +177,9 @@ const profile& config::get_profile(std::string_view profile_name) const
+ config* load_config()
+ {
+     std::vector<fs::path> data_dirs {
++        BUILD_DATA_DIR,
+         get_user_data_dir(),
+         GLOBAL_DATA_DIR,
+-        BUILD_DATA_DIR,
+     };
+ 
+     if (config_ptr) {
+diff --git a/src/create.cpp b/src/create.cpp
+index fb8c0c8..a4b6ca1 100644
+--- a/src/create.cpp
++++ b/src/create.cpp
+@@ -12,6 +12,7 @@
+ #endif
+ 
+ #include <fmt/format.h>
++#include <fmt/ranges.h>
+ #include <CLI/CLI.hpp>
+ #include <CLI/Error.hpp>
+ 
+diff --git a/src/edit.cpp b/src/edit.cpp
+index a48e3c4..d5e5b00 100644
+--- a/src/edit.cpp
++++ b/src/edit.cpp
+@@ -83,7 +83,7 @@ void configure_edit_app(CLI::App* app, edit_app_options& options)
+ 
+     app->add_option("-a,--announce", announce_parser,
+                "Add one or multiple announces urls.\n"
+-               "Multiple trackers will be added in seperate tiers by default.\n"
++               "Multiple trackers will be added in separate tiers by default.\n"
+                "Use square brackets to groups urls in a single tier:\n"
+                "eg. \"url1 [url1 url2]\"")
+        ->type_name("<url>...")
+diff --git a/src/info.cpp b/src/info.cpp
+index 0bdae4b..8652a41 100644
+--- a/src/info.cpp
++++ b/src/info.cpp
+@@ -286,23 +286,23 @@ void format_announces(std::ostream& os, const dottorrent::metafile& metafile, co
+ 
+     std::size_t tier_index = 0;
+     auto [tier_begin, tier_end] = announce_urls.get_tier(tier_index);
+-    auto line = fmt::format(tracker_tier_entry, tier_index+1, *tier_begin++);
++    auto line = fmt::format(tracker_tier_entry, tier_index+1, (*tier_begin++).url);
+     fmt::format_to(out, fmt::runtime(options.entry_format), "Announce-urls:", line);
+ 
+     // Finish current tier
+     for ( ; tier_begin != tier_end; ++tier_begin) {
+-        line = fmt::format(tracker_entry, *tier_begin);
++        line = fmt::format(tracker_entry, (*tier_begin).url);
+         fmt::format_to(out, fmt::runtime(options.entry_continuation_format), line);
+     }
+ 
+     // Finish other tiers
+     for (tier_index += 1; tier_index < announce_urls.tier_count(); ++tier_index) {
+         auto [tier_begin, tier_end] = announce_urls.get_tier(tier_index);
+-        auto line = fmt::format(tracker_tier_entry, tier_index+1, *tier_begin++);
++        auto line = fmt::format(tracker_tier_entry, tier_index+1, (*tier_begin++).url);
+         fmt::format_to(out, fmt::runtime(options.entry_continuation_format), line);
+ 
+         for ( ; tier_begin != tier_end; ++tier_begin) {
+-            line = fmt::format(tracker_entry, *tier_begin);
++            line = fmt::format(tracker_entry, (*tier_begin).url);
+             fmt::format_to(out, fmt::runtime(options.entry_continuation_format), line);
+         }
+     }
+diff --git a/src/tracker_database.cpp b/src/tracker_database.cpp
+index eb15e90..7bde38e 100644
+--- a/src/tracker_database.cpp
++++ b/src/tracker_database.cpp
+@@ -195,9 +195,9 @@ tracker_database* load_tracker_database()
+ {
+ 
+     static std::vector<fs::path> data_dirs {
++        BUILD_DATA_DIR,
+         get_user_data_dir(),
+         GLOBAL_DATA_DIR,
+-        BUILD_DATA_DIR,
+     };
+ 
+     if (tracker_db_ptr) {
+diff --git a/tests/test_create.cpp b/tests/test_create.cpp
+index 4ba2647..b58e19e 100644
+--- a/tests/test_create.cpp
++++ b/tests/test_create.cpp
+@@ -59,7 +59,7 @@ TEST_CASE("test create app argument parsing")
+             CHECK(create_options.announce_list.at(2)==std::vector{{tracker3}});
+         }
+         SECTION("multiple tiers") {
+-            auto cmd = fmt::format("create {} --announce {} [{} {}]", file, tracker1, tracker2, tracker3);
++            auto cmd = fmt::format(R"(create {} --announce {} "[{}" "{}]")", file, tracker1, tracker2, tracker3);
+ 
+             PARSE_ARGS(cmd);
+ 
+@@ -367,13 +367,13 @@ TEST_CASE("test create app argument parsing")
+             CHECK(create_options.include_patterns.empty());
+         }
+         SECTION("single value given") {
+-            auto cmd = fmt::format("create {} --include \"{}\"", file, ".*\\.git.*");
++            auto cmd = fmt::format("create {} --include \"{}\"", file, ".*\\\\.git.*");
+             PARSE_ARGS(cmd);
+             CHECK(create_options.include_patterns.size()==1);
+             CHECK(create_options.include_patterns.at(0)==".*\\.git.*");
+         }
+         SECTION("multiple values given") {
+-            auto cmd = fmt::format(R"(create {} --include "{}" "{}" --include-hidden)", file, "*.\\.git.*", ".*test.*");
++            auto cmd = fmt::format(R"(create {} --include "{}" "{}" --include-hidden)", file, "*.\\\\.git.*", ".*test.*");
+             PARSE_ARGS(cmd);
+             CHECK(create_options.include_patterns.size()==2);
+             CHECK(create_options.include_patterns.at(0)=="*.\\.git.*");
+@@ -394,7 +394,7 @@ TEST_CASE("test create app argument parsing")
+             CHECK(create_options.exclude_patterns.at(0)=="*.git.*");
+         }
+         SECTION("multiple values given") {
+-            auto cmd = fmt::format(R"(create {} --exclude "{}" "{}" --include-hidden)", file, "*.\\.git.*", ".*test.*");
++            auto cmd = fmt::format(R"(create {} --exclude "{}" "{}" --include-hidden)", file, "*.\\\\.git.*", ".*test.*");
+             PARSE_ARGS(cmd);
+             CHECK(create_options.exclude_patterns.size()==2);
+             CHECK(create_options.exclude_patterns.at(0)=="*.\\.git.*");
+diff --git a/tests/test_edit.cpp b/tests/test_edit.cpp
+index e3b1608..60d0f31 100644
+--- a/tests/test_edit.cpp
++++ b/tests/test_edit.cpp
+@@ -67,7 +67,7 @@ TEST_CASE("test edit app argument parsing")
+             CHECK(edit_options.announce_list->at(2) == std::vector{{tracker3}});
+         }
+         SECTION("multiple tiers") {
+-            auto cmd = fmt::format("edit {} --announce {} [{} {}]", file, tracker1, tracker2, tracker3);
++            auto cmd = fmt::format(R"(edit {} --announce {} "[{}" "{}]")", file, tracker1, tracker2, tracker3);
+             PARSE_ARGS(cmd);
+ 
+             CHECK(edit_options.announce_list.has_value());
