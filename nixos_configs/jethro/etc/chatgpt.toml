@@ -27,5 +27,9 @@ models = [
   { prefix = "h ", name = "claude-3-5-haiku-latest" },
   { prefix = "35 ", name = "claude-3-5-sonnet-latest" },
   { prefix = "37 ", name = "claude-3-7-sonnet-latest" },
+
+  # custom
+  { prefix = "t ", name = "claude-3-7-sonnet-latest", system_prompt = "The user will send you some text and optionally a language name. You need to translate it into Chinese. If the user sends a single word, you should also include some expanations and usages. Note that your answer should also in Chinese." },
+  { prefix = "tf ", name = "gemini-2.0-flash-legacy-support", system_prompt = "The user will send you some text and optionally a language name. You need to translate it into Chinese. If the user sends a single word, you should also include some expanations and usages. Note that your answer should also in Chinese." },
 ]
 

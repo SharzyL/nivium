@@ -27,7 +27,7 @@
     };
 
     chatgpt-telegram-bot = {
-      url = "github:SharzyL/chatgpt-telegram-bot/master";
+      url = "github:SharzyL/chatgpt-telegram-bot/goshujin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
