@@ -27,5 +27,5 @@ update-nvfethcer:
 
 deploy-remote:
 	nsw
-	colmena --experimental-flake-eval apply --verbose --on @remote
+	colmena apply --verbose --on @remote
 
