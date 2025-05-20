@@ -121,7 +121,7 @@ in
             ne = "nix-env";
             nd = "nix develop --command fish";
             nb = "nix build --no-link --print-out-paths";
-            cola = "colmena --verbose --on";
+            cola = "colmena apply --verbose --on";
 
             p = "prevd";
 
