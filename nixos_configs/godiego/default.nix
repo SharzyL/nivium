@@ -43,8 +43,6 @@
     behindGFW = true;
     httpProxy = { port = 1094; };
 
-    dhack.enable = true;
-
     hostName = "godiego";
     graphics = {
       enable = true;
@@ -166,6 +164,7 @@
   };
 
   hardware.bluetooth.enable = true;
+  services.hardware.bolt.enable = true;
   services.blueman.enable = true;
 
   services.tlp.enable = true;
