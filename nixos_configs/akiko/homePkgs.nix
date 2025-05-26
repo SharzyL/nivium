@@ -110,6 +110,8 @@
     sharzyscripts
     music-tag
     sharzyscripts
+    csync
+    gh
 
     # tex
     python3.pkgs.pygments-extra
