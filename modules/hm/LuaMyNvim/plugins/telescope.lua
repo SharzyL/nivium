@@ -36,6 +36,15 @@ return function(vim)
     require('telescope.builtin').find_files(require('telescope.themes').get_ivy({ hidden = true }))
   end, d('telescope find_files'))
 
+  nmap('<leader>F', function()
+    require('telescope.builtin').find_files(
+      require('telescope.themes').get_ivy({
+        hidden = true,
+        no_ignore = true
+      })
+    )
+  end, d('telescope find_files (include hidden)'))
+
   nmap('<C-f>', function()
     require('telescope.builtin').live_grep(require('telescope.themes').get_ivy())
   end, d('telescope live grep'))
