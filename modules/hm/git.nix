@@ -13,6 +13,7 @@ let
       s = "status --short";
       st = "diff --stat";
       d = "diff";
+      dc = "diff --cached";
       bd = "-c delta.side-by-side=true diff";
 
       a = "add";
