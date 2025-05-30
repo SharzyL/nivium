@@ -32,7 +32,9 @@ return function(vim)
   -- indent blank line
   require('ibl').setup({})
 
-  require('Comment').setup()
+  require('Comment').setup({})
+
+  require('fidget').setup({})
 
   require('nvim-lastplace').setup({
     lastplace_ignore_buftype = { 'quickfix', 'nofile', 'help' },

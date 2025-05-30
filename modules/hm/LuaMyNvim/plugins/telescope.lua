@@ -37,12 +37,10 @@ return function(vim)
   end, d('telescope find_files'))
 
   nmap('<leader>F', function()
-    require('telescope.builtin').find_files(
-      require('telescope.themes').get_ivy({
-        hidden = true,
-        no_ignore = true
-      })
-    )
+    require('telescope.builtin').find_files(require('telescope.themes').get_ivy({
+      hidden = true,
+      no_ignore = true,
+    }))
   end, d('telescope find_files (include hidden)'))
 
   nmap('<C-f>', function()
