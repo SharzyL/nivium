@@ -155,4 +155,14 @@ in
       ln -s $out/libexec/Mathematica/Executables/wolframscript $out/bin/wolframscript
     '';
   });
+
+  tinymist = versionGuard prev.tinymist "0.13.13" prev.tinymist.overrideAttrs (oldAttrs: {
+    src = final.fetchFromGitHub {
+      owner = "Myriad-Dreamin";
+      repo = "tinymist";
+      rev = "39368da55f7f68a87ccac045486e514a185b16c7";
+      hash = "sha256-5uokMl+ZgDKVoxnQ/her/Aq6c69Gv0ngZuTDH0jcyoE=";
+    };
+    cargoHash = "";
+  });
 }
