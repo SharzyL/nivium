@@ -25,7 +25,20 @@
         mlc
         utools
       ])) || lib.hasPrefix "https://www.jetbrains.com" (pkg.meta.homepage or "")
+    || (pkg.meta.licence.shortName or "" == "firefox")
     );
+
+  # to allow firefox-bin used by dropbox
+  nixpkgs.config.allowlistedLicenses = [
+    {
+      shortName = "firefox";
+      fullName = "Firefox Terms of Use";
+      url = "https://www.mozilla.org/about/legal/terms/firefox/";
+      free = false;
+      redistributable = true;
+    }
+  ];
+
 
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {

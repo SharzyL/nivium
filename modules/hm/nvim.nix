@@ -3,6 +3,16 @@
 with lib;
 let
   cfg = config.nivium.nvim;
+  factlang = pkgs.vimUtils.buildVimPlugin {
+    name = "factlang.vim";
+    src = pkgs.fetchFromGitHub {
+      owner = "PLSysSec";
+      repo = "factlang.vim";
+      rev = "dcc43d1246ace013a0705759095ed056ed441cab";
+      hash = "sha256-bEcv7TuermxP5b2qk2wxxyt1xYU30Fk5+fAW1oEuiQI=";
+    };
+  };
+
 in
 {
   options.nivium.nvim = {
@@ -37,6 +47,8 @@ in
       vimAlias = true;
       vimdiffAlias = true;
       plugins = with pkgs.vimPlugins; [
+        factlang
+
         # operation
         smartyank-nvim
         vim-mundo # undo tree visualizer

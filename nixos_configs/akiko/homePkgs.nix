@@ -62,7 +62,7 @@
     python3Packages.afdko # Adobe Font Development Kit for OpenType
     qrcp
     grc # qrcode cp
-    mlc
+    # mlc
     p7zip
     android-tools
 
@@ -150,7 +150,7 @@
 
     # TOTALLY PROPRIETARY
     wpsoffice
-    mathematica
+    # mathematica
     utools
     zoom-us
     wemeet

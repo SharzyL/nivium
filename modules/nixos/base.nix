@@ -56,7 +56,7 @@ in
         channel.enable = false;
         settings = {
           trusted-users = mkBefore [ "root" cfg.adminUser ];
-          experimental-features = mkBefore [ "auto-allocate-uids" "cgroups" "ca-derivations" ];
+          experimental-features = mkBefore [ "auto-allocate-uids" "cgroups" "ca-derivations"];
           use-xdg-base-directories = true;
           auto-optimise-store = mkDefault true;
           builders-use-substitutes = false;
