@@ -37,6 +37,17 @@
     "electron-25.9.0"
   ];
 
+  # to allow firefox-bin used by dropbox
+  nixpkgs.config.allowlistedLicenses = [
+    {
+      shortName = "firefox";
+      fullName = "Firefox Terms of Use";
+      url = "https://www.mozilla.org/about/legal/terms/firefox/";
+      free = false;
+      redistributable = true;
+    }
+  ];
+
   # time.timeZone = "Asia/Tokyo";
 
   nivium = {

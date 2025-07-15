@@ -47,7 +47,7 @@
 
     i3 = {
       enable = true;
-      displays = [ "eDP-1" "DP-3" "HDMI-A-1" ];
+      displays = [ "eDP-1" "DP-3" "HDMI-1" ];
       wallpaper = "/home/sharzy/download/pic/wallpaper.jpg";
       extraStartup = [
         { name = "dropbox"; path = "${pkgs.dropbox}/bin/dropbox"; }
