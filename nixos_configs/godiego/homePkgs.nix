@@ -124,10 +124,10 @@
     zoom-us
 
     # ide
-    jetbrains.clion
+    # jetbrains.clion
     # jetbrains.pycharm-professional
     # jetbrains.goland
-    jetbrains.idea-ultimate
+    # jetbrains.idea-ultimate
     # jetbrains.webstorm
     vscode
 

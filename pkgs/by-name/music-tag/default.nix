@@ -8,6 +8,8 @@ python3.pkgs.buildPythonApplication {
     ./no-sanitize-year.patch
     ./raw-proxy-default.patch
   ];
+  pyproject = true;
+  build-system = [ python3.pkgs.setuptools ];
   propagatedBuildInputs = let ppkg = python3.pkgs; in [
     ppkg.mutagen
   ];
