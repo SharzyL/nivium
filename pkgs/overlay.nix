@@ -96,6 +96,7 @@ in
   #   });
   # };
   #
+
   kitty = prev.kitty.overrideAttrs (oldAttrs: {
     patches = (oldAttrs.patches or [ ]) ++ [
       ./patches/kitty-mouse.patch

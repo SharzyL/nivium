@@ -9,7 +9,7 @@
       enable = true;
       configFile = config.sops.secrets."goauthing_config".path;
     };
-    sing-box-client.enable = true;
+    # sing-box-client.enable = true;
     mihomo.enable = true;
     ddns = {
       enable = true;

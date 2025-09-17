@@ -9,8 +9,6 @@ rustPlatform.buildRustPackage {
 
   cargoHash = "sha256-JSCdMGScpeA5q6++veuQ8li3qVTuB0XdJ1yacsqgBDg=";
 
-  useFetchCargoVendor = true;
-
   meta = with lib; {
     description = "Inspect and dissect an ELF file with pretty formatting";
     homepage = "https://crates.io/crates/elf-info";

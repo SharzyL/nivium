@@ -189,8 +189,8 @@
   };
 
   services.logind = {
-    powerKey = "ignore";
-    powerKeyLongPress = "poweroff";
+    settings.Login.HandlePowerKey = "ignore";
+    settings.Login.HandlePowerKeyLongPress = "poweroff";
   };
 
   system.stateVersion = "23.05";
