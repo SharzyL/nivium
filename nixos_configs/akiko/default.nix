@@ -110,9 +110,9 @@
     };
   };
 
-  # services.xserver.displayManager.setupCommands = ''
-  #   ${pkgs.xorg.xrandr}/bin/xrandr --output DP-2 --primary --left-of DP-0
-  # '';
+  services.xserver.displayManager.setupCommands = ''
+    ${pkgs.xorg.xrandr}/bin/xrandr --output DP-2 --primary --left-of DP-0
+  '';
 
   networking.useDHCP = false; # let systemd manage it
   systemd.network = {

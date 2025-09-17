@@ -31,7 +31,7 @@
     mediainfo
     lame
     logchecker
-    torrenttools
+    # torrenttools
 
     # extra cli
     w3m
@@ -153,7 +153,7 @@
     # mathematica
     utools
     zoom-us
-    wemeet
+    # wemeet
 
     # ide
     jetbrains.clion
