@@ -243,7 +243,6 @@ in
               { class = "Pavucontrol"; }
               { window_role = "pop-up"; }
               { window_role = "task_dialog"; }
-              { class = "flameshot"; }
             ];
           colors = {
             focused = {

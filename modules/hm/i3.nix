@@ -125,7 +125,6 @@ in
             "${modifier}+Shift+c" = "reload";
             "${modifier}+Shift+r" = "restart";
 
-            "F4" = "exec ${pkgs.flameshot}/bin/flameshot gui";
             "F3" = "exec ${pkgs.scrot}/bin/scrot -u -f 'tmp/_screenshots/scrot_%Y-%m-%d__%h-%m-%s.png'";
             "${modifier}+Return" = "exec ${terminal}";
             "${modifier}+Tab" = "exec ${pkgs.rofi}/bin/rofi -show window";
@@ -169,7 +168,6 @@ in
                 { window_role = "task_dialog"; }
                 { title = "*nagbar-cmd*"; }
                 { class = "feh"; }
-                { class = "flameshot"; }
               ]
             ) ++ [
               { criteria = { class = config.nivium.defaultBrowser; }; command = "move to workspace 1"; }
@@ -242,10 +240,6 @@ in
         # to prevent tearing on fullscreen
         unredir-if-possible-exclude = "class_g = 'mpv'";
       };
-    };
-
-    services.flameshot = {
-      enable = true;
     };
 
     systemd.user.services = listToAttrs (map

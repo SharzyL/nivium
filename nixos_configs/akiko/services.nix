@@ -20,7 +20,7 @@
       configFile = "/var/lib/nivium/ddns.json";
     };
     flood.enable = true;
-    sing-box-client.enable = true;
+    # sing-box-client.enable = true;
     mihomo.enable = true;
     cloudflare-warp.enable = false; # it somehow breaks dns
     exporters = {

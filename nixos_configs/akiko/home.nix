@@ -35,6 +35,7 @@
       wallpaper = "tank/img/bg/genesis.png";
       extraStartup = [
         { name = "dropbox"; path = "${pkgs.dropbox}/bin/dropbox"; }
+        { name = "snipaste"; path = "${pkgs.snipaste}/bin/snipaste"; }
         { name = "nicotine"; path = "${pkgs.nicotine-plus}/bin/nicotine-plus"; }
       ];
       extraConfig = ''

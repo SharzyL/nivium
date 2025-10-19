@@ -8,7 +8,7 @@
     scala
     bear
     nodejs
-    yarn
+    yarn-berry
     qemu
     man-pages
     flamegraph
@@ -127,7 +127,7 @@
     # gui
     sioyek
     telegram-desktop
-    flameshot
+    snipaste
     zotero
     dropbox
     obsidian
