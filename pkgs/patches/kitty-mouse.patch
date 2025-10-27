@@ -8,14 +8,14 @@
  from gettext import ngettext
  from time import sleep
  from typing import (
-@@ -224,6 +225,7 @@ def as_text(**kw: bool) -> str:
- class DumpCommands:  # {{{
- 
-     def __init__(self, args: CLIOptions):
+@@ -374,6 +374,7 @@ def __init__(
+         global_shortcuts: dict[str, SingleKey],
+         talk_fd: int = -1,
+     ):
 +        self.drag_resize_active = False
-         self.draw_dump_buf: list[str] = []
-         if args.dump_bytes:
-             self.dump_bytes_to = open(args.dump_bytes, 'wb')
+         self.atexit = Atexit()
+         set_layout_options(opts)
+         self.clipboard = Clipboard()
 @@ -2129,6 +2131,52 @@ def switch_focus_to(self, window_id: int) -> None:
          if tab:
              tab.set_active_window(window_id)
@@ -71,11 +71,10 @@
  
 --- a/kitty/layout/base.py
 +++ b/kitty/layout/base.py
-@@ -428,3 +428,36 @@ def layout_action(self, action_name: str, args: Sequence[str], all_windows: Wind
+@@ -448,6 +448,39 @@ def layout_state(self) -> dict[str, Any]:
+     def set_layout_state(self, layout_state: dict[str, Any], map_group_id: WindowMapper) -> bool:
+         return True
  
-     def layout_state(self) -> Dict[str, Any]:
-         return {}
-+
 +    def drag_resize_target_windows(self, x: float, y: float, all_windows: WindowList) -> tuple[WindowType, WindowType]:
 +        # Identify the window where the click occurred and which horizontal and
 +        # vertical half it was in
@@ -108,7 +107,10 @@
 +            vertical_target = all_windows.id_map[neighbors["top"][0]]
 +
 +        return (horizontal_target, vertical_target)
-\ No newline at end of file
++
+     def serialize(self, all_windows: WindowList) -> dict[str, Any]:
+         ans = self.layout_state()
+         ans['opts'] = self.layout_opts.serialized()
 --- a/kitty/mouse.c
 +++ b/kitty/mouse.c
 @@ -660,6 +660,35 @@ closest_window_for_event(unsigned int *window_idx) {
@@ -135,7 +137,7 @@
 +    Tab *active_tab = global_state.callback_os_window->tabs + global_state.callback_os_window->active_tab;
 +
 +    for (unsigned int i = 0; i < active_tab->num_windows; ++i) {
-+        WindowGeometry *g = &active_tab->windows[i].geometry;
++        WindowGeometry *g = &active_tab->windows[i].render_data.geometry;
 +        if (g->left <= mouse_x && mouse_x <= g->right && g->top <= mouse_y && mouse_y <= g->bottom) {
 +            return true;
 +        }
@@ -177,7 +179,7 @@
          else { debug("%s mouse_button: %d %s", action == GLFW_RELEASE ? "\x1b[32mRelease\x1b[m" : "\x1b[31mPress\x1b[m", button, format_mods(modifiers)); }
 --- a/kitty/state.h
 +++ b/kitty/state.h
-@@ -315,7 +315,7 @@ typedef struct {
+@@ -332,7 +332,7 @@ typedef struct {
      bool has_pending_resizes, has_pending_closes;
      bool check_for_active_animated_images;
      struct { double x, y; } default_dpi;

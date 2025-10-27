@@ -146,7 +146,7 @@
   boot.kernelPackages = pkgs.linuxPackages_6_12;
 
   environment.systemPackages = [
-    config.boot.kernelPackages.perf
+    pkgs.perf
   ];
 
   sops.secrets.u2f_secret = {

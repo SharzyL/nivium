@@ -3,40 +3,42 @@
 let
   options = {
     enable = true;
-    delta.enable = lib.mkDefault true;
     lfs.enable = lib.mkDefault true;
-    userName = "SharzyL";
-    userEmail = "me@sharzy.in";
-    aliases = {
-      g = "log --graph --pretty=format:'%Cred%h%Creset - %s %Cgreen(%cr) %C(bold blue)%an%Creset %C(yellow)%d%Creset'";
-      ga = "log --graph --all --pretty=format:'%Cred%h%Creset - %s %Cgreen(%cr) %C(bold blue)%an%Creset %C(yellow)%d%Creset'";
-      s = "status --short";
-      st = "diff --stat";
-      d = "diff";
-      dc = "diff --cached";
-      bd = "-c delta.side-by-side=true diff";
+    settings = {
+      delta.enable = lib.mkDefault true;
+      user = {
+        name = "SharzyL";
+        email = "me@sharzy.in";
+      };
+      alias = {
+        g = "log --graph --pretty=format:'%Cred%h%Creset - %s %Cgreen(%cr) %C(bold blue)%an%Creset %C(yellow)%d%Creset'";
+        ga = "log --graph --all --pretty=format:'%Cred%h%Creset - %s %Cgreen(%cr) %C(bold blue)%an%Creset %C(yellow)%d%Creset'";
+        s = "status --short";
+        st = "diff --stat";
+        d = "diff";
+        dc = "diff --cached";
+        bd = "-c delta.side-by-side=true diff";
 
-      a = "add";
-      c = "commit";
-      t = "tag";
-      m = "merge";
-      l = "log";
-      sm = "submodule";
+        a = "add";
+        c = "commit";
+        t = "tag";
+        m = "merge";
+        l = "log";
+        sm = "submodule";
 
-      p = "push";
-      pu = "pull";
+        p = "push";
+        pu = "pull";
 
-      b = "branch";
-      cl = "clone";
-      co = "checkout";
+        b = "branch";
+        cl = "clone";
+        co = "checkout";
 
-      sw = "switch";
-      rb = "rebase";
-      rt = "restore";
-      rs = "reset";
-      rv = "revert";
-    };
-    extraConfig = {
+        sw = "switch";
+        rb = "rebase";
+        rt = "restore";
+        rs = "reset";
+        rv = "revert";
+      };
       commit.gpgSign = true;
       tag.gpgSign = true;
       gpg = {
