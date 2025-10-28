@@ -67,14 +67,18 @@ return function(vim, lsp_autostart)
     coq_lsp = {},
   }
 
+  vim.lsp.config('*', {
+    capabilities = require('cmp_nvim_lsp').default_capabilities(),
+    flags = { debounce_text_changes = 150 },
+  })
+
   for lsp, opts in pairs(servers) do
-    require('lspconfig')[lsp].setup({
+    vim.lsp.config(lsp, {
       settings = opts.settings,
       init_options = opts.init_options,
       cmd = opts.cmd,
-      autostart = lsp_autostart,
       single_file_support = opts.single_file_support or true,
-      root_dir = opts.root_dir or (require('lspconfig.util')).find_git_ancestor,
+      -- root_dir = opts.root_dir or (require('lspconfig.util')).find_git_ancestor,
 
       on_attach = function(client, bufnr)
         if client.server_capabilities.documentSymbolProvider then
@@ -105,12 +109,13 @@ return function(vim, lsp_autostart)
         if opts.post_attach then
           opts.post_attach(client, bufnr)
         end
-      end,
-
-      capabilities = require('cmp_nvim_lsp').default_capabilities(),
-      flags = { debounce_text_changes = 150 },
+      end
     })
+    if lsp_autostart then
+      vim.lsp.enable(lsp)
+    end
   end
+
   map('n', '<leader>li', '<Cmd>LspInfo<CR>', d('Lsp info'))
   map('n', '<leader>e', vim.diagnostic.open_float, d('diagnostic open float'))
   map('n', '[d', vim.diagnostic.goto_prev, d('diagnostic goto prev'))
