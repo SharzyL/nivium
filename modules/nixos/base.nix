@@ -194,5 +194,9 @@ in
         };
       };
     })
+
+    {
+      environment.systemPackages = [ pkgs.nixVersions.latest ];
+    }
   ];
 }

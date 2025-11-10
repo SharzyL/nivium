@@ -4,7 +4,10 @@
     nixpkgs_master.url = "nixpkgs/master";
     flake-parts.url = "flake-parts";
     flake-utils.url = "flake-utils";
-    mac-app-util.url = "github:hraban/mac-app-util";
+    mac-app-util = {
+      url = "github:hraban/mac-app-util";
+      inputs.cl-nix-lite.url = "github:r4v3n6101/cl-nix-lite/url-fix";
+    };
 
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
