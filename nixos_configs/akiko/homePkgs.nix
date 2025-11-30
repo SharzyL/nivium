@@ -18,7 +18,7 @@
     imagemagick
     pandoc
     ffmpeg
-    poppler_utils
+    poppler-utils
     syncplay
     handbrake
     calibre
@@ -150,7 +150,7 @@
 
     # TOTALLY PROPRIETARY
     wpsoffice
-    # mathematica
+    mathematica
     utools
     zoom-us
     # wemeet

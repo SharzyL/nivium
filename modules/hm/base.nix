@@ -148,6 +148,7 @@ in
       fd
       ripgrep
       bat
+      delta
 
       # dev tools
       cmake

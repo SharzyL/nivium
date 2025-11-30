@@ -6,7 +6,7 @@
       enableFishIntegration = true; # make our own fish integration
 
       keymap = {
-        manager.prepend_keymap = [
+        mgr.prepend_keymap = [
           { on = [ "g" "d" ]; run = "cd ${config.xdg.userDirs.download}"; desc = "Go to the downloads directory"; }
           { on = [ "g" "t" ]; run = "cd ~/tmp"; desc = "Go to user tmp"; }
           { on = [ "g" "T" ]; run = "cd /tmp"; desc = "Go to global tmp"; }

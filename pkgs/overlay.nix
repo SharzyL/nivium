@@ -10,11 +10,9 @@ let
   ;
 in
 {
-  colmena = inputs.colmena.defaultPackage.${final.system};
-
   imhex = prev.imhex.overrideAttrs (old: {
     cmakeFlags = old.cmakeFlags ++ [ "-DIMHEX_USE_GTK_FILE_PICKER=ON" ];
-    nativeBuildInputs = old.nativeBuildInputs ++ [ final.wrapGAppsHook ];
+    nativeBuildInputs = old.nativeBuildInputs ++ [ final.wrapGAppsHook3 ];
   });
 
   fido2luks = versionGuard prev.fido2luks "0.3.0" (prev.fido2luks.overrideAttrs (oldAttrs: rec {
@@ -74,7 +72,7 @@ in
   mpv-unwrapped = prev.mpv-unwrapped.override {
     cddaSupport = true;
     libbluray = prev.libbluray.override { withAACS = true; };
-    ffmpeg = prev.ffmpeg_6.overrideAttrs (prevAttrs: {
+    ffmpeg = prev.ffmpeg.overrideAttrs (prevAttrs: {
       configureFlags = prevAttrs.configureFlags ++ [
         "--enable-libaribcaption"
       ];
@@ -97,31 +95,12 @@ in
   # };
   #
 
-  # fcitx5-qt6 = prev.fcitx5-qt6.overrideAttrs (oldAttrs: {
-  #   patches = (oldAttrs.patches or [ ]) ++ [
-  #     # TODO: remove on next release
-  #     (final.fetchpatch2 {
-  #       url = "https://github.com/fcitx/fcitx5-qt/commit/46a07a85d191fd77a1efc39c8ed43d0cd87788d2.patch?full_index=1";
-  #       hash = "sha256-qv8Rj6YoFdMQLOB2R9LGgwCHKdhEji0Sg67W37jSIac=";
-  #     })
-  #     (final.fetchpatch2 {
-  #       url = "https://github.com/fcitx/fcitx5-qt/commit/6ac4fdd8e90ff9c25a5219e15e83740fa38c9c71.patch?full_index=1";
-  #       hash = "sha256-x0OdlIVmwVuq2TfBlgmfwaQszXLxwRFVf+gEU224uVA=";
-  #     })
-  #     (final.fetchpatch2 {
-  #       url = "https://github.com/fcitx/fcitx5-qt/commit/1d07f7e8d6a7ae8651eda658f87ab0c9df08bef4.patch?full_index=1";
-  #       hash = "sha256-22tKD7sbsTJcNqur9/Uf+XAvMvA7tzNQ9hUCMm+E+E0=";
-  #     })
-  #   ];
-  # });
-
+  # https://github.com/kovidgoyal/kitty/discussions/5959
   kitty = prev.kitty.overrideAttrs (oldAttrs: {
     patches = (oldAttrs.patches or [ ]) ++ [
       ./patches/kitty-mouse.patch
     ];
   });
-
-  fava = prev.fava.override { python3Packages = final.python3.pkgs; };
 
   vimPlugins = prev.vimPlugins.extend (vfinal: vprev: {
     # https://github.com/ahmedkhalf/project.nvim/issues/117

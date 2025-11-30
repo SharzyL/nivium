@@ -3,7 +3,7 @@
 , dpkg
 , fetchurl
 , autoPatchelfHook
-, wrapGAppsHook
+, wrapGAppsHook3
 
   # libs
 , ffmpeg
@@ -27,7 +27,7 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [
     autoPatchelfHook
-    wrapGAppsHook
+    wrapGAppsHook3
   ];
 
   buildInputs = [

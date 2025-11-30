@@ -19,7 +19,7 @@
     imagemagick
     pandoc
     ffmpeg
-    poppler_utils
+    poppler-utils
 
     # extra cli
     w3m
