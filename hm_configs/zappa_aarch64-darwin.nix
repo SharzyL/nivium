@@ -26,30 +26,19 @@
     '';
   };
 
+  programs.git.settings.user.signingKey = "~/.ssh/id_ed25519";
+
   home.packages = with pkgs; [
-    # sing-box
-    # rclone
     sshfs
     goauthing
-    # python-ddns
     nix-output-monitor
 
-    # alacritty
-
-    # tailscale
-    # colmena
-
-    # tex
-    # python3.pkgs.pygments
-    # latexrun
-    # zathura
-    # (texlive.combine {
-    #   inherit (texlive) scheme-full;
-    # })
-
-    openssh
     typst
     tinymist
+    mpv
+    gh
+    nali
+    tinyproxy
   ];
 }
 

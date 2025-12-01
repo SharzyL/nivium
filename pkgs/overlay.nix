@@ -75,7 +75,7 @@ in
 
   mpv-unwrapped = prev.mpv-unwrapped.override {
     cddaSupport = true;
-    libbluray = prev.libbluray.override { withAACS = true; };
+    libbluray = prev.libbluray;
     ffmpeg = prev.ffmpeg.overrideAttrs (prevAttrs: {
       configureFlags = prevAttrs.configureFlags ++ [
         "--enable-libaribcaption"
@@ -107,13 +107,6 @@ in
   });
 
   vimPlugins = prev.vimPlugins.extend (vfinal: vprev: {
-    # https://github.com/ahmedkhalf/project.nvim/issues/117
-    project-nvim = vprev.project-nvim.overrideAttrs (oldAttrs: {
-      patches = (oldAttrs.patches or [ ]) ++ [
-        ./patches/project-nvim-glob.patch
-      ];
-    });
-
     nvim-cmp = vprev.nvim-cmp.overrideAttrs (oldAttrs: {
       # https://github.com/hrsh7th/nvim-cmp/issues/1877
       src = final.fetchFromGitHub {
@@ -139,6 +132,31 @@ in
         hash = "sha256-BYTY2ezYuxsneAl/yQbwL1aQvVWKSsN3IVqzTlrBSEU=";
       };
     });
+
+    # https://github.com/NixOS/nixpkgs/issues/464899
+    nvim-spectre = vprev.nvim-spectre.overrideAttrs (oldAttrs:
+      let
+        spectre_oxi =
+          if final.stdenv.targetPlatform.isDarwin then
+            oldAttrs.passthru.spectre_oxi.overrideAttrs
+              (sOldAttrs: {
+                # workaround for https://github.com/nvim-pack/nvim-spectre/issues/185
+                env.RUSTFLAGS = final.lib.concatStringsSep " " [
+                  sOldAttrs.env.RUSTFLAGS
+                  "-C"
+                  "link-arg=-undefined"
+                  "-C"
+                  "link-arg=dynamic_lookup"
+                ];
+              }) else oldAttrs.passthru.spectre_oxi;
+      in
+      {
+        postInstall = ''
+          ln -s ${spectre_oxi}/lib/libspectre_oxi.* $out/lua/spectre_oxi.so
+        '';
+        passthru = { inherit spectre_oxi; };
+      });
+
   });
 
   mathematica = (prev.mathematica.override rec {
