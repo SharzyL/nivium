@@ -5,7 +5,6 @@ keys:
     - &akiko    age13elz7mxhqn7vpmskfltle4tg0skk6jxaa9dzlyc8efpmfcde79pq35el55
     - &godiego  age19tcmxpm3k32wn0m4tqq5ae5d6srmewrhvugd9jsucw6jty69ncyqkvwtms
     - &jethro   age1k2u5ygvyxus5wd53yk3434q02m3r6l2jc7q36x8qae5tx55049eq0l5sd8
-    - &holland  age109ryzazqyxe6l7nd2kznncce8kkkevswl9um8w4sjd3za6em9y3sxfumh6
   pgp:
     - &gpg      115AB673F93A781A1501E71B7F6354E5A6AAADDF
 
@@ -20,7 +19,6 @@ creation_rules:
         - *akiko
         - *godiego
         - *jethro
-        - *holland
 
         # cover-all keys
         - *ssh
@@ -53,13 +51,6 @@ creation_rules:
     key_groups:
       - age:
         - *jethro
-        - *ssh
-        pgp: [ *gpg ]
-
-  - path_regex: secrets/holland.yaml$
-    key_groups:
-      - age:
-        - *holland
         - *ssh
         pgp: [ *gpg ]
 

@@ -62,10 +62,8 @@
     attic-client
 
     # networking cli
-    v2ray
     wireguard-tools
     mtr
-    shadowsocks-libev
     iproute2
     iptables
     nmap

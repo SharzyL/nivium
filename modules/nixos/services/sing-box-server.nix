@@ -1,6 +1,5 @@
 { config, lib, pkgs, utils, ... }:
 
-with lib;
 let
   cfg = config.nivium.services.sing-box-server;
   sbCfg = config.services.sing-box;
@@ -21,10 +20,10 @@ let
     + "\n"
     + "${pkgs.jq}/bin/jq > ${output} "
     + lib.escapeShellArg (stringOrDefault
-      (concatStringsSep
+      (lib.concatStringsSep
         " | "
-        (imap1 (index: name: ''${name} = $ENV.${secrets.${name}}'')
-          (attrNames secrets)))
+        (lib.imap1 (index: name: ''${name} = $ENV.${secrets.${name}}'')
+          (lib.attrNames secrets)))
       ".")
     + ''
        <<'EOF'
@@ -35,7 +34,7 @@ let
   genJqSecretsEnvReplacementSnippet = genJqSecretsEnvReplacementSnippet' "_secret_from_env";
 in
 {
-  options.nivium.services.sing-box-server = {
+  options.nivium.services.sing-box-server = with lib; {
     enable = mkEnableOption "sing-box server";
     host = mkOption { type = types.str; };
     port = mkOption { type = types.port; default = 7853; };
@@ -52,7 +51,7 @@ in
     envFile = mkOption { type = types.nullOr types.path; default = null; };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     security.acme.certs.${cfg.host} = { };
 
     services.sing-box = {
@@ -90,15 +89,14 @@ in
       extraAF = [ "AF_NETLINK" ];
     };
     systemd.services.sing-box = {
-      preStart = lib.mkForce ''
-        umask 0077
-        mkdir -p /etc/sing-box
-        ${genJqSecretsEnvReplacementSnippet sbCfg.settings "\${RUNTIME_DIRECTORY}/config.json"}
-      '';
-
       serviceConfig = {
         SupplementaryGroups = [ "acme" ];
         EnvironmentFile = cfg.envFile;
+        ExecStartPre = lib.mkForce (pkgs.writeShellScript "sing-box-pre-start" ''
+          umask 0077
+          mkdir -p /etc/sing-box
+          ${genJqSecretsEnvReplacementSnippet sbCfg.settings "\${RUNTIME_DIRECTORY}/config.json"}
+        '');
       };
     };
   };

@@ -40,15 +40,6 @@ inputs.colmena.lib.makeHive {
     imports = [ ./jethro ];
   };
 
-  holland = { ... }: {
-    nixpkgs.system = "x86_64-linux";
-    deployment = {
-      targetHost = "holland";
-      tags = [ "remote" ];
-    };
-    imports = [ ./holland ];
-  };
-
   sunra = { ... }: {
     nixpkgs.system = "aarch64-linux";
     deployment = {

@@ -126,9 +126,6 @@
         (makeNodeScrape "akiko.smart" "akiko:9101")
         (makeNodeScrape "akiko.ping" "akiko:9102")
 
-        (makeNodeScrape "holland" "holland:9100")
-        (makeNodeScrape "holland.ping" "holland:9102")
-
         (makeNodeScrape "sunra" "sunra:9100")
         (makeNodeScrape "sunra.ping" "sunra:9102")
       ];

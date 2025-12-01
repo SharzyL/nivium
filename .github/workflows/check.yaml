@@ -2,9 +2,9 @@ name: Nix Check
 
 on:
   push:
-    branches: [ goshujin ]
+    branches: [goshujin]
   pull_request:
-    branches: [ goshujin ]
+    branches: [goshujin]
 
 jobs:
   nix-build:
@@ -19,5 +19,3 @@ jobs:
 
       - name: Run flake check
         run: NIXPKGS_ALLOW_UNFREE=1 nix flake check --impure
-
-

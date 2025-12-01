@@ -8,7 +8,7 @@ in
   options.nivium.services.HentaiAtHome = {
     enable = mkEnableOption "enable HentaiAtHome";
     port = mkOption { type = lib.types.port; };
-    package = mkPackageOption pkgs "HentaiAtHome" { };
+    package = mkPackageOption pkgs "hentai-at-home" { };
     clientLogin = mkOption { type = lib.types.path; description = "a $clientID-$clientKey format file"; };
   };
 

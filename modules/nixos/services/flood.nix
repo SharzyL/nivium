@@ -22,7 +22,7 @@ in
 
     systemd.services.flood = {
       description = "modern web UI for torrent";
-      after = [ "network.target" "transmission.service" ];
+      after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
       path = [ pkgs.mediainfo ];
       serviceConfig = {

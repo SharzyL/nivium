@@ -30,7 +30,6 @@ in
         port = 9102;
         hosts = [
           "jethro"
-          "holland"
           "oomori.d.shz.al"
         ];
       };

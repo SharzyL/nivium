@@ -9,11 +9,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1747657793,
-        "narHash": "sha256-okBxodO2KOF8t0ULxG2/ztVz3uth50/JB+bnlX/aLcE=",
+        "lastModified": 1764562989,
+        "narHash": "sha256-AzVY+OpegfDsc9iutsXF4s3p2nsnybNcBWB6nHYEny0=",
         "owner": "SharzyL",
         "repo": "chatgpt-telegram-bot",
-        "rev": "e724942bbb7b2a98e8f60be311cfaaa159653c39",
+        "rev": "942def88151b8e61b2519ef29d13a914ac1f50b7",
         "type": "github"
       },
       "original": {
