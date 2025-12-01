@@ -109,7 +109,7 @@ return function(vim, lsp_autostart)
         if opts.post_attach then
           opts.post_attach(client, bufnr)
         end
-      end
+      end,
     })
     if lsp_autostart then
       vim.lsp.enable(lsp)

@@ -76,7 +76,7 @@
 
         perSystem = { system, pkgs, ... }: {
           _module.args.pkgs = import inputs.nixpkgs {
-            inherit system;
+            localSystem = system;
             overlays = [ overlay ];
 
             # to make `nix flake check` happy

@@ -1,6 +1,5 @@
 { config, pkgs, lib, ... }:
 
-with lib;
 let
   cfg = config.nivium.nvim;
   factlang = pkgs.vimUtils.buildVimPlugin {
@@ -13,16 +12,25 @@ let
     };
   };
 
+  tree-sitter-cpp-latest = pkgs.tree-sitter-grammars.tree-sitter-cpp.overrideAttrs (oldAttrs: {
+    src = pkgs.fetchFromGitHub {
+      owner = "tree-sitter";
+      repo = "tree-sitter-cpp";
+      rev = "12bd6f7e96080d2e70ec51d4068f2f66120dde35";
+      hash = "sha256-vmXTv6Idf0Le5ZVa8Rc1DVefqzUxkGeLGsYcSDNBpQU=";
+    };
+  });
+
 in
 {
-  options.nivium.nvim = {
+  options.nivium.nvim = with lib; {
     enable = mkOption { type = types.bool; default = config.nivium.profile != "bare"; };
     lspPackages = mkOption { type = types.bool; default = config.nivium.profile == "full"; };
     extraLuaConfig = mkOption { type = types.lines; default = ""; };
   };
 
-  config = mkIf cfg.enable {
-    home.packages = mkIf cfg.lspPackages (with pkgs; [
+  config = lib.mkIf cfg.enable {
+    home.packages = lib.mkIf cfg.lspPackages (with pkgs; [
       lua-language-server
       nodePackages.vscode-json-languageserver
       nodePackages.typescript-language-server
@@ -116,7 +124,7 @@ in
             tree-sitter-lua
             tree-sitter-rust
             tree-sitter-go
-            tree-sitter-cpp
+            tree-sitter-cpp-latest
             tree-sitter-bash
             tree-sitter-fish
             tree-sitter-vimdoc # nvim bundled parser conflicts with treesitter

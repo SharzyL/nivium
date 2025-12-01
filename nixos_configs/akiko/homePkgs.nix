@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   home.packages = with pkgs; [
@@ -58,7 +58,7 @@
     elf-info
     restic
     parallel
-    (pkgs.lowPrio moreutils)
+    (lib.lowPrio moreutils)
     python3Packages.afdko # Adobe Font Development Kit for OpenType
     qrcp
     grc # qrcode cp

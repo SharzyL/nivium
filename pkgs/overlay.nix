@@ -2,7 +2,11 @@
 
 final: prev:
 let
-  nixpkgs_master = (import inputs.nixpkgs_master { system = final.system; config.allowUnfree = true; });
+  nixpkgs_master = (import inputs.nixpkgs_master {
+    system = final.stdenv.hostPlatform.system;
+    config.allowUnfree = true;
+  });
+
   versionGuard = pkg: version: drv: assert final.lib.assertMsg
     (!(final.lib.versionAtLeast pkg.version version))
     "expect '${pkg.pname}' version less than ${version}, get ${pkg.version}";

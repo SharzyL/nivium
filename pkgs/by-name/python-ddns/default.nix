@@ -1,8 +1,8 @@
 { python3Packages, lib, srcs }:
 
-python3Packages.buildPythonApplication rec {
+python3Packages.buildPythonApplication {
   inherit (srcs.python-ddns) pname version src;
-  env.TRAVIS_TAG = version;
+
   pyproject = true;
   build-system = [ python3Packages.setuptools ];
 

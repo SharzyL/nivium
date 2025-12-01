@@ -1,11 +1,15 @@
 { lib, ... }:
 
-let
-  options = {
+{
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+  };
+
+  programs.git = {
     enable = true;
     lfs.enable = lib.mkDefault true;
     settings = {
-      delta.enable = lib.mkDefault true;
       user = {
         name = "SharzyL";
         email = "me@sharzy.in";
@@ -66,7 +70,4 @@ let
       merge.conflictStyle = "diff3";
     };
   };
-in
-{
-  programs.git = options;
 }

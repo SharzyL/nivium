@@ -50,7 +50,7 @@ php.buildComposerProject (finalAttrs: {
 
   composerStrictValidation = false;
 
-  vendorHash = "sha256-qfZ1CFfwlB0JFJ0qcYBDjuDynLicKjp3waIYQQ4y5AE=";
+  vendorHash = "sha256-81hT5YQvdKmPrx6rSNaxmDKNL47ka5R/axUZepKdAf0=";
 
   passthru = { inherit eac_logchecker; };
 

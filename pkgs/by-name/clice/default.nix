@@ -3,12 +3,17 @@
 , stdenv
 , cmake
 , ninja
+, libuv
+, spdlog
+, tomlplusplus
+, flatbuffers
+, croaring
 }:
 
 stdenv.mkDerivation rec {
   pname = "clice";
   version = "0.1.0-alpha.3";
-  pyproject = true;
+  strictDeps = true;
 
   src = fetchFromGitHub {
     owner = "clice-io";
@@ -17,9 +22,17 @@ stdenv.mkDerivation rec {
     hash = "sha256-mMbTZfrm0vOH/6F6uf9k5fu8rvf096oE0IDJ3MKCR2g=";
   };
 
-  buildInputs = [
+  nativeBuildInputs = [
     cmake
     ninja
+  ];
+
+  buildInputs = [
+    libuv
+    spdlog
+    tomlplusplus
+    flatbuffers
+    croaring
   ];
 
   meta = {

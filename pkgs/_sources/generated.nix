@@ -85,21 +85,21 @@
   };
   geoip-cn = {
     pname = "geoip-cn";
-    version = "9628983119056064b70ef946b2d31795503a1252";
+    version = "d952eade17c0f650a873a06bdd21e4bd55f48c03";
     src = fetchurl {
-      url = "https://raw.githubusercontent.com/SagerNet/sing-geoip/9628983119056064b70ef946b2d31795503a1252/geoip-cn.srs";
-      sha256 = "sha256-lu01BxF+a5BKxYdsNLtd8XEW6zLCxEOwL9HNZZ4KNSc=";
+      url = "https://raw.githubusercontent.com/SagerNet/sing-geoip/d952eade17c0f650a873a06bdd21e4bd55f48c03/geoip-cn.srs";
+      sha256 = "sha256-VekcRHL0TGCbAME9dw4m+srC+YTLd+wFElQ4S6cL4Fo=";
     };
-    date = "2025-04-12";
+    date = "2025-11-12";
   };
   geosite-cn = {
     pname = "geosite-cn";
-    version = "ce7f637d93135bc479767c20c6fbf38f025e5963";
+    version = "9e58747c0e73e9227cf5e82083056430ffe33f13";
     src = fetchurl {
-      url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/ce7f637d93135bc479767c20c6fbf38f025e5963/geosite-cn.srs";
-      sha256 = "sha256-oHPy2FBD1iO8GNm5gpAjkp2C5gS2uFvZAAeDdGFGpgc=";
+      url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/9e58747c0e73e9227cf5e82083056430ffe33f13/geosite-cn.srs";
+      sha256 = "sha256-8yI5MeapBJF05K3acxnMGCLrCHuLuyhu4sMLNkRO31Q=";
     };
-    date = "2025-04-08";
+    date = "2025-12-01";
   };
   goauthing = {
     pname = "goauthing";
@@ -136,13 +136,13 @@
   };
   logchecker = {
     pname = "logchecker";
-    version = "0.14.0";
+    version = "0.14.2";
     src = fetchFromGitHub {
       owner = "OPSnet";
       repo = "Logchecker";
-      rev = "0.14.0";
+      rev = "0.14.2";
       fetchSubmodules = false;
-      sha256 = "sha256-LirtDmR1/eVonXjyhbGluRiOPqo+I8tH8rjmFKYhbVM=";
+      sha256 = "sha256-uli4H4FXHZ6x0ei/9k+X1oTQ7BsPkn591eLVcoNC0Kc=";
     };
   };
   music-tag = {
@@ -163,15 +163,15 @@
   };
   pb = {
     pname = "pb";
-    version = "2e26036844a58c38beff00733061bfe55fb176b8";
+    version = "c442d766fb867dba38eacd8bc7c39e3769079714";
     src = fetchFromGitHub {
       owner = "SharzyL";
       repo = "pastebin-worker";
-      rev = "2e26036844a58c38beff00733061bfe55fb176b8";
+      rev = "c442d766fb867dba38eacd8bc7c39e3769079714";
       fetchSubmodules = false;
-      sha256 = "sha256-LsDssDJZqxtzPi1stAF0jd9u6QrnCvBkCOI3i8oO9a8=";
+      sha256 = "sha256-zusiZx2AcOlstAQmfI/ZugL22tznur+dSM4LMeaQwcE=";
     };
-    date = "2024-12-22";
+    date = "2025-09-22";
   };
   pprp = {
     pname = "pprp";
@@ -183,25 +183,11 @@
   };
   python-ddns = {
     pname = "python-ddns";
-    version = "3.1.5";
+    version = "4.1.3";
     src = fetchurl {
-      url = "https://pypi.org/packages/source/d/ddns/ddns-3.1.5.tar.gz";
-      sha256 = "sha256-A5waWuTsC/YNLaN3fCzhw1V7MZI+uepSbdW+NR8OA84=";
+      url = "https://pypi.org/packages/source/d/ddns/ddns-4.1.3.tar.gz";
+      sha256 = "sha256-jf+sIID5HvR8u7M91gBTC1YW1nnYZII5vPdYsyucOTg=";
     };
-  };
-  rait = {
-    pname = "rait";
-    version = "278188c8bae13165aa70b6a2fbbb99101fd6f4cd";
-    src = fetchgit {
-      url = "https://gitlab.com/NickCao/RAIT";
-      rev = "278188c8bae13165aa70b6a2fbbb99101fd6f4cd";
-      fetchSubmodules = false;
-      deepClone = false;
-      leaveDotGit = false;
-      sparseCheckout = [ ];
-      sha256 = "sha256-6Y0s5/HUmWrZA6QmV5wYjB1M0Ab/jHM3TSruRpMRwtA=";
-    };
-    date = "2022-10-07";
   };
   rime-dict = {
     pname = "rime-dict";
@@ -217,63 +203,63 @@
   };
   rime-double-pinyin = {
     pname = "rime-double-pinyin";
-    version = "69bf85d4dfe8bac139c36abbd68d530b8b6622ea";
+    version = "01a13287cbd27819be1c34fa1ddc1b3643d5001b";
     src = fetchFromGitHub {
       owner = "rime";
       repo = "rime-double-pinyin";
-      rev = "69bf85d4dfe8bac139c36abbd68d530b8b6622ea";
+      rev = "01a13287cbd27819be1c34fa1ddc1b3643d5001b";
       fetchSubmodules = false;
-      sha256 = "sha256-UyVzp0TMq7yq5pXQpy7xkPnc1+RF8oVdIXzvrYqLfCQ=";
+      sha256 = "sha256-iHaGHKwmhyciU6zKJRLyRETRR15QSHZ7ML1l4iAV6eM=";
     };
-    date = "2019-01-20";
+    date = "2025-09-24";
   };
   rime-essay = {
     pname = "rime-essay";
-    version = "573bbeb53e53d4331fff5fae151b814c67b8d0cd";
+    version = "e0160b8ef723a423e84ee52b53614ac3382f6d16";
     src = fetchFromGitHub {
       owner = "rime";
       repo = "rime-essay";
-      rev = "573bbeb53e53d4331fff5fae151b814c67b8d0cd";
+      rev = "e0160b8ef723a423e84ee52b53614ac3382f6d16";
       fetchSubmodules = false;
-      sha256 = "sha256-41wZiPH0cAhl3yTCdyx1zLR3OoSxv+GHQ3xvm14mNxc=";
+      sha256 = "sha256-3MQx1ctwMVN5fMnAK9XLrRh4wUqD/g+TflE5YOVGQKQ=";
     };
-    date = "2025-04-07";
+    date = "2025-11-03";
   };
   rime-ice = {
     pname = "rime-ice";
-    version = "51777daedbe4783c3b79f0246d775e4b6d978cbc";
+    version = "c5e8cca497dc44a4e4540cf2a95043aa0151a40e";
     src = fetchFromGitHub {
       owner = "iDvel";
       repo = "rime-ice";
-      rev = "51777daedbe4783c3b79f0246d775e4b6d978cbc";
+      rev = "c5e8cca497dc44a4e4540cf2a95043aa0151a40e";
       fetchSubmodules = false;
-      sha256 = "sha256-cFaFgChhpgEiJw+dHl3Hr3T2UQF+Vy6u36JWY+cYBNo=";
+      sha256 = "sha256-6HvbKAqk5ihNnk0abN45fZ5DQG80AwNodXvC030r6Mo=";
     };
-    date = "2025-04-06";
+    date = "2025-11-28";
   };
   rime-luna-pinyin = {
     pname = "rime-luna-pinyin";
-    version = "781ba525b1e2819170a85f98b0047f5b7450868f";
+    version = "a53cdf4fd6141cd3a5c2006ae882311e5132fca0";
     src = fetchFromGitHub {
       owner = "rime";
       repo = "rime-luna-pinyin";
-      rev = "781ba525b1e2819170a85f98b0047f5b7450868f";
+      rev = "a53cdf4fd6141cd3a5c2006ae882311e5132fca0";
       fetchSubmodules = false;
-      sha256 = "sha256-8Zho6o3C7CTeMjVBY79M8qVvC+qsWaLCN2uYVqe5UZg=";
+      sha256 = "sha256-rUcpxqmk30v19/woj3eKkiYHjnObfdnS6uqlknfRK8c=";
     };
-    date = "2025-04-12";
+    date = "2025-11-13";
   };
   rime-prelude = {
     pname = "rime-prelude";
-    version = "23d4ade2371862ecb51df4699dc51f7389b1ae08";
+    version = "3c602fdb0dcca7825103e281efc50ef7580f99ec";
     src = fetchFromGitHub {
       owner = "rime";
       repo = "rime-prelude";
-      rev = "23d4ade2371862ecb51df4699dc51f7389b1ae08";
+      rev = "3c602fdb0dcca7825103e281efc50ef7580f99ec";
       fetchSubmodules = false;
-      sha256 = "sha256-oz+i1Sy33ItPmhoSVaNz/tZQBHD2ZRaqm4Mz4mA1l6k=";
+      sha256 = "sha256-R9sxeCe1e2A3pn//iGwRr3eTTpgxprjEEjlo15/O19c=";
     };
-    date = "2025-04-09";
+    date = "2025-04-20";
   };
   rssbot = {
     pname = "rssbot";
@@ -329,15 +315,15 @@
   };
   vim-barbaric = {
     pname = "vim-barbaric";
-    version = "bb4bef87417fc3ad92319f556f02d6658b401288";
+    version = "0cacaf7125188cacd61be8dc04c9352d0605f3af";
     src = fetchFromGitHub {
       owner = "rlue";
       repo = "vim-barbaric";
-      rev = "bb4bef87417fc3ad92319f556f02d6658b401288";
+      rev = "0cacaf7125188cacd61be8dc04c9352d0605f3af";
       fetchSubmodules = false;
-      sha256 = "sha256-d1sH4FTxuXxC9/9ZHcX/xOvWkGmW3DN0DSXK+POdi/Q=";
+      sha256 = "sha256-rn8YXzI60vFHC0fU0kMrIeAyuE+UsSG0gGK2gbqht8Q=";
     };
-    date = "2021-05-19";
+    date = "2025-06-13";
   };
   wemeet = {
     pname = "wemeet";

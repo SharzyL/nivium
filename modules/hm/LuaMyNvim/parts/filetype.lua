@@ -15,7 +15,7 @@ return function(vim)
   vim.api.nvim_create_autocmd({ 'FileType' }, {
     pattern = { 'rust', 'c', 'cpp', 'nix' },
     callback = function()
-      vim.opt_local.textwidth = 80
+      -- vim.opt_local.textwidth = 80
     end,
   })
 
