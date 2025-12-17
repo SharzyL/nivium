@@ -91,21 +91,18 @@ return function(vim, lsp_autostart)
         -- See `:help vim.lsp.*` for documentation on any of the below functions
         map('n', 'gD', vim.lsp.buf.declaration, { buffer = bufnr, desc = 'lsp declaration' })
         map('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr, desc = 'lsp definition' })
-        map('n', 'K', vim.lsp.buf.hover, { buffer = bufnr, desc = 'lsp hover' })
         map('n', 'gi', vim.lsp.buf.implementation, { buffer = bufnr, desc = 'lsp impl' })
-        map('n', '<leader>ls', vim.lsp.buf.signature_help, { buffer = bufnr, desc = 'lsp signature help' })
-        map('n', '<leader>la', vim.lsp.buf.add_workspace_folder, { buffer = bufnr, desc = 'lsp add ws folder' })
-        map('n', '<leader>lr', vim.lsp.buf.remove_workspace_folder, { buffer = bufnr, desc = 'lsp remove ws folder' })
-        map('n', '<leader>ll', function()
-          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-        end, { buffer = bufnr, desc = 'lsp list ws folders' })
-        map('n', '<leader>ld', vim.lsp.buf.type_definition, { buffer = bufnr, desc = 'lsp type definition' })
-        map('n', '<leader>lr', vim.lsp.buf.rename, { buffer = bufnr, desc = 'lsp renamer' })
-        map('n', '<leader>la', vim.lsp.buf.code_action, { buffer = bufnr, desc = 'lsp code action' })
-        map('n', 'gr', vim.lsp.buf.references, { buffer = bufnr, desc = 'lsp references' })
         map('n', '<leader>lf', function()
           vim.lsp.buf.format({ async = true })
-        end, { buffer = bufnr, desc = 'lsp format' })
+        end, { buffer = bufnr, desc = 'lsp format document' })
+        -- default maps:
+        -- gra: code_action
+        -- gri: implementation
+        -- grn: rename
+        -- grr: references
+        -- grt: type definition
+        -- gO document symbol
+
         if opts.post_attach then
           opts.post_attach(client, bufnr)
         end
@@ -116,7 +113,6 @@ return function(vim, lsp_autostart)
     end
   end
 
-  map('n', '<leader>li', '<Cmd>LspInfo<CR>', d('Lsp info'))
   map('n', '<leader>e', vim.diagnostic.open_float, d('diagnostic open float'))
   map('n', '[d', vim.diagnostic.goto_prev, d('diagnostic goto prev'))
   map('n', ']d', vim.diagnostic.goto_next, d('diagnostic goto next'))
