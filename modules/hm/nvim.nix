@@ -41,7 +41,7 @@ in
       rust-analyzer
       pyright
       ruff # python linter
-      clang-tools
+      clang-tools-hotfix
       beancount-language-server
       tinymist
       nixpkgs-fmt

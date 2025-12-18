@@ -61,7 +61,6 @@
     (lib.lowPrio moreutils)
     python3Packages.afdko # Adobe Font Development Kit for OpenType
     qrcp
-    grc # qrcode cp
     # mlc
     p7zip
     android-tools
@@ -135,13 +134,11 @@
     feh
     anki
     thunderbird
-    meld
     parsec-bin
     chromium
     imhex
-    gtkwave
-    remmina
     nicotine-plus
+    blender
 
     # design
     gimp

@@ -1,5 +1,6 @@
 { lib
 , fetchFromGitHub
+, runCommand
 , stdenv
 , cmake
 , ninja
@@ -8,31 +9,78 @@
 , tomlplusplus
 , flatbuffers
 , croaring
+, llvmPackages
+, python3
+, cpptrace
 }:
 
-stdenv.mkDerivation rec {
-  pname = "clice";
-  version = "0.1.0-alpha.3";
-  strictDeps = true;
-
+let
+  version = "unstable-2025-12-18";
   src = fetchFromGitHub {
     owner = "clice-io";
     repo = "clice";
-    rev = "v${version}";
-    hash = "sha256-mMbTZfrm0vOH/6F6uf9k5fu8rvf096oE0IDJ3MKCR2g=";
+    rev = "b8da7e79db199c3dca2502d082a42d8af0b55a9d";
+    hash = "sha256-yTkp2QpNCrrhU9meiUnBJO7h/x2x5v0Tw/gwD2u0k6g=";
   };
+
+  clice-llvm = runCommand (llvmPackages.llvm.name) { } ''
+    cp ${llvmPackages.llvm.dev} -rT $out
+    chmod -R +w $out
+
+    cp ${llvmPackages.libclang.dev}/include -rT $out/include
+    chmod -R +w $out
+
+    mkdir -p $out/include/clang/Sema
+    cp ${llvmPackages.llvm.monorepoSrc}/clang/lib/Sema/{CoroutineStmtBuilder.h,TypeLocBuilder.h,TreeTransform.h} \
+      $out/include/clang/Sema
+
+    mkdir -p $out/lib/clang
+  '';
+
+  libuv-cmake = stdenv.mkDerivation {
+    inherit (libuv) pname version src buildInputs;
+    nativeBuildInputs = [
+      cmake
+      ninja
+    ];
+  };
+
+  clice-spdlog = spdlog.overrideAttrs (oldAttrs: {
+    cmakeFlags = (oldAttrs.cmakeFlags or []) ++ [
+      "-DSPDLOG_USE_STD_FORMAT=ON"
+      "-DSPDLOG_NO_EXCEPTIONS=ON"
+      "-DSPDLOG_FMT_EXTERNAL=OFF"
+    ];
+    doCheck = false;
+  });
+
+in
+stdenv.mkDerivation {
+  pname = "clice";
+  strictDeps = true;
+  inherit version src;
 
   nativeBuildInputs = [
     cmake
     ninja
+    python3
+    flatbuffers
   ];
 
+  passthru = { inherit clice-llvm libuv-cmake cpptrace; };
+
   buildInputs = [
-    libuv
-    spdlog
+    clice-llvm
+    libuv-cmake
+    cpptrace
+    clice-spdlog
     tomlplusplus
-    flatbuffers
     croaring
+    flatbuffers
+  ];
+
+  cmakeFlags = [
+    "-DLLVM_INSTALL_PATH=${clice-llvm}"
   ];
 
   meta = {

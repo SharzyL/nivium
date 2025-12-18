@@ -17,6 +17,8 @@ final: prev:
 
   torrenttools = final.callPackage ./in-overlay/torrenttools { };
 
+  clang-tools-hotfix = final.llvmPackages.callPackage ./in-overlay/clang-tools { };
+
   # other self-packaged packages
   LuaMyNvim = final.callPackage ../modules/hm/LuaMyNvim { };
   python3 = prev.python3.override {
