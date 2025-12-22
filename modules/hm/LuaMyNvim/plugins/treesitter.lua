@@ -8,7 +8,4 @@ return function(vim)
 
   vim.opt.foldmethod = 'expr'
   vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
-
-  -- workaround for @comment @spell priority issue
-  vim.api.nvim_set_hl(0, '@spell', { link = '@comment' })
 end

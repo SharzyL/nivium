@@ -92,7 +92,7 @@ return function(vim, lsp_autostart)
         map('n', 'gD', vim.lsp.buf.declaration, { buffer = bufnr, desc = 'lsp declaration' })
         map('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr, desc = 'lsp definition' })
         map('n', 'gi', vim.lsp.buf.implementation, { buffer = bufnr, desc = 'lsp impl' })
-        map('n', '<leader>lf', function()
+        map('n', 'grl', function()
           vim.lsp.buf.format({ async = true })
         end, { buffer = bufnr, desc = 'lsp format document' })
         -- default maps:

@@ -53,6 +53,8 @@
     };
   };
 
+  programs.obs-studio.enable = true;
+
   programs.fish = {
     functions = {
       "sdoc" = ''
