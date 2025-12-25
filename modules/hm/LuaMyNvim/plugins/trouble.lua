@@ -3,7 +3,7 @@ return function(vim)
   local d = utils.d
   local map = utils.map
 
-  require('trouble').setup({ icons = false })
+  require('trouble').setup({})
   map('n', '<leader>xx', function()
     require('trouble').toggle()
   end, d('trouble toggle'))
@@ -30,9 +30,9 @@ return function(vim)
 
   map('n', '[x', function()
     require('trouble').previous({ skip_groups = true, jump = true })
-  end, d('trouble previous diagnostic'))
+  end, d('Next trouble'))
 
   map('n', ']x', function()
     require('trouble').next({ skip_groups = true, jump = true })
-  end, d('trouble next diagnostic'))
+  end, d('Previous trouble'))
 end

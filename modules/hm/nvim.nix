@@ -46,7 +46,7 @@ in
       tinymist
       nixpkgs-fmt
       efm-langserver
-      # coqPackages.coq-lsp
+      coqPackages.coq-lsp
     ]);
 
     programs.neovim = {
@@ -65,7 +65,6 @@ in
         vim-matchup
         nvim-autopairs
         comment-nvim
-        nvim-bqf # better quickfix
         trouble-nvim # diagnostic window
         vim-exchange
         vim-argumentative
@@ -80,7 +79,6 @@ in
         telescope-nvim
         nvim-navic # breadcrumb
         nvim-navbuddy # code outline
-        nvim-bqf # better quickfix
         trouble-nvim # diagnostic window
         noice-nvim # replace messages, cmdline and popups
 

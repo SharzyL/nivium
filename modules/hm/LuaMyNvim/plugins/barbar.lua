@@ -9,11 +9,11 @@ return function(vim)
 
   local buffer_kb_opts = { noremap = true, silent = true }
   -- Move to previous/next
-  map('n', '<A-,>', '<Cmd>BufferPrevious<CR>', buffer_kb_opts)
-  map('n', '<A-.>', '<Cmd>BufferNext<CR>', buffer_kb_opts)
+  map('n', '<C-,>', '<Cmd>BufferPrevious<CR>', buffer_kb_opts)
+  map('n', '<C-.>', '<Cmd>BufferNext<CR>', buffer_kb_opts)
   -- Re-order to previous/next
-  map('n', '<A-<>', '<Cmd>BufferMovePrevious<CR>', buffer_kb_opts)
-  map('n', '<A->>', '<Cmd>BufferMoveNext<CR>', buffer_kb_opts)
+  map('n', '<C-<>', '<Cmd>BufferMovePrevious<CR>', buffer_kb_opts)
+  map('n', '<C->>', '<Cmd>BufferMoveNext<CR>', buffer_kb_opts)
   -- Goto buffer in position...
   map('n', '<A-1>', '<Cmd>BufferGoto 1<CR>', buffer_kb_opts)
   map('n', '<A-2>', '<Cmd>BufferGoto 2<CR>', buffer_kb_opts)
@@ -28,7 +28,7 @@ return function(vim)
   -- Pin/unpin buffer
   map('n', '<A-p>', '<Cmd>BufferPin<CR>', buffer_kb_opts)
   -- Close buffer
-  map('n', '<A-w>', '<Cmd>BufferClose<CR>', buffer_kb_opts)
+  map('n', '<leader>W', '<Cmd>BufferClose<CR>', buffer_kb_opts)
   -- Magic buffer-picking mode
   map('n', '<C-p>', '<Cmd>BufferPick<CR>', buffer_kb_opts)
   -- Sort automatically by...
@@ -36,10 +36,4 @@ return function(vim)
   map('n', '<leader>bd', '<Cmd>BufferOrderByDirectory<CR>', buffer_kb_opts)
   map('n', '<leader>bl', '<Cmd>BufferOrderByLanguage<CR>', buffer_kb_opts)
   map('n', '<leader>bw', '<Cmd>BufferOrderByWindowNumber<CR>', buffer_kb_opts)
-
-  require('which-key').setup()
-  -- workaround for https://github.com/folke/which-key.nvim/issues/476
-  map('n', '<localleader>', function()
-    require('which-key').show('\\')
-  end, { buffer = true })
 end

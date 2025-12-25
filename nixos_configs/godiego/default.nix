@@ -118,7 +118,7 @@
   };
 
   environment.systemPackages = [
-    config.boot.kernelPackages.perf
+    pkgs.perf
   ];
 
   sops.secrets.u2f_secret = {

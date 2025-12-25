@@ -4,7 +4,6 @@ return function(vim, lsp_autostart)
   require('LuaMyNvim.parts.opt')(vim)
 
   require('LuaMyNvim.plugins.barbar')(vim)
-  require('LuaMyNvim.plugins.bqf')(vim)
   require('LuaMyNvim.plugins.cmp')(vim)
   require('LuaMyNvim.plugins.gitsigns')(vim)
   require('LuaMyNvim.plugins.lspconfig')(vim, lsp_autostart)

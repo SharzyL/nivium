@@ -46,7 +46,7 @@ let
   };
 
   clice-spdlog = spdlog.overrideAttrs (oldAttrs: {
-    cmakeFlags = (oldAttrs.cmakeFlags or []) ++ [
+    cmakeFlags = (oldAttrs.cmakeFlags or [ ]) ++ [
       "-DSPDLOG_USE_STD_FORMAT=ON"
       "-DSPDLOG_NO_EXCEPTIONS=ON"
       "-DSPDLOG_FMT_EXTERNAL=OFF"

@@ -8,7 +8,7 @@ return function(vim, lsp_autostart)
     gopls = {},
     rust_analyzer = {},
     clangd = {
-      cmd = { 'clangd', '--experimental-modules-support' }
+      cmd = { 'clangd', '--experimental-modules-support' },
     },
     nil_ls = {
       settings = {
@@ -94,6 +94,12 @@ return function(vim, lsp_autostart)
         map('n', 'gD', vim.lsp.buf.declaration, { buffer = bufnr, desc = 'lsp declaration' })
         map('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr, desc = 'lsp definition' })
         map('n', 'gi', vim.lsp.buf.implementation, { buffer = bufnr, desc = 'lsp impl' })
+        map('n', 'grr', function()
+          require('trouble').open({
+            mode = 'lsp_references',
+            focus = true, -- 自动聚焦到 trouble 窗口
+          })
+        end, { buffer = bufnr, desc = 'Lsp references' })
         map('n', '<leader>l', function()
           vim.lsp.buf.format({ async = true })
         end, { buffer = bufnr, desc = 'lsp format document' })

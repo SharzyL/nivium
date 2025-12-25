@@ -3,6 +3,9 @@ return function(vim)
   local d = utils.d
   local nmap = utils.nmap
 
+  local open_with_trouble = require('trouble.sources.telescope').open
+  local add_to_trouble = require('trouble.sources.telescope').add
+
   require('telescope').setup({
     defaults = {
       vimgrep_arguments = {
@@ -16,6 +19,10 @@ return function(vim)
         '--hidden', -- add this flag to search dotfiles
         '-g=!.git',
         '-g=!.direnv',
+      },
+      mappings = {
+        i = { ['<c-q>'] = open_with_trouble },
+        n = { ['<c-q>'] = open_with_trouble },
       },
     },
     pickers = {
@@ -47,7 +54,7 @@ return function(vim)
     require('telescope.builtin').live_grep(require('telescope.themes').get_ivy())
   end, d('telescope live grep'))
 
-  nmap('<leader>p', function()
+  nmap('<leader>bf', function()
     require('telescope.builtin').buffers(require('telescope.themes').get_ivy())
   end, d('telescope find buffer'))
 end
