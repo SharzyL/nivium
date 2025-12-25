@@ -130,6 +130,7 @@ in
             tree-sitter-vimdoc # nvim bundled parser conflicts with treesitter
             tree-sitter-beancount
             tree-sitter-typst
+            tree-sitter-typescript
           ]
         ))
         nvim-treesitter-textobjects
@@ -154,6 +155,10 @@ in
           local lsp_autostart = ${if cfg.lspPackages then "true" else "false"}
           require"LuaMyNvim"(vim, lsp_autostart)
         '' + cfg.extraLuaConfig;
+    };
+
+    xdg.configFile."nvim/queries" = {
+      source = ./LuaMyNvim/runtime/queries;
     };
   };
 }
