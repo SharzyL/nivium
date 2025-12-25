@@ -137,6 +137,11 @@
 
   networking.wireless.iwd = {
     enable = true;
+    settings = {
+      Settings = {
+        AutoConnect = false;
+      };
+    };
   };
 
   boot.supportedFilesystems = [ "zfs" "nfs4" ];
