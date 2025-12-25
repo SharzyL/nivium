@@ -149,3 +149,8 @@ fetch.url = "https://github.com/tindy2013/subconverter/releases/download/$ver/su
 [wemeet]
 src.manual = "3.19.0.401"
 fetch.url = "https://updatecdn.meeting.qq.com/cos/bb4001c715553579a8b3e496233331d4/TencentMeeting_0300000000_$ver_x86_64_default.publish.deb"
+
+[yazi-flavors]
+src.git = "https://github.com/yazi-rs/flavors"
+src.branch = "main"
+fetch.github = "yazi-rs/flavors"

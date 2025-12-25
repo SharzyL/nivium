@@ -85,21 +85,21 @@
   };
   geoip-cn = {
     pname = "geoip-cn";
-    version = "d952eade17c0f650a873a06bdd21e4bd55f48c03";
+    version = "3383b46127ad7c45c3240f90dd1c956895c79ca4";
     src = fetchurl {
-      url = "https://raw.githubusercontent.com/SagerNet/sing-geoip/d952eade17c0f650a873a06bdd21e4bd55f48c03/geoip-cn.srs";
-      sha256 = "sha256-VekcRHL0TGCbAME9dw4m+srC+YTLd+wFElQ4S6cL4Fo=";
+      url = "https://raw.githubusercontent.com/SagerNet/sing-geoip/3383b46127ad7c45c3240f90dd1c956895c79ca4/geoip-cn.srs";
+      sha256 = "sha256-AksynhfazEAHu/zKR8dgcFKUfaP2rYTJjYV4/NN9qqA=";
     };
-    date = "2025-11-12";
+    date = "2025-12-12";
   };
   geosite-cn = {
     pname = "geosite-cn";
-    version = "9e58747c0e73e9227cf5e82083056430ffe33f13";
+    version = "85d6c76c9aaefa7df6043bf3fae2a95a40dda667";
     src = fetchurl {
-      url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/9e58747c0e73e9227cf5e82083056430ffe33f13/geosite-cn.srs";
-      sha256 = "sha256-8yI5MeapBJF05K3acxnMGCLrCHuLuyhu4sMLNkRO31Q=";
+      url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/85d6c76c9aaefa7df6043bf3fae2a95a40dda667/geosite-cn.srs";
+      sha256 = "sha256-sfb5pWgYELczaYFkikuTrLzr30NrtcR2qtOQ8HdOcyo=";
     };
-    date = "2025-12-01";
+    date = "2025-12-24";
   };
   goauthing = {
     pname = "goauthing";
@@ -163,15 +163,15 @@
   };
   pb = {
     pname = "pb";
-    version = "c442d766fb867dba38eacd8bc7c39e3769079714";
+    version = "443debeb8f1f0edb685d85736d19e472e484657e";
     src = fetchFromGitHub {
       owner = "SharzyL";
       repo = "pastebin-worker";
-      rev = "c442d766fb867dba38eacd8bc7c39e3769079714";
+      rev = "443debeb8f1f0edb685d85736d19e472e484657e";
       fetchSubmodules = false;
-      sha256 = "sha256-zusiZx2AcOlstAQmfI/ZugL22tznur+dSM4LMeaQwcE=";
+      sha256 = "sha256-gXFckYVtA7wT99ZGsvnYpWnZXPgKIy+9DY536JfeOmI=";
     };
-    date = "2025-09-22";
+    date = "2025-12-22";
   };
   pprp = {
     pname = "pprp";
@@ -227,15 +227,15 @@
   };
   rime-ice = {
     pname = "rime-ice";
-    version = "c5e8cca497dc44a4e4540cf2a95043aa0151a40e";
+    version = "cc51682a850e9b89db8856c589b8c13f8b534a7c";
     src = fetchFromGitHub {
       owner = "iDvel";
       repo = "rime-ice";
-      rev = "c5e8cca497dc44a4e4540cf2a95043aa0151a40e";
+      rev = "cc51682a850e9b89db8856c589b8c13f8b534a7c";
       fetchSubmodules = false;
-      sha256 = "sha256-6HvbKAqk5ihNnk0abN45fZ5DQG80AwNodXvC030r6Mo=";
+      sha256 = "sha256-rEWf96uoYZm/n8IBSSG5qnXBgiWvrzhD1+GutLqMlg8=";
     };
-    date = "2025-11-28";
+    date = "2025-12-24";
   };
   rime-luna-pinyin = {
     pname = "rime-luna-pinyin";
@@ -315,15 +315,15 @@
   };
   vim-barbaric = {
     pname = "vim-barbaric";
-    version = "0cacaf7125188cacd61be8dc04c9352d0605f3af";
+    version = "a0e69fe2a42b5a0f733e7f7b2ed7916d24a11ac9";
     src = fetchFromGitHub {
       owner = "rlue";
       repo = "vim-barbaric";
-      rev = "0cacaf7125188cacd61be8dc04c9352d0605f3af";
+      rev = "a0e69fe2a42b5a0f733e7f7b2ed7916d24a11ac9";
       fetchSubmodules = false;
-      sha256 = "sha256-rn8YXzI60vFHC0fU0kMrIeAyuE+UsSG0gGK2gbqht8Q=";
+      sha256 = "sha256-JqJxGMiy7Qy7nfKZntew1V4IAyjTFzyjHMqlwWIPkw0=";
     };
-    date = "2025-06-13";
+    date = "2025-12-09";
   };
   wemeet = {
     pname = "wemeet";
@@ -332,5 +332,17 @@
       url = "https://updatecdn.meeting.qq.com/cos/bb4001c715553579a8b3e496233331d4/TencentMeeting_0300000000_3.19.0.401_x86_64_default.publish.deb";
       sha256 = "sha256-VN/rNn2zA21l6BSzLpQ5Bl9XB2hrMFIa0o0cy2vdLx8=";
     };
+  };
+  yazi-flavors = {
+    pname = "yazi-flavors";
+    version = "9276ffacbfffe1f2d0fa9df9efef07f36896c353";
+    src = fetchFromGitHub {
+      owner = "yazi-rs";
+      repo = "flavors";
+      rev = "9276ffacbfffe1f2d0fa9df9efef07f36896c353";
+      fetchSubmodules = false;
+      sha256 = "sha256-1IgX6R+0lPVl0r9WcyNkrvFzG6VaWgMklyOUHrxZ4Zg=";
+    };
+    date = "2025-12-22";
   };
 }

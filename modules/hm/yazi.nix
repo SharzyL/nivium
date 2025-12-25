@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   config = lib.mkIf config.programs.yazi.enable {
@@ -17,12 +17,13 @@
           { on = [ "q" ]; run = "close"; desc = "Hide the task manager"; }
         ];
       };
+
+      theme.flavor = {
+        dark = "catppuccin-mocha";
+      };
+
+      flavors = { catppuccin-mocha = "${pkgs.srcs.yazi-flavors.src}/catppuccin-mocha.yazi"; };
     };
 
-    xdg.configFile = {
-      "yazi/theme.toml" = {
-        source = ./resource/yazi-mocha-theme.toml;
-      };
-    };
   };
 }
