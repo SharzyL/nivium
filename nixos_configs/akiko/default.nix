@@ -75,10 +75,8 @@
     nix-remote.enable = true;
     graphics = {
       enable = true;
-      xserver.enable = true;
-      hidpi.enable = true;
-      i3lock.enable = true;
       user = "sharzy";
+      niri.enable = true;
     };
     home.users."sharzy" = {
       enable = true;

@@ -1,0 +1,39 @@
+diff --git a/defaults/static/css/github-markdown-dark.css b/defaults/static/css/github-markdown-dark.css
+index 9205103..c70aeac 100644
+--- a/defaults/static/css/github-markdown-dark.css
++++ b/defaults/static/css/github-markdown-dark.css
+@@ -748,7 +748,7 @@
+   padding: 0;
+   margin: 0;
+   word-break: normal;
+-  white-space: pre;
++  white-space: pre-wrap;
+   background: transparent;
+   border: 0;
+ }
+diff --git a/defaults/static/css/github-markdown-light.css b/defaults/static/css/github-markdown-light.css
+index 393e005..46e7158 100644
+--- a/defaults/static/css/github-markdown-light.css
++++ b/defaults/static/css/github-markdown-light.css
+@@ -770,7 +770,7 @@
+   padding: 0;
+   margin: 0;
+   word-break: normal;
+-  white-space: pre;
++  white-space: pre-wrap;
+   background: transparent;
+   border: 0;
+ }
+diff --git a/defaults/templates/layout.html b/defaults/templates/layout.html
+index 87f4545..fb533b9 100644
+--- a/defaults/templates/layout.html
++++ b/defaults/templates/layout.html
+@@ -33,8 +33,5 @@
+         {{ .Content }}
+       </div>
+     </div>
+-    {{if .BoundingBox}}
+-    <footer class="container footer">Made with &hearts; by chrishrb</footer>
+-    {{end}}
+   </body>
+ </html>

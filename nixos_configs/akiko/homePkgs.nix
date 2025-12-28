@@ -169,5 +169,6 @@
 
     beancount
     subconverter
+    go-grip
   ];
 }

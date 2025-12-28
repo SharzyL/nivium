@@ -67,7 +67,7 @@ window#waybar {
 }
 
 #custom-trackpad.good, #cpu.good, #memory.good, #battery.good {
-    border-bottom-color: #a7c957;
+    border-bottom-color: #50C878;
 }
 
 #custom-trackpad.critical, #cpu.critical, #memory.critical, #battery.critical, #network.disconnected, #pulseaudio.muted {

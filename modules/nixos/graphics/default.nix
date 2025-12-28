@@ -8,6 +8,7 @@ in
   imports = [
     ./xserver.nix
     ./sway.nix
+    ./niri.nix
   ];
   options.nivium.graphics = {
     enable = mkEnableOption "graphics base config";
@@ -71,17 +72,6 @@ in
 
     i18n = {
       defaultLocale = "en_US.UTF-8";
-    };
-
-    xdg.portal = {
-      enable = true;
-      config = {
-        # TODO: find out how
-        common = {
-          default = [ "gtk" ];
-        };
-      };
-      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
     };
 
     programs.i3lock = lib.mkIf cfg.i3lock.enable {

@@ -18,7 +18,7 @@ in
     defaultTerminal = lib.mkOption { type = str; default = "kitty"; };
   };
 
-  config = mkIf (config.nivium.i3.enable || config.nivium.sway.enable) {
+  config = mkIf (config.nivium.i3.enable || config.nivium.sway.enable || config.nivium.niri.enable) {
     assertions = [
       { assertion = cfg.withGraphics; message = "You should enable graphics to use wm"; }
     ];

@@ -29,29 +29,18 @@
 
     tmux.enable = true;
     fcitx5-rime.enable = true;
-    i3 = {
+    niri = {
       enable = true;
-      displays = [ "DP-0" "DP-2" ];
+      displays = [ "DP-1" "DP-2" ];
       wallpaper = "tank/img/bg/genesis.png";
-      extraStartup = [
-        { name = "dropbox"; path = "${pkgs.dropbox}/bin/dropbox"; }
-        { name = "snipaste"; path = "${pkgs.snipaste}/bin/snipaste"; }
-        { name = "nicotine"; path = "${pkgs.nicotine-plus}/bin/nicotine-plus"; }
-      ];
-      extraConfig = ''
-        exec_always --no-startup-id env -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY -u http_proxy -u https_proxy -u all_proxy ${config.nivium.defaultBrowser}
-        exec_always --no-startup-id thunderbird
-        exec_always --no-startup-id obsidian
-        exec_always --no-startup-id i3-msg 'workspace 0; exec ${config.nivium.defaultTerminal}'
-      '';
     };
   };
 
-  systemd.user.services."nicotine" = {
-    Service = {
-      TemporaryFileSystem = [ "/tank/mus/tlmc_selected/[KodamaSounds]" "~/ws" "~/download" ];
-    };
-  };
+  # systemd.user.services."nicotine" = {
+  #   Service = {
+  #     TemporaryFileSystem = [ "/tank/mus/tlmc_selected/[KodamaSounds]" "~/ws" "~/download" ];
+  #   };
+  # };
 
   programs.obs-studio.enable = true;
 
@@ -152,10 +141,6 @@
     extra-trusted-public-keys = [
       "attic-ci:U5Sey4mUxwBXM3iFapmP0/ogODXywKLRNgRPQpEXxbo="
     ];
-  };
-
-  xresources.properties = {
-    "Xft.dpi" = 144;
   };
 
   home.sessionVariables = {

@@ -132,31 +132,12 @@ in
         hash = "sha256-BYTY2ezYuxsneAl/yQbwL1aQvVWKSsN3IVqzTlrBSEU=";
       };
     });
+  });
 
-    # https://github.com/NixOS/nixpkgs/issues/464899
-    nvim-spectre = vprev.nvim-spectre.overrideAttrs (oldAttrs:
-      let
-        spectre_oxi =
-          if final.stdenv.targetPlatform.isDarwin then
-            oldAttrs.passthru.spectre_oxi.overrideAttrs
-              (sOldAttrs: {
-                # workaround for https://github.com/nvim-pack/nvim-spectre/issues/185
-                env.RUSTFLAGS = final.lib.concatStringsSep " " [
-                  sOldAttrs.env.RUSTFLAGS
-                  "-C"
-                  "link-arg=-undefined"
-                  "-C"
-                  "link-arg=dynamic_lookup"
-                ];
-              }) else oldAttrs.passthru.spectre_oxi;
-      in
-      {
-        postInstall = ''
-          ln -s ${spectre_oxi}/lib/libspectre_oxi.* $out/lua/spectre_oxi.so
-        '';
-        passthru = { inherit spectre_oxi; };
-      });
-
+  go-grip = prev.go-grip.overrideAttrs (oldAttrs: {
+    patches = (oldAttrs.patches or [ ]) ++ [
+      ./patches/go-grip.patch
+    ];
   });
 
   mathematica = (prev.mathematica.override rec {

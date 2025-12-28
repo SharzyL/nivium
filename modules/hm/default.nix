@@ -9,6 +9,7 @@
     ./i3.nix
     ./graphics-common.nix
     ./sway.nix
+    ./niri.nix
     ./base.nix
     ./tmux.nix
     ./attic-cache.nix
