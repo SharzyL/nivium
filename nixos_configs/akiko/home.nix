@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, ... }:
 
 {
   #home.profileDirectory = lib.mkForce "${config.xdg.stateHome}/nix/profile";
@@ -32,15 +32,26 @@
     niri = {
       enable = true;
       displays = [ "DP-1" "DP-2" ];
-      wallpaper = "tank/img/bg/genesis.png";
+      configFile = ./niri.kdl;
+      extraStartup = [
+        { name = "dropbox"; path = "${pkgs.dropbox}/bin/dropbox"; }
+        { name = "swaybg"; path = "${pkgs.swaybg}/bin/swaybg -i tank/sharzy/img/bg/koufu.jpg"; }
+
+        { name = "kitty"; path = "${pkgs.kitty}/bin/kitty"; }
+        { name = "firefox"; path = "${pkgs.firefox}/bin/firefox"; }
+        { name = "thunderbird"; path = "${pkgs.thunderbird}/bin/thunderbird"; }
+        { name = "obsidian"; path = "${pkgs.obsidian}/bin/obsidian"; }
+        { name = "telegram"; path = "${pkgs.telegram-desktop}/bin/Telegram"; }
+        { name = "nicotine"; path = "${pkgs.nicotine-plus}/bin/nicotine-plus"; }
+      ];
     };
   };
 
-  # systemd.user.services."nicotine" = {
-  #   Service = {
-  #     TemporaryFileSystem = [ "/tank/mus/tlmc_selected/[KodamaSounds]" "~/ws" "~/download" ];
-  #   };
-  # };
+  systemd.user.services."nicotine" = {
+    Service = {
+      TemporaryFileSystem = [ "/tank/mus/tlmc_selected/[KodamaSounds]" "~/ws" "~/download" ];
+    };
+  };
 
   programs.obs-studio.enable = true;
 

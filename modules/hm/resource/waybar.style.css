@@ -41,6 +41,14 @@ window#waybar {
     border-bottom: 3px solid #ED8B16;
 }
 
+#workspaces button.empty, #workspaces button.empty.unnamed:hover {
+    color: rgba(255, 255, 255, 0.15);
+}
+
+#workspaces button.empty.unnamed {
+    color: transparent;
+}
+
 #mode {
     background: #64727D;
     border-bottom: 3px solid white;
@@ -70,9 +78,14 @@ window#waybar {
     border-bottom-color: #50C878;
 }
 
-#custom-trackpad.critical, #cpu.critical, #memory.critical, #battery.critical, #network.disconnected, #pulseaudio.muted {
+#custom-trackpad.critical, #cpu.critical, #memory.critical, #battery.critical, #pulseaudio.muted {
     border-bottom-color: #e09f3e;
     background-color: rgb(239, 240, 241);  /* override default */
+    color: rgb(246, 116, 0);
+}
+
+#network.disconnected {
+    border-bottom-color: #e09f3e;
     color: rgb(246, 116, 0);
 }
 
@@ -87,10 +100,6 @@ window#waybar {
         background-color: #ffffff;
         color: black;
     }
-}
-
-#network.disconnected {
-    background: #f53c3c;
 }
 
 #pulseaudio.muted {

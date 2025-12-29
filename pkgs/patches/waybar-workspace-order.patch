@@ -1,0 +1,45 @@
+diff --git a/src/modules/niri/workspaces.cpp b/src/modules/niri/workspaces.cpp
+index 7dfc0b35..bae33735 100644
+--- a/src/modules/niri/workspaces.cpp
++++ b/src/modules/niri/workspaces.cpp
+@@ -89,8 +89,10 @@ void Workspaces::doUpdate() {
+
+     std::string name;
+     if (ws["name"]) {
++      style_context->remove_class("unnamed");
+       name = ws["name"].asString();
+     } else {
++      style_context->add_class("unnamed");
+       name = std::to_string(ws["idx"].asUInt());
+     }
+     button.set_name("niri-workspace-" + name);
+@@ -119,15 +121,20 @@ void Workspaces::doUpdate() {
+     }
+   }
+
+-  // Refresh the button order.
+-  for (auto it = my_workspaces.cbegin(); it != my_workspaces.cend(); ++it) {
+-    const auto &ws = *it;
+-
+-    auto pos = ws["idx"].asUInt() - 1;
+-    if (alloutputs) pos = it - my_workspaces.cbegin();
+-
+-    auto &button = buttons_[ws["id"].asUInt64()];
+-    box_.reorder_child(button, pos);
++  std::vector<std::pair<std::string, uint64_t>> nameIdPairs;
++  for (auto &ws : workspaces) {
++    auto id = ws["id"].asUInt64();
++    if (!buttons_.contains(id)) continue;
++    if (ws["name"].isNull()) {
++      nameIdPairs.emplace_back("ZZZ", id);  // a string sorted last
++    } else {
++      nameIdPairs.emplace_back(ws["name"].asString(), id);
++    }
++  }
++  std::sort(nameIdPairs.begin(), nameIdPairs.end());
++  for (size_t i = 0; i < nameIdPairs.size(); i++) {
++    auto &[_, id] = nameIdPairs[i];
++    box_.reorder_child(buttons_.at(id), i);
+   }
+ }
+ 

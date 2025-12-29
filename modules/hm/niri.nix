@@ -1,8 +1,13 @@
 { config, pkgs, lib, ... }:
 
-with lib;
 let
   cfg = config.nivium.niri;
+
+  defaultStartup = [
+    { name = "mako"; path = "${pkgs.mako}/bin/mako"; }
+    { name = "waybar"; path = "${pkgs.waybar}/bin/waybar"; }
+    { name = "fcitx5"; path = "${pkgs.fcitx5}/bin/fcitx5"; }
+  ];
 
   run-with-sess-var = pkgs.writeShellScript "run-with-sess-var" ''
     . "${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh"
@@ -39,9 +44,9 @@ let
   };
 in
 {
-  options.nivium.niri = {
+  options.nivium.niri = with lib; {
     enable = mkEnableOption "use customized niri";
-    extraConf = mkOption { type = types.str; default = ""; };
+    configFile = mkOption { type = types.path; };
     extraStartup = mkOption {
       type = types.listOf (types.submodule {
         options = {
@@ -52,10 +57,10 @@ in
       default = [ ];
     };
     displays = mkOption { type = types.listOf types.str; };
-    wallpaper = mkOption { type = types.nullOr types.str; };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
+    xdg.configFile."niri/config.kdl".source = cfg.configFile;
     programs = {
       fuzzel.enable = true;
       swaylock = {
@@ -122,7 +127,7 @@ in
           position = "bottom";
           height = 32;
           output = cfg.displays;
-          modules-right = [ "battery" "backlight" "pulseaudio" "disk" "cpu" "memory" "network" "clock" "tray" ];
+          modules-right = [ "battery" "backlight" "pulseaudio" "disk" "cpu" "memory" "network#eth" "network#wlan" "clock" "tray" ];
           modules-left = [ "niri/workspaces" "niri/window" ];
           tray = {
             spacing = 10;
@@ -146,10 +151,17 @@ in
             format-plugged = "   {capacity}% (+{power}W)";
             format-icons = [ "" "" "" "" "" ];
           };
-          network = {
-            format-wifi = "   {essid} {ipaddr} (↑{bandwidthUpBytes} ↓{bandwidthDownBytes})";
+          "network#eth" = {
+            interface = "enp*";
+            interval = 1;
             format-ethernet = "󰈀  {ipaddr} (↑{bandwidthUpBytes} ↓{bandwidthDownBytes})";
             format-disconnected = "Disconnected ⚠";
+          };
+          "network#wlan" = {
+            interface = "wlan*";
+            interval = 1;
+            format = "   {essid} {ipaddr} (↑{bandwidthUpBytes} ↓{bandwidthDownBytes} {signalStrength}%)";
+            format-disconnected = "";
           };
           backlight = {
             format = "{icon}  {}%";
@@ -206,5 +218,36 @@ in
         };
       };
     };
+
+    systemd.user.services = lib.mkMerge [
+      (lib.listToAttrs (map
+        (
+          { name, path }: lib.nameValuePair "autostart-${name}" {
+            Unit = {
+              Description = "automatic starting ${name} on niri startup";
+              After = [ "graphical-session.target" ];
+              PartOf = [ "graphical-session.target" ];
+            };
+            Install = { WantedBy = [ "graphical-session.target" ]; };
+            Service = {
+              ExecStart = path;
+            };
+          }
+        )
+        (defaultStartup ++ cfg.extraStartup))
+      )
+      {
+        waybar.Service.Environment = [
+          "PATH=${lib.makeBinPath (with pkgs; [
+          i3-volume
+          pavucontrol
+          pulseaudio
+          gawk
+
+          light
+        ])}"
+        ];
+      }
+    ];
   };
 }
