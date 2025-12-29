@@ -91,13 +91,20 @@ in
       cliphist
       wev
 
-      # TODO: we cannot start these processes with systemd-user, since it has no WAYLAND_DISPLAY set
       mako
       swaybg
       swaylock
 
       systemd-run-app
     ];
+
+    services.swayidle = {
+      enable = true;
+      timeouts = [
+        { timeout = 1200; command = "${pkgs.swaylock}/bin/swaylock -fF"; }
+        { timeout = 1800; command = "${pkgs.niri}/bin/niri msg action power-off-monitors"; }
+      ];
+    };
 
     systemd.user.sessionVariables = {
       QT_QPA_PLATFORM = "wayland";
@@ -199,8 +206,8 @@ in
             format-icons = {
               default = [ "" "" "" ];
             };
-            on-scroll-up = "volume down 1";
-            on-scroll-down = "volume up 1";
+            on-scroll-up = "volume up 2";
+            on-scroll-down = "volume down 2";
             on-click = "volume mute";
             on-click-right = "pavucontrol";
           };
