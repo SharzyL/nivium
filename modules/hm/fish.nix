@@ -139,7 +139,7 @@ in
         )
         (mkIf pkgs.stdenv.isLinux {
           ip = "ip -c";
-          xc = "xclip -selection clipboard";
+          xc = "wl-copy";
 
           stl = "systemctl";
           sstl = "sudo systemctl";

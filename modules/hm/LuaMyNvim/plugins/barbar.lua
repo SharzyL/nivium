@@ -28,7 +28,7 @@ return function(vim)
   -- Pin/unpin buffer
   map('n', '<A-p>', '<Cmd>BufferPin<CR>', buffer_kb_opts)
   -- Close buffer
-  map('n', '<leader>W', '<Cmd>BufferClose<CR>', buffer_kb_opts)
+  map('n', '<A-w>', '<Cmd>BufferClose<CR>', buffer_kb_opts)
   -- Magic buffer-picking mode
   map('n', '<C-p>', '<Cmd>BufferPick<CR>', buffer_kb_opts)
   -- Sort automatically by...

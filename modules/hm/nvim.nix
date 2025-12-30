@@ -81,6 +81,7 @@ in
         nvim-navbuddy # code outline
         trouble-nvim # diagnostic window
         noice-nvim # replace messages, cmdline and popups
+        render-markdown-nvim
 
         # visual improvement
         nvim-spectre # file search panel
