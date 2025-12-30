@@ -4,7 +4,10 @@ return function(vim)
 
   vim.g.barbar_auto_setup = false
   require('barbar').setup({
-    icons = { filetype = { enabled = false } },
+    icons = {
+      filetype = { enabled = false },
+      pinned = { filename = true },
+    },
   })
 
   local buffer_kb_opts = { noremap = true, silent = true }
@@ -28,12 +31,5 @@ return function(vim)
   -- Pin/unpin buffer
   map('n', '<A-p>', '<Cmd>BufferPin<CR>', buffer_kb_opts)
   -- Close buffer
-  map('n', '<A-w>', '<Cmd>BufferClose<CR>', buffer_kb_opts)
-  -- Magic buffer-picking mode
-  map('n', '<C-p>', '<Cmd>BufferPick<CR>', buffer_kb_opts)
-  -- Sort automatically by...
-  map('n', '<leader>bb', '<Cmd>BufferOrderByBufferNumber<CR>', buffer_kb_opts)
-  map('n', '<leader>bd', '<Cmd>BufferOrderByDirectory<CR>', buffer_kb_opts)
-  map('n', '<leader>bl', '<Cmd>BufferOrderByLanguage<CR>', buffer_kb_opts)
-  map('n', '<leader>bw', '<Cmd>BufferOrderByWindowNumber<CR>', buffer_kb_opts)
+  map('n', '<C-q>', '<Cmd>BufferClose<CR>', buffer_kb_opts)
 end

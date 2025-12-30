@@ -54,7 +54,7 @@ return function(vim)
     require('telescope.builtin').live_grep(require('telescope.themes').get_ivy())
   end, d('telescope live grep'))
 
-  nmap('<leader>bf', function()
+  nmap('<leader>b', function()
     require('telescope.builtin').buffers(require('telescope.themes').get_ivy())
   end, d('telescope find buffer'))
 end

@@ -222,6 +222,8 @@ in
             on-click-right = "pavucontrol";
           };
           "niri/window" = {
+            separate-outputs = true;
+            icon = true;
             format = "{app_id}:  {title}";
           };
 

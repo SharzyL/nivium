@@ -32,6 +32,15 @@ output "DP-2" {
     position x=0 y=0
 }
 
+recent-windows {
+    binds {
+        Alt+Tab         { next-window; }
+        Alt+Shift+Tab   { previous-window; }
+        Alt+Ctrl+Tab       { next-window     filter="app-id"; }
+        Alt+Ctrl+Shift+Tab { previous-window filter="app-id"; }
+    }
+}
+
 layout {
     gaps 8
 
@@ -259,7 +268,6 @@ binds {
     Mod+Shift+Comma  { consume-or-expel-window-left; }
     Mod+Shift+Period { consume-or-expel-window-right; }
 
-    Mod+Tab { focus-workspace-previous; }
 
     Mod+R { switch-preset-column-width; }
     Mod+Shift+R { switch-preset-window-height; }

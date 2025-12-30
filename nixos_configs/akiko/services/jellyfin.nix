@@ -47,4 +47,5 @@
     "https_proxy=${proxyUri}"
     "http_proxy=${proxyUri}"
   ];
+  systemd.services.jellyfin.serviceConfig.CPUQuota = "400%";
 }

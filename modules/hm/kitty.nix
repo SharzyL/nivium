@@ -12,6 +12,7 @@
 
     programs.kitty = {
       settings = {
+        clear_all_shortcuts = "";
         macos_option_as_alt = true;
         font_size = lib.mkDefault "10.0";
         window_padding_width = lib.mkDefault "2.5";
@@ -70,12 +71,15 @@
         "ctrl+k>z" = "toggle_layout stack"; # toggle zoom
         "alt+z" = "toggle_layout stack"; # toggle zoom
         "ctrl+k+s" = "toggle_layout splits";
+        "ctrl+shift+l" = "next_layout";
         "ctrl+k>b" = "detach_window new-tab"; # break-pane
         "ctrl+k>shift+b" = "detach_tab";
         "ctrl+k>:" = "kitty_shell";
         "ctrl+p" = "nth_window -1";
 
         "ctrl+k>," = "set_tab_title";
+        "ctrl+k>shift+," = "move_tab_backward";
+        "ctrl+k>shift+." = "move_tab_forward";
         "ctrl+m" = "focus_visible_window";
 
         "ctrl+k>%" = "launch --location=vsplit --cwd=current";
