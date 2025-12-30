@@ -146,6 +146,11 @@ window-rule {
 }
 
 window-rule {
+    match app-id=r#"rdict$"#
+    open-floating true
+}
+
+window-rule {
     match app-id=r#"^org\.keepassxc\.KeePassXC$"#
     match app-id=r#"^org\.gnome\.World\.Secrets$"#
 
@@ -191,10 +196,12 @@ binds {
 
     Mod+Shift+Slash { show-hotkey-overlay; }
 
-    Mod+Return hotkey-overlay-title="Open a Terminal" { spawn "kitty"; }
-    Mod+O hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
-    Mod+Escape hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
-    Mod+Shift+Escape { power-off-monitors; }
+    Mod+Return { spawn "kitty"; }
+    Mod+O { spawn "fuzzel"; }
+    Mod+Escape { spawn-sh "swaylock && niri msg action power-on-monitors"; }
+    Ctrl+Alt+D { spawn "rdict"; }
+    Mod+Shift+P { power-off-monitors; }
+    Mod+Shift+Escape { spawn-sh "niri msg action power-off-monitors && swaylock && niri msg action power-on-monitors"; }
 
     XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }

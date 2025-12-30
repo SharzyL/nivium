@@ -113,15 +113,25 @@ in
     };
 
     xdg.configFile."mako/config".text = ''
-      font=sans-serif 14
+      font=sans-serif 12
       background-color=#003049
-      border-color=#0077b6
+      border-color=#669bbc
       text-color=#eeeeee
       border-radius=8
       padding=8
       width=400
-
+      height=1000
+      default-timeout=60000
       on-button-middle=dismiss-group
+      format=<b>%s (%a)</b>\n\n%b
+
+      [urgency=low]
+      border-color=#50C878
+      default-timeout=5000
+
+      [urgency=critical]
+      border-color=#e09f3e
+      default-timeout=0
     '';
 
     programs.waybar = {
@@ -210,6 +220,9 @@ in
             on-scroll-down = "volume down 2";
             on-click = "volume mute";
             on-click-right = "pavucontrol";
+          };
+          "niri/window" = {
+            format = "{app_id}:  {title}";
           };
 
           # the battery percentage is not working now, not using it now
