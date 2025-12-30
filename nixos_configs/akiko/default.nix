@@ -23,8 +23,8 @@
         zoom-us
         vscode
         mlc
-        utools
         snipaste
+        claude-code
       ])) || lib.hasPrefix "https://www.jetbrains.com" (pkg.meta.homepage or "")
     || (pkg.meta.licence.shortName or "" == "firefox")
     );

@@ -3,16 +3,12 @@
 {
   home.packages = with pkgs; [
     # dev
-    rustup
-    python3
-    scala
     bear
-    nodejs
-    yarn-berry
     qemu
     man-pages
     flamegraph
     radare2
+    rustfmt
 
     # media and doc cli
     imagemagick
@@ -45,9 +41,7 @@
     gh
     yt-dlp
     hyperfine
-    gotty
     whois
-    tealdeer # tldr in rust
     samba
     cifs-utils
     nfs-utils
@@ -64,6 +58,9 @@
     # mlc
     p7zip
     android-tools
+    beancount
+    subconverter
+    go-grip
 
     git-filter-repo
     git-absorb
@@ -103,13 +100,14 @@
     iptraf-ng # TODO: make it setcap
     cloudflare-warp
 
-    # self-packaged cli
+    # self-packaged things
     goauthing
     pb
     sharzyscripts
     music-tag
     sharzyscripts
     csync
+    rdict
     gh
 
     # tex
@@ -139,6 +137,7 @@
     imhex
     nicotine-plus
     blender
+    pavucontrol
 
     # design
     gimp
@@ -148,27 +147,12 @@
     # TOTALLY PROPRIETARY
     wpsoffice
     mathematica
-    utools
     zoom-us
-    # wemeet
 
     # ide
     jetbrains.clion
-    jetbrains.rust-rover
-    jetbrains.pycharm-professional
-    jetbrains.goland
-    jetbrains.idea-ultimate
-    jetbrains.webstorm
     vscode
+    claude-code
 
-    # x cli
-    xclip
-    pavucontrol
-    dconf
-    xorg.xmodmap
-
-    beancount
-    subconverter
-    go-grip
   ];
 }
