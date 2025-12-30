@@ -47,9 +47,16 @@
     };
   };
 
-  systemd.user.services."nicotine" = {
+  systemd.user.services."autostart-nicotine" = {
     Service = {
       TemporaryFileSystem = [ "/tank/mus/tlmc_selected/[KodamaSounds]" "~/ws" "~/download" ];
+    };
+  };
+
+  systemd.user.services."autostart-firefox" = {
+    Service = {
+      Type = "oneshot";
+      RemainAfterExit = true;
     };
   };
 
@@ -156,18 +163,5 @@
 
   home.sessionVariables = {
     GDK_DPI_SCALE = "0.7";
-  };
-
-  systemd.user.services.sc_monitor = {
-    Unit = {
-      Description = "copy image from clipboard directory";
-      After = [ "systemd-tmpfiles-setup.service" "graphical-session-pre.target" ];
-      PartOf = [ "graphical-session.target" ];
-    };
-    Service = {
-      ExecStart = "${pkgs.sharzyscripts}/bin/sc_monitor";
-      ExecSearchPath = [ "${pkgs.xclip}/bin" ]; # oh hm has no path config
-    };
-    Install.WantedBy = [ "graphical-session.target" ];
   };
 }
