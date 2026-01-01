@@ -140,12 +140,6 @@ in
     ];
   });
 
-  waybar = prev.waybar.overrideAttrs (oldAttrs: {
-    patches = (oldAttrs.patches or [ ]) ++ [
-      ./patches/waybar-workspace-order.patch
-    ];
-  });
-
   mathematica = (prev.mathematica.override rec {
     version = "13.2.0";
     # the "modern" way of adding a path

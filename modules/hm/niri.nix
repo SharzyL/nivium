@@ -145,7 +145,7 @@ in
           height = 32;
           output = cfg.displays;
           modules-right = [ "battery" "backlight" "pulseaudio" "disk" "cpu" "memory" "network#eth" "network#wlan" "clock" "tray" ];
-          modules-left = [ "niri/workspaces" "niri/window" ];
+          modules-left = [ "niri/workspaces" "niri/workspace-overview" "niri/window" ];
           tray = {
             spacing = 10;
           };
@@ -224,7 +224,14 @@ in
           "niri/window" = {
             separate-outputs = true;
             icon = true;
-            format = "{app_id}:  {title}";
+            format = "{title}";
+          };
+
+          "niri/workspace-overview" = {
+            separate-outputs = true;
+            rewrite = {
+              "org.telegram.desktop" = "telegram";
+            };
           };
 
           # the battery percentage is not working now, not using it now

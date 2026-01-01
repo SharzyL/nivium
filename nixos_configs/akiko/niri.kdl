@@ -138,7 +138,12 @@ hotkey-overlay {
 prefer-no-csd
 
 window-rule {
-    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    match app-id=r#"^firefox$"# title=r#"^Picture-in-Picture$"#
+    match app-id=r#"^rdict$"#
+    open-floating true
+}
+
+window-rule {
     open-floating true
 }
 
@@ -148,22 +153,10 @@ window-rule {
 }
 
 window-rule {
-    match app-id=r#"firefox$"#
-    match app-id=r#"kitty$"#
-    match title=r#"Parsec$"#
+    match at-startup=true app-id=r#"^firefox$"#
+    match at-startup=true app-id=r#"^kitty$"#
+    match at-startup=true title=r#"^Parsec$"#
     open-maximized-to-edges true
-}
-
-window-rule {
-    match app-id=r#"rdict$"#
-    open-floating true
-}
-
-window-rule {
-    match app-id=r#"^org\.keepassxc\.KeePassXC$"#
-    match app-id=r#"^org\.gnome\.World\.Secrets$"#
-
-    block-out-from "screen-capture"
 }
 
 workspace "0." {

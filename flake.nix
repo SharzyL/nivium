@@ -44,6 +44,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    waybar = {
+      url = "github:SharzyL/WayBar/feat/niri";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -68,6 +73,7 @@
         csync
         rdict
         colmena
+        waybar
       ])));
     in
     flake-parts.lib.mkFlake { inherit inputs; }

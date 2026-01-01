@@ -24,6 +24,24 @@ window#waybar {
     margin-left: 5px;
 }
 
+#workspace-overview button {
+    padding: 0 5px;
+    margin: 0 2px;
+    background: transparent;
+    color: #aaaaaa;
+    border-bottom: 3px solid transparent;
+}
+
+#workspace-overview button:hover {
+    border-bottom: 3px solid #888888;
+}
+
+#workspace-overview button.focused {
+    color: #ED8B16;
+    border-bottom: 3px solid #ED8B16;
+}
+
+
 #workspaces button {
     padding: 0 5px;
     margin: 0 2px;
