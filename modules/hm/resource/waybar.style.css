@@ -33,6 +33,14 @@ window#waybar {
     border-bottom-color: #888888;
 }
 
+#workspaces button.active {
+    border-bottom-color: #aaaaaa;
+}
+
+#workspaces button.urgent {
+    border-bottom-color: #d90429;  /* red */
+}
+
 #workspaces button.focused {
     color: #ED8B16;
     border-bottom-color: #ed8b16;  /* orange */

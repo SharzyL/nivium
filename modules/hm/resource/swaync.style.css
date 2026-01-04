@@ -1,11 +1,16 @@
+.text-button {
+  background-image: none;
+}
+
 .control-center {
   background-color: #0a0f13; /* blue */
 }
 
 .notification-group {
-  background-color: #1f2e38;
+  background-color: transparent;
   padding: 14px 0px;
-  border-radius: 14px;
+  border-top: solid 3px #1f2e38;
+  margin-top: 14px;
 }
 
 .control-center {
@@ -50,3 +55,16 @@
 .notification-content {
   margin: 10px;
 }
+
+.notification-action button {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.notification-action button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.notification-default-action:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
