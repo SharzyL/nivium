@@ -112,15 +112,15 @@ in
     # https://github.com/hrsh7th/nvim-cmp/issues/1877
     version = "4.3";
     src = final.fetchFromGitHub {
-      owner = "fish-shell";
+      owner = "SharzyL";
       repo = "fish-shell";
-      rev = "8004f354aaca10c491d92c16a6109d53d3314caf";
-      hash = "sha256-Qx5kNzeSfryglOYUP/P8gvazaoyQ60WxKZ9PerscEzE=";
+      rev = "faf86eda840d5bfafddfcbfe25ab810d43ef2c0d";
+      hash = "sha256-RvAcYTwofkQ7vOVcSDA13ZtKc4hotaPhAFJIxffaf58=";
     };
     cargoDeps = final.rustPlatform.fetchCargoVendor {
       inherit src;
       inherit (oldAttrs) patches;
-      hash = "sha256-rflZ6IqH1rqvsUd5RBTMGKJO7wBevd60zXsAXv+3CJ8=";
+      hash = "sha256-LiV9VHndVp6UZrIE8kz8cCzOLi/djZ7JlD04KHOrRCg=";
     };
     postPatch = oldAttrs.postPatch + ''
       substituteInPlace tests/checks/output-buffering.fish \
