@@ -3,9 +3,7 @@
 let
   cfg = config.nivium.niri;
 
-  defaultStartup = [
-    { name = "fcitx5"; path = "${pkgs.fcitx5}/bin/fcitx5"; }
-  ];
+  defaultStartup = [ ];
 
   run-with-sess-var = pkgs.writeShellScript "run-with-sess-var" ''
     . "${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh"
@@ -58,6 +56,8 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    i18n.inputMethod.fcitx5.waylandFrontend = true;
+
     xdg.configFile."niri/config.kdl".source = cfg.configFile;
     programs = {
       fuzzel.enable = true;
