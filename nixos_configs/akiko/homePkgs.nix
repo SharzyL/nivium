@@ -9,6 +9,7 @@
     flamegraph
     radare2
     rustfmt
+    python3 # tide needs it to work TODO: fix
 
     # media and doc cli
     imagemagick
@@ -151,6 +152,7 @@
 
     # ide
     jetbrains.clion
+    jetbrains.rust-rover
     vscode
     claude-code
 

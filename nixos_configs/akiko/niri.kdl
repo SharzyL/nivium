@@ -140,10 +140,7 @@ prefer-no-csd
 window-rule {
     match app-id=r#"^firefox$"# title=r#"^Picture-in-Picture$"#
     match app-id=r#"^rdict$"#
-    open-floating true
-}
-
-window-rule {
+    match app-id=r#"^swaync$"#
     open-floating true
 }
 
@@ -200,6 +197,7 @@ binds {
 
     Mod+Return { spawn "kitty"; }
     Mod+O { spawn "fuzzel"; }
+    Mod+N { spawn-sh "swaync-client -t -sw"; }
     Mod+Escape { spawn-sh "swaylock && niri msg action power-on-monitors"; }
     Ctrl+Alt+D { spawn "rdict"; }
     Mod+Shift+P { power-off-monitors; }
@@ -282,8 +280,8 @@ binds {
     Mod+Shift+Minus { set-window-height "-10%"; }
     Mod+Shift+Equal { set-window-height "+10%"; }
 
-    Mod+Space       { toggle-window-floating; }
-    Mod+Shift+Space { switch-focus-between-floating-and-tiling; }
+    Mod+T       { toggle-window-floating; }
+    Mod+Space { switch-focus-between-floating-and-tiling; }
 
     Mod+W { toggle-column-tabbed-display; }
 

@@ -1,0 +1,52 @@
+.control-center {
+  background-color: #0a0f13; /* blue */
+}
+
+.notification-group {
+  background-color: #1f2e38;
+  padding: 14px 0px;
+  border-radius: 14px;
+}
+
+.control-center {
+  background-color: #0a0f13; /* blue */
+  border-radius: 0px;
+  padding: 28px;
+  min-width: 380px;
+}
+
+.control-center .text-button {
+  background-color: #3d5d71;
+  border: none;
+  background-image: none;
+}
+
+.control-center .text-button:hover {
+  background-color: #527c96;
+  border: none;
+  background-image: none;
+}
+
+.text-button > label {
+  color: white;
+}
+
+.control-center-dnd {
+  background-color: #bbb;
+}
+
+.notification {
+  background-color: #0b2d39; /* blue */
+}
+
+.notification.critical {
+  background-color: #7b3a00; /* orange */
+}
+
+.notification.low {
+  background-color: #162607; /* green */
+}
+
+.notification-content {
+  margin: 10px;
+}

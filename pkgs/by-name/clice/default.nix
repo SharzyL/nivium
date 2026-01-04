@@ -1,7 +1,7 @@
 { lib
 , fetchFromGitHub
 , runCommand
-, stdenv
+, gcc15Stdenv
 , cmake
 , ninja
 , libuv
@@ -12,9 +12,11 @@
 , llvmPackages
 , python3
 , cpptrace
+, lld
 }:
 
 let
+  stdenv = gcc15Stdenv;
   version = "unstable-2025-12-18";
   src = fetchFromGitHub {
     owner = "clice-io";
@@ -26,8 +28,11 @@ let
   clice-llvm = runCommand (llvmPackages.llvm.name) { } ''
     cp ${llvmPackages.llvm.dev} -rT $out
     chmod -R +w $out
-
+    cp ${llvmPackages.llvm.lib}/lib -rT $out/lib
+    chmod -R +w $out
     cp ${llvmPackages.libclang.dev}/include -rT $out/include
+    chmod -R +w $out
+    cp ${llvmPackages.libclang.lib}/lib -rT $out/lib
     chmod -R +w $out
 
     mkdir -p $out/include/clang/Sema
@@ -65,6 +70,7 @@ stdenv.mkDerivation {
     ninja
     python3
     flatbuffers
+    lld
   ];
 
   passthru = { inherit clice-llvm libuv-cmake cpptrace; };

@@ -4,8 +4,6 @@ let
   cfg = config.nivium.niri;
 
   defaultStartup = [
-    { name = "mako"; path = "${pkgs.mako}/bin/mako"; }
-    { name = "waybar"; path = "${pkgs.waybar}/bin/waybar"; }
     { name = "fcitx5"; path = "${pkgs.fcitx5}/bin/fcitx5"; }
   ];
 
@@ -91,7 +89,6 @@ in
       cliphist
       wev
 
-      mako
       swaybg
       swaylock
 
@@ -106,37 +103,24 @@ in
       ];
     };
 
+    services.swaync = {
+      enable = true;
+      settings = {
+        timeout = 15;
+        timeout-low = 5;
+        timeout-critical = 60;
+      };
+      style = ./resource/swaync.style.css;
+    };
+
     systemd.user.sessionVariables = {
       QT_QPA_PLATFORM = "wayland";
-      QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
       NIXOS_OZONE_WL = "1";
     };
 
-    xdg.configFile."mako/config".text = ''
-      font=sans-serif 12
-      background-color=#003049
-      border-color=#669bbc
-      text-color=#eeeeee
-      border-radius=8
-      padding=8
-      width=400
-      height=1000
-      default-timeout=60000
-      on-button-middle=dismiss-group
-      format=<b>%s (%a)</b>\n\n%b
-
-      [urgency=low]
-      border-color=#50C878
-      default-timeout=5000
-
-      [urgency=critical]
-      border-color=#e09f3e
-      default-timeout=0
-    '';
-
     programs.waybar = {
       enable = true;
-      systemd.enable = false;
+      systemd.enable = true;
       style = ./resource/waybar.style.css;
       settings = {
         mainBar = {
@@ -144,7 +128,7 @@ in
           position = "bottom";
           height = 32;
           output = cfg.displays;
-          modules-right = [ "battery" "backlight" "pulseaudio" "disk" "cpu" "memory" "network#eth" "network#wlan" "clock" "tray" ];
+          modules-right = [ "battery" "backlight" "pulseaudio" "disk" "cpu" "memory" "network#eth" "network#wlan" "custom/notif" "clock" "tray" ];
           modules-left = [ "niri/workspaces" "niri/workspace-overview" "niri/window" ];
           tray = {
             spacing = 10;
@@ -231,6 +215,7 @@ in
             separate-outputs = true;
             rewrite = {
               "org.telegram.desktop" = "telegram";
+              "org.nicotine_plus.Nicotine" = "nicotine";
             };
           };
 
@@ -243,6 +228,27 @@ in
             tooltip-format = "{controller_alias}\t{controller_address}";
             tooltip-format-connected = "{controller_alias}\t{controller_address}\n\n{device_enumerate}";
             tooltip-format-enumerate-connected = "{device_alias}\t{device_address}";
+          };
+
+          "custom/notif" = {
+            tooltip = true;
+            format = "{0} {icon}";
+            format-icons = {
+              notification = "󱅫";
+              none = "󰂜";
+              dnd-notification = "󰂠";
+              dnd-none = "󰪓";
+              inhibited-notification = "󰂛";
+              inhibited-none = "󰪑";
+              dnd-inhibited-notification = "󰂛";
+              dnd-inhibited-none = "󰪑";
+            };
+            return-type = "json";
+            exec-if = "which swaync-client";
+            exec = "swaync-client -swb";
+            on-click = "swaync-client -t -sw";
+            on-click-right = "swaync-client -d -sw";
+            escape = true;
           };
         };
       };
@@ -268,12 +274,12 @@ in
       {
         waybar.Service.Environment = [
           "PATH=${lib.makeBinPath (with pkgs; [
-          i3-volume
-          pavucontrol
-          pulseaudio
-          gawk
-
-          light
+            i3-volume
+            pavucontrol
+            pulseaudio
+            gawk
+            swaynotificationcenter
+            light
         ])}"
         ];
       }

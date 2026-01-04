@@ -12,7 +12,6 @@
 
     programs.kitty = {
       settings = {
-        clear_all_shortcuts = "";
         macos_option_as_alt = true;
         font_size = lib.mkDefault "10.0";
         window_padding_width = lib.mkDefault "2.5";
@@ -70,7 +69,7 @@
         "ctrl+k>shift+x" = "close_tab";
         "ctrl+k>z" = "toggle_layout stack"; # toggle zoom
         "alt+z" = "toggle_layout stack"; # toggle zoom
-        "ctrl+k+s" = "toggle_layout splits";
+        "ctrl+k>s" = "toggle_layout splits";
         "ctrl+shift+l" = "next_layout";
         "ctrl+k>b" = "detach_window new-tab"; # break-pane
         "ctrl+k>shift+b" = "detach_tab";
@@ -86,6 +85,8 @@
         "ctrl+k>$" = "launch --location=vsplit";
         "ctrl+k>\"" = "launch --location=hsplit --cwd=current";
         "ctrl+k>'" = "launch --location=hsplit";
+        "ctrl+k>r" = "respawn_window --cwd=current";
+        "ctrl+k>shift+r" = "respawn_window";
       };
     };
   };

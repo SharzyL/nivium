@@ -727,11 +727,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1767240595,
-        "narHash": "sha256-xJ97CioceJCmuz/Zus/vJz7tsPSf3u+SXz2dcFbMTlY=",
+        "lastModified": 1767251823,
+        "narHash": "sha256-GycwW5amtbTnRL6of7ycXxC5tFuutyzsXQxoawwqoQQ=",
         "owner": "SharzyL",
         "repo": "WayBar",
-        "rev": "9f3453eb2a5a17c86d515cd5371e1b2817344fd8",
+        "rev": "e632572ee2bd8b9a80da87b34b6494c5e5589190",
         "type": "github"
       },
       "original": {

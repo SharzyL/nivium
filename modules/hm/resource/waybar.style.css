@@ -2,7 +2,7 @@
     border: none;
     border-radius: 0;
     font-family: sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
     min-height: 0;
     min-width: 0;
@@ -14,9 +14,8 @@ window#waybar {
 }
 
 #window {
-    border-bottom: 3px solid transparent;
     margin-left: 5px;
-    padding: 0 5px;
+    padding: 0 4px;
     font-weight: 600;
 }
 
@@ -24,58 +23,64 @@ window#waybar {
     margin-left: 5px;
 }
 
+#workspaces button {
+    padding: 0 5px;
+    margin: 0 2px;
+    color: #aaaaaa;
+}
+
+#workspaces button:hover {
+    border-bottom-color: #888888;
+}
+
+#workspaces button.focused {
+    color: #ED8B16;
+    border-bottom-color: #ed8b16;  /* orange */
+}
+
+#workspaces button.empty, #workspaces button.empty.unnamed:hover {
+    color: rgba(255, 255, 255, 0.15);
+    border-bottom-color: transparent;
+}
+
+#workspaces button.empty.unnamed {
+    color: transparent;  /* hide unnamed empty workspace */
+}
+
 #workspace-overview button {
     padding: 0 5px;
     margin: 0 2px;
     background: transparent;
     color: #aaaaaa;
-    border-bottom: 3px solid transparent;
+    border-bottom-color: transparent;
 }
 
 #workspace-overview button:hover {
-    border-bottom: 3px solid #888888;
+    border-bottom-color: #888888;
 }
 
 #workspace-overview button.focused {
-    color: #ED8B16;
-    border-bottom: 3px solid #ED8B16;
+    color: #ed8b16;
+    border-bottom-color: #ed8b16;  /* orange */
 }
 
+#workspace-overview button.floating {
+    color: #669bbc;
+    border-bottom-color: #669bbc;  /* blue */
+}
 
-#workspaces button {
-    padding: 0 5px;
-    margin: 0 2px;
-    background: transparent;
-    color: #aaaaaa;
+#custom-trackpad, #battery, #cpu, #memory, #network, #pulseaudio, #battery, #backlight, #disk, #clock, #custom-notif, #window, #workspaces button, #workspace-overview button {
+    padding: 0 3px;
+    margin: 0 5px;
     border-bottom: 3px solid transparent;
 }
 
-#workspaces button:hover {
-    border-bottom: 3px solid #888888;
-}
-
-#workspaces button.focused {
-    color: #ED8B16;
-    border-bottom: 3px solid #ED8B16;
-}
-
-#workspaces button.empty, #workspaces button.empty.unnamed:hover {
-    color: rgba(255, 255, 255, 0.15);
-}
-
-#workspaces button.empty.unnamed {
-    color: transparent;
-}
-
-#mode {
-    background: #64727D;
-    border-bottom: 3px solid white;
-}
-
 #custom-trackpad, #battery, #cpu, #memory, #network, #pulseaudio, #battery, #backlight, #disk, #clock {
-    padding: 0 3px;
-    margin: 0 5px;
-    border-bottom: 3px solid #669bbc;
+    border-bottom-color: #669bbc;  /* blue */
+}
+
+#custom-notif {
+    border-bottom-color: #ed8b16;  /* orange */
 }
 
 #clock {
@@ -89,26 +94,30 @@ window#waybar {
 }
 
 #battery.charging, #battery.plugged, #battery.full {
-    border-bottom-color: #a7c957;
+    border-bottom-color: #a7c957; /* celery */
+}
+
+#custom-notif {
+    border-bottom-color: #ed8b16;  /* orange */
 }
 
 #custom-trackpad.good, #cpu.good, #memory.good, #battery.good {
-    border-bottom-color: #50C878;
+    border-bottom-color: #50C878;  /* emerald */
 }
 
-#custom-trackpad.critical, #cpu.critical, #memory.critical, #battery.critical, #pulseaudio.muted {
-    border-bottom-color: #e09f3e;
-    background-color: rgb(239, 240, 241);  /* override default */
-    color: rgb(246, 116, 0);
+#custom-trackpad.critical, #cpu.critical, #memory.critical, #battery.critical {
+    border-bottom-color: #e09f3e;  /* orange border */
+    background-color: #eeeeee;  /* white background, override default */
+    color: #f67400; /* orange text */
 }
 
-#network.disconnected {
-    border-bottom-color: #e09f3e;
-    color: rgb(246, 116, 0);
+#network.disconnected, #pulseaudio.muted, #custom-notif.none {
+    border-bottom-color: #888; /* gray */
+    color: #888;
 }
 
 #custom-trackpad.warning, #cpu.warning, #memory.warning, #battery.warning {
-    border-bottom-color: #d90429;
+    border-bottom-color: #d90429;  /* red */
     background-color: transparent;  /* override default */
     color: #ffffff;
 }
@@ -118,11 +127,5 @@ window#waybar {
         background-color: #ffffff;
         color: black;
     }
-}
-
-#pulseaudio.muted {
-}
-
-#tray {
 }
 
