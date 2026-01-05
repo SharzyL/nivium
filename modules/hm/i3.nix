@@ -150,7 +150,6 @@ in
                 "xset s off" # disable screensavers
                 "xset -b" # disable beep
                 "xset -dpms" # disable dpms
-                "env -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY -u http_proxy -u https_proxy -u all_proxy utools" # workaround for fcitx issue
                 "${pkgs.xss-lock}/bin/xss-lock --transfer-sleep-lock -- ${locker} --nofork"
                 polybar
               ] ++ (lib.optional (cfg.wallpaper != null) "feh --no-fehbg --bg-scale ${cfg.wallpaper}"));

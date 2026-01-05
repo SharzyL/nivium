@@ -105,10 +105,6 @@
           _module.args.pkgs = import inputs.nixpkgs {
             localSystem = system;
             overlays = [ overlay ];
-
-            # to make `nix flake check` happy
-            config.allowUnfreePredicate = pkg:
-              builtins.elem (lib.getName pkg) [ "utools" ];
           };
 
           packages = mypkgs.makeMyPkgs pkgs;

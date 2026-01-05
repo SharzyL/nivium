@@ -28,7 +28,6 @@
         parsec-bin
         zoom-us
         vscode
-        utools
         snipaste
       ])) || lib.hasPrefix "https://www.jetbrains.com" (pkg.meta.homepage or "")
     );

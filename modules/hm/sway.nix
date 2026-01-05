@@ -224,7 +224,6 @@ in
           });
 
           startup = [
-            { command = "systemd-run-app utools"; }
             { command = "systemd-run-app dbus-sway-environment"; }
             { command = "systemd-run-app wl-paste --watch cliphist store"; }
           ];

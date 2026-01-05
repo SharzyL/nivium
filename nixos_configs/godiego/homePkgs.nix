@@ -101,7 +101,6 @@
     anki
     thunderbird
     meld
-    utools
     chromium
     parsec-bin
 
