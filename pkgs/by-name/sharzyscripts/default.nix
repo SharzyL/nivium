@@ -72,14 +72,6 @@ symlinkJoin {
         ${musictagEnv}/bin/python3 ${./py/vr.py} "$@"
       '';
     })
-
-    (writeShellApplication {
-      name = "fuzzel-window";
-      text = ''
-        ${python3}/bin/python3 ${./py/fuzzel-window.py} "$@"
-      '';
-      runtimeInputs = with pkgs; [ niri fuzzel ];
-    })
   ];
 }
 

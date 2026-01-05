@@ -7,6 +7,7 @@
     mac-app-util = {
       url = "github:hraban/mac-app-util";
       inputs.cl-nix-lite.url = "github:r4v3n6101/cl-nix-lite/url-fix";
+      inputs.treefmt-nix.follows = "treefmt-nix";
     };
 
     treefmt-nix = {
@@ -32,16 +33,29 @@
     chatgpt-telegram-bot = {
       url = "github:SharzyL/chatgpt-telegram-bot/goshujin";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.treefmt-nix.follows = "treefmt-nix";
     };
 
     csync = {
       url = "github:SharzyL/csync/goshujin";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.treefmt-nix.follows = "treefmt-nix";
     };
 
     rdict = {
       url = "github:SharzyL/rdict/goshujin";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.treefmt-nix.follows = "treefmt-nix";
+    };
+
+    vicishz = {
+      url = "github:SharzyL/vicishz/goshujin";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.treefmt-nix.follows = "treefmt-nix";
     };
 
     waybar = {
@@ -74,6 +88,7 @@
         rdict
         colmena
         waybar
+        vicishz
       ])));
     in
     flake-parts.lib.mkFlake { inherit inputs; }

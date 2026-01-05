@@ -60,29 +60,14 @@ in
 
     xdg.configFile."niri/config.kdl".source = cfg.configFile;
     programs = {
-      fuzzel = {
+      vicinae = {
         enable = true;
-        settings = {
-          colors = {
-            background = "eab676ff";
-            text = "000000ff";
-            input = "000000ff";
-            prompt = "000000ff";
-            placeholder = "000000ff";
-            selection = "fbf0e4ff";
-            selection-text = "000000ff";
-            selection-match = "805e34ff";
-            match = "805e34ff";
-          };
-          main = {
-            font = "sans-serif:size=12";
-            line-height = 18;
-            horizontal-pad = 8;
-            lines = 25;
-            width = 40;
-          };
-        };
+        systemd.enable = true;
+        extensions = [
+          pkgs.vicishz
+        ];
       };
+
       swaylock = {
         enable = true;
         settings = {

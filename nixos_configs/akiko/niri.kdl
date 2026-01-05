@@ -196,11 +196,14 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     Mod+Return { spawn "kitty"; }
-    Mod+Tab { spawn "fuzzel-window"; }
-    Mod+O { spawn "fuzzel"; }
+
+    Mod+O { spawn "vicinae" "vicinae://toggle"; }
+    Mod+Tab { spawn "vicinae" "vicinae://extensions/vicinae/wm/switch-windows"; }
+    Mod+D { spawn "vicinae" "vicinae://extensions/SharzyL/vicishz/kitty-windows"; }
+    Ctrl+Alt+D { spawn "vicinae" "vicinae://extensions/SharzyL/vicishz/rdict-quick"; }
+
     Mod+N { spawn-sh "swaync-client -t -sw"; }
     Mod+Escape { spawn-sh "swaylock && niri msg action power-on-monitors"; }
-    Ctrl+Alt+D { spawn "rdict"; }
     Mod+Shift+P { power-off-monitors; }
     Mod+Shift+Escape { spawn-sh "niri msg action power-off-monitors && swaylock && niri msg action power-on-monitors"; }
 
@@ -302,4 +305,8 @@ animations {
     workspace-switch {
         off
     }
+}
+
+debug {
+    honor-xdg-activation-with-invalid-serial
 }

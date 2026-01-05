@@ -100,10 +100,11 @@ in
   # };
   #
 
-  # https://github.com/kovidgoyal/kitty/discussions/5959
   kitty = prev.kitty.overrideAttrs (oldAttrs: {
     patches = (oldAttrs.patches or [ ]) ++ [
+      # https://github.com/kovidgoyal/kitty/discussions/5959
       ./patches/kitty-mouse.patch
+      # https://github.com/SharzyL/kitty/tree/feat/respawn
       ./patches/kitty-respawn.patch
     ];
   });
