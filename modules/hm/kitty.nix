@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   # kitty is already added to home.packages in graphics-common.nix
@@ -11,34 +11,39 @@
     '';
 
     programs.kitty = {
-      settings = {
-        macos_option_as_alt = true;
-        font_size = lib.mkDefault "10.0";
-        window_padding_width = lib.mkDefault "2.5";
-        scrollback_pager_history_size = lib.mkDefault 50;
-        enabled_layouts = lib.mkDefault "splits,grid,tall,vertical,horizontal,fat,stack";
+      settings = lib.mkMerge [
 
-        tab_bar_style = "separator";
-        tab_separator = "\"\"";
-        tab_title_template =
-          "\"{fmt.fg._5c6370}{fmt.bg.default}"
-          + "{fmt.fg._abb2bf}{fmt.bg._5c6370}{index}"
-          + "{fmt.fg._abb2bf} {title[:20]}"
-          + "{fmt.fg._7209b7}{'' if num_windows == 1 else ' *' + str(num_windows)}"
-          + "{fmt.fg._5c6370}{fmt.bg.default} \"";
-        active_tab_title_template = "\"{fmt.fg._e5c07b}{fmt.bg.default}"
-          + "{fmt.fg._335c9a}{fmt.bg._e5c07b}{index}"
-          + "{fmt.fg._282c34} {title[:20]}"
-          + "{fmt.fg._7209b7}{'' if num_windows == 1 else ' *' + str(num_windows)}"
-          + "{fmt.fg._5e3719}{'' if layout_name == 'splits' else 'Z' if layout_name == 'stack' else '/' + layout_name}"
-          + "{fmt.fg._e5c07b}{fmt.bg.default} \"";
-        tab_bar_min_tabs = 1;
+        {
+          macos_option_as_alt = true;
+          font_size = lib.mkDefault "10.0";
+          window_padding_width = lib.mkDefault "2.5";
+          scrollback_pager_history_size = lib.mkDefault 50;
+          enabled_layouts = lib.mkDefault "splits,grid,tall,vertical,horizontal,fat,stack";
 
-        inactive_border_color = "#333333";
-        allow_remote_control = "password";
-        remote_control_password = "\"\" focus-window ls";
-        listen_on = "unix:\${XDG_RUNTIME_DIR}/kitty-{kitty_pid}.sock";
-      };
+          tab_bar_style = "separator";
+          tab_separator = "\"\"";
+          tab_title_template =
+            "\"{fmt.fg._5c6370}{fmt.bg.default}"
+            + "{fmt.fg._abb2bf}{fmt.bg._5c6370}{index}"
+            + "{fmt.fg._abb2bf} {title[:20]}"
+            + "{fmt.fg._7209b7}{'' if num_windows == 1 else ' *' + str(num_windows)}"
+            + "{fmt.fg._5c6370}{fmt.bg.default} \"";
+          active_tab_title_template = "\"{fmt.fg._e5c07b}{fmt.bg.default}"
+            + "{fmt.fg._335c9a}{fmt.bg._e5c07b}{index}"
+            + "{fmt.fg._282c34} {title[:20]}"
+            + "{fmt.fg._7209b7}{'' if num_windows == 1 else ' *' + str(num_windows)}"
+            + "{fmt.fg._5e3719}{'' if layout_name == 'splits' else 'Z' if layout_name == 'stack' else '/' + layout_name}"
+            + "{fmt.fg._e5c07b}{fmt.bg.default} \"";
+          tab_bar_min_tabs = 1;
+
+          inactive_border_color = "#333333";
+        }
+        (lib.mkIf pkgs.stdenv.targetPlatform.isLinux {
+          allow_remote_control = "password";
+          remote_control_password = "\"\" focus-window ls";
+          listen_on = "unix:\${XDG_RUNTIME_DIR}/kitty-{kitty_pid}.sock";
+        })
+      ];
 
       keybindings = {
         "ctrl+=" = "change_font_size current +1.0";
