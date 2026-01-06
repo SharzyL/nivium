@@ -38,7 +38,7 @@
 
           inactive_border_color = "#333333";
         }
-        (lib.mkIf pkgs.stdenv.targetPlatform.isLinux {
+        (lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
           allow_remote_control = "password";
           remote_control_password = "\"\" focus-window ls";
           listen_on = "unix:\${XDG_RUNTIME_DIR}/kitty-{kitty_pid}.sock";

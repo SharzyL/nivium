@@ -33,7 +33,7 @@ builtins.mapAttrs
       self.homeModules.default
       self.homeModules.standalone
       userConfig
-    ] ++ pkgs.lib.optionals pkgs.stdenv.isDarwin [
+    ] ++ pkgs.lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
       inputs.mac-app-util.homeManagerModules.default
     ];
   }))

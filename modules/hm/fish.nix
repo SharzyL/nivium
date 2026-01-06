@@ -80,7 +80,7 @@ in
           cat $file.bak > $file
         '';
       }
-        (mkIf pkgs.stdenv.isLinux {
+        (mkIf pkgs.stdenv.hostPlatform.isLinux {
           sstart = ''
             sudo systemctl restart $argv[1]
             sudo journalctl -efu $argv[1]
@@ -91,7 +91,7 @@ in
             journalctl --user -efu $argv[1]
           '';
         })
-        (mkIf pkgs.stdenv.isDarwin {
+        (mkIf pkgs.stdenv.hostPlatform.isDarwin {
           sudo = ''
             if test -z "$SSH_CONNECTION";
               ${pkgs.reattach-to-user-namespace}/bin/reattach-to-user-namespace sudo $argv
@@ -137,7 +137,7 @@ in
             bear = "noproxy bear";
           }
         )
-        (mkIf pkgs.stdenv.isLinux {
+        (mkIf pkgs.stdenv.hostPlatform.isLinux {
           ip = "ip -c";
           xc = "wl-copy";
 

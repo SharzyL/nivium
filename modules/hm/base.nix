@@ -32,7 +32,7 @@ in
     };
 
     # ssh shells does not get systemd variables, force it here
-    programs.fish.shellInit = lib.mkIf pkgs.stdenv.isLinux ''
+    programs.fish.shellInit = lib.mkIf pkgs.stdenv.hostPlatform.isLinux ''
       if ! set -q __SYSTEMD_SESS_VARS_SOURCED
         set vars (${pkgs.systemd}/lib/systemd/user-environment-generators/30-systemd-environment-d-generator)
         for line in (string split '\n' "$vars" --no-empty || true)
@@ -98,7 +98,7 @@ in
       homedir = "${config.xdg.dataHome}/gnupg";
     };
 
-    services.gpg-agent = lib.mkIf pkgs.stdenv.isLinux {
+    services.gpg-agent = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
       enable = true;
       enableSshSupport = true;
       defaultCacheTtl = 10;
