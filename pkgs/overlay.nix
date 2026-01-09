@@ -2,12 +2,14 @@
 
 final: prev:
 let
+  lib = final.lib;
+
   nixpkgs_master = (import inputs.nixpkgs_master {
     system = final.stdenv.hostPlatform.system;
     config.allowUnfree = true;
   });
 
-  versionGuard = pkg: version: drv: assert final.lib.assertMsg
+  versionGuard = pkg: version: drv: assert lib.assertMsg
     (!(final.lib.versionAtLeast pkg.version version))
     "expect '${pkg.pname}' version less than ${version}, get ${pkg.version}";
     drv
@@ -21,7 +23,7 @@ in
 
   fido2luks = versionGuard prev.fido2luks "0.3.0" (prev.fido2luks.overrideAttrs (oldAttrs: rec {
     patches = (prev.patches or [ ]) ++ [ ./patches/fido2luks-bump-libcryptsetup.patch ];
-    cargoDeps = oldAttrs.cargoDeps.overrideAttrs (final.lib.const {
+    cargoDeps = oldAttrs.cargoDeps.overrideAttrs (lib.const {
       inherit patches;
       outputHash = "sha256-3gVdJXs8Oih5btthATocMYmHwZwtwkCmPQTYXMKH5w0=";
     });
@@ -32,7 +34,7 @@ in
   }));
 
   # to prevent collision with rustup
-  rust-analyzer = final.lib.hiPrio prev.rust-analyzer;
+  rust-analyzer = lib.hiPrio prev.rust-analyzer;
 
   zoom-us = nixpkgs_master.zoom-us;
 
@@ -115,18 +117,23 @@ in
     src = final.fetchFromGitHub {
       owner = "SharzyL";
       repo = "fish-shell";
-      rev = "faf86eda840d5bfafddfcbfe25ab810d43ef2c0d";
-      hash = "sha256-RvAcYTwofkQ7vOVcSDA13ZtKc4hotaPhAFJIxffaf58=";
+      rev = "04d2823ab8628a7341696265a1117aac9d014e81";
+      hash = "sha256-ci/JqNESs/UxacTG0ZZWP9fgA3/IDUhUsOsD252eGdw=";
     };
     cargoDeps = final.rustPlatform.fetchCargoVendor {
       inherit src;
       inherit (oldAttrs) patches;
       hash = "sha256-LiV9VHndVp6UZrIE8kz8cCzOLi/djZ7JlD04KHOrRCg=";
     };
-    postPatch = oldAttrs.postPatch + ''
-      substituteInPlace tests/checks/output-buffering.fish \
-        --replace-fail '/bin/echo' '"${final.lib.getExe' final.coreutils "echo"}"'
-    '';
+    postPatch =
+      let
+        remove-line = k: s: with lib;
+          let lines = splitString "\n" s; in concatStringsSep "\n" (take (k - 1) lines ++ drop k lines);
+      in
+      (remove-line 5 oldAttrs.postPatch) + ''
+        substituteInPlace tests/checks/output-buffering.fish \
+          --replace-fail '/bin/echo' '"${lib.getExe' final.coreutils "echo"}"'
+      '';
   });
 
   vimPlugins =

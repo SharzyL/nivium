@@ -69,6 +69,7 @@ in
         vim-exchange
         vim-argumentative
         leap-nvim
+        nvim-spider
 
         # widget
         barbar-nvim # tabline
@@ -114,7 +115,6 @@ in
         # TODO: try undotree
 
         # coding
-        nvim-lspconfig
         (nvim-treesitter.withPlugins (
           plugins: with plugins; [
             tree-sitter-c
@@ -133,9 +133,7 @@ in
           ]
         ))
         nvim-treesitter-textobjects
-        nvim-lspconfig
         vimtex
-        vim-just # tree-sitter-just is not merged and have problems
 
         # appearance
         onedark-nvim
