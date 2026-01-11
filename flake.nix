@@ -8,6 +8,7 @@
       url = "github:hraban/mac-app-util";
       inputs.cl-nix-lite.url = "github:r4v3n6101/cl-nix-lite/url-fix";
       inputs.treefmt-nix.follows = "treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     treefmt-nix = {
@@ -70,6 +71,7 @@
 
     impermanence = {
       url = "github:nix-community/impermanence";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 

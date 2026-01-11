@@ -58,6 +58,9 @@
   nivium.enableDNSACME = true;
 
   users.users."sharzy".extraGroups = lib.mkBefore [ "qbittorrent" ];
+  systemd.services.ddns.serviceConfig.Environment = [
+    "HTTPS_PROXY=http://127.0.0.1:1094"
+  ];
 
   # restic
   systemd.services.auto-restic = {

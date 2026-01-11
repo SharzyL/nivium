@@ -16,11 +16,6 @@ let
   ;
 in
 {
-  imhex = prev.imhex.overrideAttrs (old: {
-    cmakeFlags = old.cmakeFlags ++ [ "-DIMHEX_USE_GTK_FILE_PICKER=ON" ];
-    nativeBuildInputs = old.nativeBuildInputs ++ [ final.wrapGAppsHook3 ];
-  });
-
   fido2luks = versionGuard prev.fido2luks "0.3.0" (prev.fido2luks.overrideAttrs (oldAttrs: rec {
     patches = (prev.patches or [ ]) ++ [ ./patches/fido2luks-bump-libcryptsetup.patch ];
     cargoDeps = oldAttrs.cargoDeps.overrideAttrs (lib.const {
@@ -73,7 +68,6 @@ in
     });
   };
 
-
   anki = prev.anki.override { mpv-unwrapped = prev.mpv-unwrapped; }; # prevent anki from recompile
 
   mpv-unwrapped = prev.mpv-unwrapped.override {
@@ -120,6 +114,7 @@ in
       rev = "04d2823ab8628a7341696265a1117aac9d014e81";
       hash = "sha256-ci/JqNESs/UxacTG0ZZWP9fgA3/IDUhUsOsD252eGdw=";
     };
+
     cargoDeps = final.rustPlatform.fetchCargoVendor {
       inherit src;
       inherit (oldAttrs) patches;
@@ -130,10 +125,7 @@ in
         remove-line = k: s: with lib;
           let lines = splitString "\n" s; in concatStringsSep "\n" (take (k - 1) lines ++ drop k lines);
       in
-      (remove-line 5 oldAttrs.postPatch) + ''
-        substituteInPlace tests/checks/output-buffering.fish \
-          --replace-fail '/bin/echo' '"${lib.getExe' final.coreutils "echo"}"'
-      '';
+      (remove-line 5 oldAttrs.postPatch);
   });
 
   vimPlugins =

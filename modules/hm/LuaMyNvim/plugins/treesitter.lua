@@ -1,5 +1,5 @@
 return function(vim)
-  require('nvim-treesitter.configs').setup({
+  require('nvim-treesitter').setup({
     highlight = { enable = true },
     incremental_selection = { enable = true },
     indent = { enable = true },
@@ -7,5 +7,5 @@ return function(vim)
   })
 
   vim.opt.foldmethod = 'expr'
-  vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+  vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 end

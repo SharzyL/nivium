@@ -41,7 +41,7 @@ in
       rust-analyzer
       pyright
       ruff # python linter
-      clang-tools-hotfix
+      clang-tools
       beancount-language-server
       tinymist
       nixpkgs-fmt
@@ -132,7 +132,7 @@ in
             tree-sitter-typescript
           ]
         ))
-        nvim-treesitter-textobjects
+        # nvim-treesitter-textobjects
         vimtex
 
         # appearance

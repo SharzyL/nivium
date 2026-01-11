@@ -143,10 +143,13 @@
   };
 
   boot.supportedFilesystems = [ "zfs" "nfs4" ];
-  boot.zfs.extraPools = [ "tank" ];
   networking.hostId = "2741c380"; # first 8 chars of /etc/machine-id, required by ZFS
   services.zfs.autoScrub.enable = true;
-  boot.kernelPackages = pkgs.linuxPackages_6_12;
+  boot.kernelPackages = pkgs.linuxPackages_6_18;
+  boot.zfs = {
+    package = pkgs.zfs_2_4;
+    extraPools = [ "tank" ];
+  };
 
   environment.systemPackages = [
     pkgs.perf
