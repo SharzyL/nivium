@@ -201,6 +201,7 @@
   i18n.supportedLocales = [ "all" ];
 
   hardware.bluetooth.enable = true;
+  hardware.nvidia-container-toolkit.enable = true;
   services.blueman.enable = true;
 
   services.openssh = {

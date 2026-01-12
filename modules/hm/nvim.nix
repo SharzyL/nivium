@@ -125,7 +125,10 @@ in
             tree-sitter-go
             tree-sitter-cpp-latest
             tree-sitter-bash
+            tree-sitter-python
+            tree-sitter-latex
             tree-sitter-fish
+            tree-sitter-cmake
             tree-sitter-vimdoc # nvim bundled parser conflicts with treesitter
             tree-sitter-beancount
             tree-sitter-typst
