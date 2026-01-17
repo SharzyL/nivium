@@ -39,7 +39,7 @@ in
       gopls
       texlab
       rust-analyzer
-      pyright
+      basedpyright
       ruff # python linter
       clang-tools
       beancount-language-server

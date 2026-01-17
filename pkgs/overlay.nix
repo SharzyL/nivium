@@ -70,17 +70,19 @@ in
 
   anki = prev.anki.override { mpv-unwrapped = prev.mpv-unwrapped; }; # prevent anki from recompile
 
+  my_ffmpeg = prev.ffmpeg-full.overrideAttrs (prevAttrs: {
+    configureFlags = prevAttrs.configureFlags ++ [
+      "--enable-libaribcaption"
+    ];
+    buildInputs = prevAttrs.buildInputs ++ [
+      final.libaribcaption
+    ];
+  });
+
   mpv-unwrapped = prev.mpv-unwrapped.override {
     cddaSupport = true;
     libbluray = prev.libbluray;
-    ffmpeg = prev.ffmpeg.overrideAttrs (prevAttrs: {
-      configureFlags = prevAttrs.configureFlags ++ [
-        "--enable-libaribcaption"
-      ];
-      buildInputs = prevAttrs.buildInputs ++ [
-        final.libaribcaption
-      ];
-    });
+    ffmpeg = final.my_ffmpeg;
   };
 
   # telegram-desktop = prev.telegram-desktop.override {

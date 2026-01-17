@@ -19,10 +19,10 @@ return function(vim, lsp_autostart)
       },
     },
     texlab = {},
-    pyright = {
+    basedpyright = {
       settings = {
         -- Using Ruff's import organizer
-        pyright = { disableOrganizeImports = true },
+        basedpyright = { disableOrganizeImports = true },
       },
     },
     ruff = {

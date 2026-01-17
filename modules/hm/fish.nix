@@ -54,10 +54,12 @@ in
         '';
 
         gpg-up = ''
-          set -gx GPG_TTY (tty)
-          set -u SSH_AGENT_PID
-          if [ \( -z "$gnupg_SSH_AUTH_SOCK_by" -o "$gnupg_SSH_AUTH_SOCK_by" != "$fish_pid" \) -a -z "$SSH_CONNECTION" ]
-              set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
+          if [ -d $GNUPGHOME ]
+            set -gx GPG_TTY (tty)
+            set -u SSH_AGENT_PID
+            if [ \( -z "$gnupg_SSH_AUTH_SOCK_by" -o "$gnupg_SSH_AUTH_SOCK_by" != "$fish_pid" \) -a -z "$SSH_CONNECTION" ]
+                set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
+            end
           end
         '';
 
