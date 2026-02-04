@@ -1,0 +1,28 @@
+[server]
+base_url = ""
+
+[storage]
+backend = "s3"
+base_path = "./test_dir"
+
+[storage.s3]
+endpoint = "https://1ddaf86dbca12e8f4fcaa76f32bb707d.r2.cloudflarestorage.com"
+bucket = "rosetta"
+region = "auto"
+public_access_domain = "syborg.sharzy.in"
+
+[streaming]
+time_shift_buffer_depth = 60.0
+suggested_presentation_delay = 30.0
+min_future_manifest_duration = 60.0
+
+[admin]
+rate_limit_per_second = 5
+max_concurrency = 8
+
+[logging]
+level = "info"
+
+[cors]
+allowed_origins = ["*"]
+

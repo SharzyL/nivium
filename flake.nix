@@ -45,6 +45,13 @@
       inputs.treefmt-nix.follows = "treefmt-nix";
     };
 
+    green-rosetta = {
+      url = "github:SharzyL/green_rosetta/goshujin";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.treefmt-nix.follows = "treefmt-nix";
+    };
+
     rdict = {
       url = "github:SharzyL/rdict/goshujin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -91,6 +98,7 @@
         colmena
         waybar
         vicishz
+        green-rosetta
       ])));
     in
     flake-parts.lib.mkFlake { inherit inputs; }

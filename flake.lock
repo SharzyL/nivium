@@ -228,6 +228,33 @@
         "type": "indirect"
       }
     },
+    "green-rosetta": {
+      "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "treefmt-nix": [
+          "treefmt-nix"
+        ]
+      },
+      "locked": {
+        "lastModified": 1768962508,
+        "narHash": "sha256-+x1uuDFsOwX2L/6jz40ItFvq/Ui95ipjF06Xkjcs3Kw=",
+        "owner": "SharzyL",
+        "repo": "green_rosetta",
+        "rev": "ee46538a39b80b17a79b3be886c04bb9ad0f86a6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "SharzyL",
+        "ref": "goshujin",
+        "repo": "green_rosetta",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -417,6 +444,7 @@
         "csync": "csync",
         "flake-parts": "flake-parts",
         "flake-utils": "flake-utils_2",
+        "green-rosetta": "green-rosetta",
         "home-manager": "home-manager",
         "impermanence": "impermanence",
         "mac-app-util": "mac-app-util",

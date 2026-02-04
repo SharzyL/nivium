@@ -10,6 +10,8 @@
   sops.secrets."sb_secret" = { sopsFile = ../../secrets/jethro.yaml; };
   sops.secrets."chatgpt_bot" = { sopsFile = ../../secrets/jethro.yaml; };
   sops.secrets."syncplay_password" = { sopsFile = ../../secrets/jethro.yaml; };
+  sops.secrets."rosetta_env" = { sopsFile = ../../secrets/jethro.yaml; };
+  sops.secrets."cloudflared-creds" = { sopsFile = ../../secrets/jethro.yaml; };
 
   security.auditd.enable = true;
 
@@ -86,6 +88,26 @@
     enable = true;
     configFile = "%S/tg-searcher/config.yaml"; # require manually copy to host
     redis.enable = true;
+  };
+
+  services.green-rosetta = {
+    enable = true;
+    listen = "127.0.0.1:2445";
+    configFile = ./green-rosetta.toml;
+    envFile = config.sops.secrets."rosetta_env".path;
+  };
+
+  services.cloudflared = {
+    enable = true;
+    tunnels."967176fc-b025-4fcd-8f71-84957718a1b9" = {
+      credentialsFile = config.sops.secrets."cloudflared-creds".path;
+      ingress = {
+        "rosetta.sharzy.in" = {
+          service = "http://${config.services.green-rosetta.listen}";
+        };
+      };
+      default = "http_status:404";
+    };
   };
 
   services.chatgpt-telegram-bot = {
