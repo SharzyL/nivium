@@ -3,7 +3,6 @@
 {
   imports = [
     ./services/jellyfin.nix
-    ./services/green-rosetta.nix
   ];
 
   sops.secrets."thu_passwd" = { sopsFile = ../../secrets/desktop.yaml; };
