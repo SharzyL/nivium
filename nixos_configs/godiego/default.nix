@@ -29,6 +29,8 @@
         zoom-us
         vscode
         snipaste
+        claude-code
+        codex
       ])) || lib.hasPrefix "https://www.jetbrains.com" (pkg.meta.homepage or "")
     );
 
@@ -57,10 +59,7 @@
     hostName = "godiego";
     graphics = {
       enable = true;
-      # sway.enable = true;
-      xserver.enable = true;
-      hidpi.enable = true;
-      i3lock.enable = true;
+      niri.enable = true;
       user = "sharzy";
     };
     home.users."sharzy" = {

@@ -69,7 +69,6 @@ in
         vim-exchange
         vim-argumentative
         leap-nvim
-        nvim-spider
 
         # widget
         barbar-nvim # tabline

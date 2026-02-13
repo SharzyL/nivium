@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
@@ -25,42 +25,21 @@
       }];
     };
 
-    # sway = {
-    #   enable = true;
-    #   displays = [ "eDP-1" "DP-3" "HDMI-A-1" ];
-    #   wallpaper = "/home/sharzy/download/pic/wallpaper.jpg";
-    #   extraConf = ''
-    #     output eDP-1 scale 1.5 position 0 960
-    #     output DP-3 scale 1 position 2048 0 transform 270
-    #
-    #     input "10182:291:GXTP7936:00_27C6:0123" map_to_output eDP-1
-    #
-    #     exec ${config.nivium.defaultBrowser}
-    #     exec thunderbird
-    #     exec obsidian
-    #     exec swaymsg 'workspace 0; exec ${config.nivium.defaultTerminal}'
-    #   '';
-    #   extraStartup = [
-    #     { name = "dropbox"; path = "${pkgs.dropbox}/bin/dropbox"; }
-    #   ];
-    # };
-
-    i3 = {
+    niri = {
       enable = true;
-      displays = [ "eDP-1" "DP-3" "HDMI-1" ];
-      wallpaper = "/home/sharzy/download/pic/wallpaper.jpg";
+      displays = [ "eDP-1" "HDMI-A-1" ];
+      configFile = ./niri.kdl;
       extraStartup = [
         { name = "dropbox"; path = "${pkgs.dropbox}/bin/dropbox"; }
-        { name = "nicotine"; path = "${pkgs.nicotine-plus}/bin/nicotine-plus"; }
-      ];
-      extraConfig = ''
-        exec_always --no-startup-id env -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY -u http_proxy -u https_proxy -u all_proxy ${config.nivium.defaultBrowser}
-        exec_always --no-startup-id thunderbird
-        exec_always --no-startup-id obsidian
-        exec_always --no-startup-id i3-msg 'workspace 0; exec ${config.nivium.defaultTerminal}'
-      '';
-    };
+        { name = "swaybg"; path = "${pkgs.swaybg}/bin/swaybg -i /home/sharzy/download/pic/wallpaper.jpg"; }
 
+        { name = "kitty"; path = "${pkgs.kitty}/bin/kitty"; }
+        { name = "firefox"; path = "${pkgs.firefox}/bin/firefox"; }
+        { name = "thunderbird"; path = "${pkgs.thunderbird}/bin/thunderbird"; }
+        { name = "obsidian"; path = "${pkgs.obsidian}/bin/obsidian"; }
+        { name = "telegram"; path = "${pkgs.telegram-desktop}/bin/Telegram"; }
+      ];
+    };
     tmux.enable = true;
 
     fcitx5-rime.enable = true;
@@ -89,19 +68,6 @@
     "d %h/tmp - - - 0 -"
     "d %h/tmp/_screenshots - - - 3d -"
   ];
-
-  systemd.user.services.sc_monitor = {
-    Unit = {
-      Description = "copy image from clipboard directory";
-      After = [ "systemd-tmpfiles-nivium.service" "graphical-session-pre.target" ];
-      PartOf = [ "graphical-session.target" ];
-    };
-    Service = {
-      ExecStart = "${pkgs.sharzyscripts}/bin/sc_monitor";
-      ExecSearchPath = [ "${pkgs.wl-clipboard}/bin" ]; # oh hm has no path config
-    };
-    Install.WantedBy = [ "graphical-session.target" ];
-  };
 
   xdg.userDirs = {
     enable = true;

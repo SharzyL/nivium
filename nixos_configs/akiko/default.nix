@@ -25,6 +25,7 @@
         mlc
         snipaste
         claude-code
+        codex
       ])) || lib.hasPrefix "https://www.jetbrains.com" (pkg.meta.homepage or "")
     || (pkg.meta.licence.shortName or "" == "firefox")
     );

@@ -14,6 +14,8 @@
     man-pages
     flamegraph
     rustup
+    claude-code
+    codex
 
     # media and doc cli
     imagemagick
