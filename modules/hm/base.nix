@@ -21,7 +21,7 @@ in
   config = lib.mkMerge [{
     programs.home-manager.enable = true;
 
-    home.stateVersion = "22.05";
+    home.stateVersion = "26.05";
 
     home.file.".bash_profile" = lib.mkIf config.nivium.bashProfileExecFish {
       text = ''

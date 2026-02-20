@@ -107,29 +107,6 @@ in
     ];
   });
 
-  fish = prev.fish.overrideAttrs (oldAttrs: rec {
-    # https://github.com/hrsh7th/nvim-cmp/issues/1877
-    version = "4.3";
-    src = final.fetchFromGitHub {
-      owner = "SharzyL";
-      repo = "fish-shell";
-      rev = "04d2823ab8628a7341696265a1117aac9d014e81";
-      hash = "sha256-ci/JqNESs/UxacTG0ZZWP9fgA3/IDUhUsOsD252eGdw=";
-    };
-
-    cargoDeps = final.rustPlatform.fetchCargoVendor {
-      inherit src;
-      inherit (oldAttrs) patches;
-      hash = "sha256-LiV9VHndVp6UZrIE8kz8cCzOLi/djZ7JlD04KHOrRCg=";
-    };
-    postPatch =
-      let
-        remove-line = k: s: with lib;
-          let lines = splitString "\n" s; in concatStringsSep "\n" (take (k - 1) lines ++ drop k lines);
-      in
-      (remove-line 5 oldAttrs.postPatch);
-  });
-
   vimPlugins =
     prev.vimPlugins.extend
       (vfinal: vprev: {

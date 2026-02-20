@@ -77,8 +77,6 @@ in
           enable = true;
           defaultEditor = true;
         };
-        mtr.enable = true;
-        htop.enable = true;
 
         gnupg.agent = {
           enable = true;
