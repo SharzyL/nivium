@@ -1,6 +1,5 @@
 { config, pkgs, lib, ... }:
 
-with lib;
 let
   cfg = config.nivium.fish;
   fish-colored-man = pkgs.fetchFromGitHub {
@@ -11,12 +10,12 @@ let
   }; # TODO: upstream
 in
 {
-  options.nivium.fish = {
+  options.nivium.fish = with lib; {
     enable = mkOption { type = types.bool; default = config.nivium.profile != "bare"; };
     extraScript = mkOption { type = types.str; default = ""; };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     programs.man.generateCaches = false;
 
     programs.fish = {
@@ -32,7 +31,7 @@ in
           fish-colored-man
         ]);
 
-      functions = mkMerge [{
+      functions = lib.mkMerge [{
         "@has" = "command -v $argv > /dev/null";
 
         setproxy = ''
@@ -81,8 +80,9 @@ in
           mv -i $file $file.bak
           cat $file.bak > $file
         '';
+
       }
-        (mkIf pkgs.stdenv.hostPlatform.isLinux {
+        (lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
           sstart = ''
             sudo systemctl restart $argv[1]
             sudo journalctl -efu $argv[1]
@@ -93,7 +93,7 @@ in
             journalctl --user -efu $argv[1]
           '';
         })
-        (mkIf pkgs.stdenv.hostPlatform.isDarwin {
+        (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
           sudo = ''
             if test -z "$SSH_CONNECTION";
               ${pkgs.reattach-to-user-namespace}/bin/reattach-to-user-namespace sudo $argv
@@ -103,7 +103,7 @@ in
           '';
         })];
 
-      shellAbbrs = mkMerge [
+      shellAbbrs = lib.mkMerge [
         (
           let
             latexmkArgs = "-shell-escape -interaction=nonstopmode -file-line-error -synctex=1";
@@ -139,7 +139,7 @@ in
             bear = "noproxy bear";
           }
         )
-        (mkIf pkgs.stdenv.hostPlatform.isLinux {
+        (lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
           ip = "ip -c";
           xc = "wl-copy";
 

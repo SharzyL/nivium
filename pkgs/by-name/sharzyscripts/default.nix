@@ -1,4 +1,4 @@
-{ pkgs, symlinkJoin, writeShellApplication, python3, music-tag }:
+{ pkgs, lib, symlinkJoin, runCommand, writeShellApplication, python3, music-tag }:
 
 let
   totp = writeShellApplication {
@@ -72,6 +72,17 @@ symlinkJoin {
         ${musictagEnv}/bin/python3 ${./py/vr.py} "$@"
       '';
     })
+
+    (writeShellApplication {
+      name = "crun";
+      text = builtins.readFile ./sh/crun.sh;
+      runtimeInputs = with pkgs; [ ninja coreutils bc ];
+    })
+
+    (runCommand "sharzyscripts-fish-completions" { } ''
+      mkdir -p $out/share/fish/vendor_completions.d
+      cp ${./fish}/*.fish $out/share/fish/vendor_completions.d/
+    '')
   ];
 }
 
