@@ -124,6 +124,7 @@
         http_port = 3100;
         domain = "grafana.s.shz.al";
       };
+      security.secret_key = "c317a3dbf8a15819eac20f1226b5bc2a920c6659a62f166d38b0a7acbeea531a";
     };
   };
 

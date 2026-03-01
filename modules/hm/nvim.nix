@@ -26,7 +26,7 @@ in
   options.nivium.nvim = with lib; {
     enable = mkOption { type = types.bool; default = config.nivium.profile != "bare"; };
     lspPackages = mkOption { type = types.bool; default = config.nivium.profile == "full"; };
-    extraLuaConfig = mkOption { type = types.lines; default = ""; };
+    initLua = mkOption { type = types.lines; default = ""; };
   };
 
   config = lib.mkIf cfg.enable {
@@ -147,13 +147,13 @@ in
 
       # To debug lua code:
       # LUA_PATH=(realpath modules/hm)'/?.lua;'(realpath modules/hm'/?/init.lua'
-      extraLuaConfig =
+      initLua =
         ''
           vim.opt.shada:append { 'n${config.xdg.stateHome}/viminfo' }
 
           local lsp_autostart = ${if cfg.lspPackages then "true" else "false"}
           require"LuaMyNvim"(vim, lsp_autostart)
-        '' + cfg.extraLuaConfig;
+        '' + cfg.initLua;
     };
 
     xdg.configFile."nvim/queries" = {
