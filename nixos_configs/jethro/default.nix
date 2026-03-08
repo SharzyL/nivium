@@ -1,4 +1,4 @@
-{ self, ... }:
+{ self, pkgs, ... }:
 
 {
   imports = [
@@ -20,9 +20,9 @@
       enable = true;
       config = {
         nivium = {
+          profile = "minimal";
           nvim.enable = true;
           fish.enable = true;
-          tmux.enable = true;
         };
       };
     };
@@ -31,9 +31,9 @@
       enable = true;
       config = {
         nivium = {
+          profile = "minimal";
           nvim.enable = true;
           fish.enable = true;
-          tmux.enable = true;
         };
       };
     };

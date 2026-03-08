@@ -143,7 +143,6 @@ in
       ncdu
       eza
       htop
-      neofetch
       fzf
       jq
       fd
@@ -155,7 +154,6 @@ in
       cmake
       ninja
       gnumake
-      gdb # to allow clion to find a debugger
     ];
   }
     (lib.mkIf (profile == "full") {

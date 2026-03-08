@@ -9,7 +9,9 @@
     flamegraph
     radare2
     rustfmt
-    python3 # tide needs it to work TODO: fix
+    python3
+    nodejs
+    pnpm
 
     # media and doc cli
     imagemagick
@@ -91,7 +93,6 @@
     wireguard-tools
     mtr
     iproute2
-    iptables
     nmap
     tcpdump
     q
@@ -99,7 +100,6 @@
     nali
     tcping-go
     iptraf-ng # TODO: make it setcap
-    cloudflare-warp
 
     # self-packaged things
     goauthing

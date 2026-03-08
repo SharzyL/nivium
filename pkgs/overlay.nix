@@ -85,18 +85,26 @@ in
     ffmpeg = final.my_ffmpeg;
   };
 
-  # telegram-desktop = prev.telegram-desktop.override {
-  #   unwrapped = prev.telegram-desktop.unwrapped.overrideAttrs (oldAttrs: {
-  #     cmakeFlags = (oldAttrs.cmakeFlags or [ ]) ++ [
-  #       "-DDESKTOP_APP_USE_PACKAGED_FONTS=ON"
-  #     ];
-  #     patches = (oldAttrs.patches or [ ]) ++ [
-  #       ./patches/telegram-recent-sticker-limit.patch
-  #       ./patches/telegram-discussion-group-button.patch
-  #     ];
-  #   });
-  # };
-  #
+  telegram-desktop = versionGuard prev.telegram-desktop "6.6.2" (prev.telegram-desktop.override {
+    unwrapped = prev.telegram-desktop.unwrapped.overrideAttrs (oldAttrs: rec {
+      # cmakeFlags = (oldAttrs.cmakeFlags or [ ]) ++ [
+      #   "-DDESKTOP_APP_USE_PACKAGED_FONTS=ON"
+      # ];
+      patches = (oldAttrs.patches or [ ]) ++ [
+        ./patches/telegram-recent-sticker-limit.patch
+        # ./patches/telegram-discussion-group-button.patch
+      ];
+      version = "6.6.2";
+
+      src = final.fetchFromGitHub {
+        owner = "telegramdesktop";
+        repo = "tdesktop";
+        rev = "v${version}";
+        fetchSubmodules = true;
+        hash = "sha256-sMg7h+he+mlqTu8wSLAsSJzCmwTX3t+suTEY77RH+aI=";
+      };
+    });
+  });
 
   kitty = prev.kitty.overrideAttrs (oldAttrs: {
     patches = (oldAttrs.patches or [ ]) ++ [

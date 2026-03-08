@@ -22,11 +22,6 @@
       enablePing = true;
     };
 
-    s1-helper = {
-      enable = true;
-      configFile = config.sops.secrets."s1_helper_config".path;
-    };
-
     derper = {
       enable = true;
       hostname = "jethro.d.shz.al";
@@ -114,6 +109,10 @@
     enable = true;
     envFile = config.sops.secrets."chatgpt_bot".path;
     configFile = ./etc/chatgpt.toml;
+  };
+
+  services.fail2ban = {
+    enable = true;
   };
 
   services.grafana = {

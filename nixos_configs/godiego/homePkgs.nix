@@ -9,7 +9,6 @@
     poetry
     bear
     nodejs
-    yarn-berry
     qemu
     man-pages
     flamegraph

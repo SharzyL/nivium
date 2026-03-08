@@ -17,6 +17,8 @@ in
         extraAF = lib.mkOption { type = listOf str; default = [ ]; };
         ambientCapabilities = lib.mkOption { type = listOf str; default = [ "" ]; };
         capabilityBoundingSet = lib.mkOption { type = listOf str; default = [ "" ]; };
+
+        # note: must disable this for node
         memoryDenyWriteExecute = lib.mkOption { type = bool; default = true; };
 
         # filters
