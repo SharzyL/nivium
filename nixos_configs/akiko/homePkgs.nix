@@ -79,7 +79,6 @@
     nix-prefetch
     nix-output-monitor
     nix-init
-    cntr
     bubblewrap
     nix-tree
     attic-client
@@ -153,10 +152,8 @@
     zoom-us
 
     # ide
-    jetbrains.clion
     jetbrains.rust-rover
     vscode
     claude-code
-
   ];
 }

@@ -179,6 +179,8 @@ in
           set -g tide_right_prompt_items \
             status parent cmd_duration jobs node python rustc go time
 
+          set -g fish_color_command blue
+
           set -g tide_context_always_display true
           set -g tide_context_color_default afb42b
           set -g tide_context_color_root    e64a19
