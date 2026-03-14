@@ -31,6 +31,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    bww = {
+      url = "github:SharzyL/bww/goshujin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     chatgpt-telegram-bot = {
       url = "github:SharzyL/chatgpt-telegram-bot/goshujin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -80,6 +85,11 @@
       url = "github:nix-community/impermanence";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    openclaw = {
+      url = "github:openclaw/nix-openclaw";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { flake-parts, ... }@inputs:
@@ -99,6 +109,8 @@
         waybar
         vicishz
         green-rosetta
+        bww
+        openclaw
       ])));
     in
     flake-parts.lib.mkFlake { inherit inputs; }

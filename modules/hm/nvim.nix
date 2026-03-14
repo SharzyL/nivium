@@ -4,21 +4,11 @@ let
   cfg = config.nivium.nvim;
   factlang = pkgs.vimUtils.buildVimPlugin {
     name = "factlang.vim";
-    src = pkgs.fetchFromGitHub {
-      owner = "PLSysSec";
-      repo = "factlang.vim";
-      rev = "dcc43d1246ace013a0705759095ed056ed441cab";
-      hash = "sha256-bEcv7TuermxP5b2qk2wxxyt1xYU30Fk5+fAW1oEuiQI=";
-    };
+    src = pkgs.srcs.factlang-vim.src;
   };
 
   tree-sitter-cpp-latest = pkgs.tree-sitter-grammars.tree-sitter-cpp.overrideAttrs (oldAttrs: {
-    src = pkgs.fetchFromGitHub {
-      owner = "tree-sitter";
-      repo = "tree-sitter-cpp";
-      rev = "12bd6f7e96080d2e70ec51d4068f2f66120dde35";
-      hash = "sha256-vmXTv6Idf0Le5ZVa8Rc1DVefqzUxkGeLGsYcSDNBpQU=";
-    };
+    src = pkgs.srcs.tree-sitter-cpp.src;
   });
 
 in

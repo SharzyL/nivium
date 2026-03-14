@@ -2,12 +2,7 @@
 
 let
   cfg = config.nivium.fish;
-  fish-colored-man = pkgs.fetchFromGitHub {
-    owner = "decors";
-    repo = "fish-colored-man";
-    rev = "1ad8fff696d48c8bf173aa98f9dff39d7916de0e";
-    sha256 = "sha256-uoZ4eSFbZlsRfISIkJQp24qPUNqxeD0JbRb/gVdRYlA=";
-  }; # TODO: upstream
+  fish-colored-man = pkgs.srcs.fish-colored-man.src; # TODO: upstream
 in
 {
   options.nivium.fish = with lib; {

@@ -154,3 +154,18 @@ fetch.url = "https://updatecdn.meeting.qq.com/cos/bb4001c715553579a8b3e496233331
 src.git = "https://github.com/yazi-rs/flavors"
 src.branch = "main"
 fetch.github = "yazi-rs/flavors"
+
+[fish-colored-man]
+src.git = "https://github.com/decors/fish-colored-man"
+src.branch = "master"
+fetch.github = "decors/fish-colored-man"
+
+[factlang-vim]
+src.git = "https://github.com/PLSysSec/factlang.vim"
+src.branch = "master"
+fetch.github = "PLSysSec/factlang.vim"
+
+[tree-sitter-cpp]
+src.git = "https://github.com/tree-sitter/tree-sitter-cpp"
+src.branch = "master"
+fetch.github = "tree-sitter/tree-sitter-cpp"

@@ -31,6 +31,8 @@ in
   # to prevent collision with rustup
   rust-analyzer = lib.hiPrio prev.rust-analyzer;
 
+  openclaw = lib.hiPrio prev.openclaw;
+
   zoom-us = nixpkgs_master.zoom-us;
 
   firefox = prev.firefox.overrideAttrs (old: {

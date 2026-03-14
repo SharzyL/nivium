@@ -117,6 +117,9 @@ in
     xdg.enable = true;
 
     home.packages = with pkgs; [
+      # nix
+      nh
+
       # classical
       tmux
       git

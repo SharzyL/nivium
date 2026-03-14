@@ -74,6 +74,14 @@ symlinkJoin {
     })
 
     (writeShellApplication {
+      name = "direnv-gc";
+      text = ''
+        ${python3}/bin/python3 ${./py/direnv-gc.py} "$@"
+      '';
+      runtimeInputs = with pkgs; [ nix ];
+    })
+
+    (writeShellApplication {
       name = "crun";
       text = builtins.readFile ./sh/crun.sh;
       runtimeInputs = with pkgs; [ ninja coreutils bc ];

@@ -64,6 +64,8 @@
     beancount
     subconverter
     go-grip
+    gh
+    openclaw-gateway
 
     git-filter-repo
     git-absorb
@@ -109,7 +111,7 @@
     sharzyscripts
     csync
     rdict
-    gh
+    bww
 
     # tex
     python3.pkgs.pygments-extra

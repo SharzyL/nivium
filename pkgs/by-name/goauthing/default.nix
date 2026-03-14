@@ -1,17 +1,9 @@
-{ pkgs, fetchFromGitHub, lib, srcs }:
+{ pkgs, lib, srcs }:
 
 pkgs.buildGoModule {
-  inherit (srcs.goauthing) pname version;
+  inherit (srcs.goauthing) pname version src;
 
-  # goconvey -> gopherjs -> x/sys and x/sys requires go 1.17
-  src = fetchFromGitHub {
-    owner = "SharzyL";
-    repo = "GoAuthing";
-    rev = "f934b9cf96738b585138927caf90b366a6d22c65";
-    sha256 = "sha256-c6YibXrdRpw9QlJIKITIyzpwXmG3cTIgEFp0ci4L9Fg=";
-  };
-
-  vendorHash = "sha256-rRVi5Jl6TkL6+qLNuIoCpSh/27NDSBj/e6X6ObLzQo4=";
+  vendorHash = "sha256-FRLpeOYOTSnq66qjljfomdSSHZhIxA0n3EcIqcoxn4c=";
   subPackages = [ "cli" ];
 
   postInstall = ''
