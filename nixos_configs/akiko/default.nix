@@ -7,28 +7,37 @@
     self.nixosModules.default
   ];
 
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    (builtins.elem (lib.getName pkg)
-      (map lib.getName (with pkgs; [
-        memtest86-efi
-        linuxPackages.nvidia_x11
-        linuxPackages.nvidia_x11.settings
+  nixpkgs.config.allowUnfreePredicate = pkg: (builtins.elem
+    (lib.getName pkg)
+    (map lib.getName (with pkgs; [
+      memtest86-efi
+      linuxPackages.nvidia_x11
+      linuxPackages.nvidia_x11.settings
 
-        cloudflare-warp
-        mathematica
-        wpsoffice
-        dropbox
-        obsidian
-        parsec-bin
-        zoom-us
-        vscode
-        mlc
-        snipaste
-        claude-code
-        codex
-      ])) || lib.hasPrefix "https://www.jetbrains.com" (pkg.meta.homepage or "")
-    || (pkg.meta.licence.shortName or "" == "firefox")
-    );
+      cloudflare-warp
+      mathematica
+      wpsoffice
+      dropbox
+      obsidian
+      parsec-bin
+      zoom-us
+      vscode
+      mlc
+      snipaste
+
+      claude-code
+      codex
+    ]))
+  || lib.hasPrefix "https://www.jetbrains.com" (pkg.meta.homepage or "")
+  || (pkg.meta.licence.shortName or "" == "firefox")
+  );
+
+  nixpkgs.config.allowInsecurePredicate = pkg: (builtins.elem
+    (lib.getName pkg)
+    (map lib.getName (with pkgs; [
+      openclaw
+    ]))
+  );
 
   # to allow firefox-bin used by dropbox
   nixpkgs.config.allowlistedLicenses = [

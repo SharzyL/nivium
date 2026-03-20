@@ -141,17 +141,6 @@
       sha256 = "sha256-pZD54SoumOoSOE+r2Llgw71h8wkJ15pqkPX/LRS2R2Y=";
     };
   };
-  i3-volume = {
-    pname = "i3-volume";
-    version = "v4.0.0";
-    src = fetchFromGitHub {
-      owner = "hastinbe";
-      repo = "i3-volume";
-      rev = "v4.0.0";
-      fetchSubmodules = false;
-      sha256 = "sha256-IuJK03qW/WIK1K2gWJu3V1mVJM1wJx4IAcNKUBxtXf0=";
-    };
-  };
   libaribcaption = {
     pname = "libaribcaption";
     version = "v1.1.1";

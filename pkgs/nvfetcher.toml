@@ -108,10 +108,6 @@ src.git = "https://github.com/Fungx/Stage1stHelper"
 src.branch = "master"
 fetch.github = "Fungx/Stage1stHelper"
 
-[i3-volume]
-src.github = "hastinbe/i3-volume"
-fetch.github = "hastinbe/i3-volume"
-
 [tree-sitter-just]
 src.git = "https://github.com/IndianBoy42/tree-sitter-just"
 fetch.github = "IndianBoy42/tree-sitter-just"

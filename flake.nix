@@ -85,11 +85,6 @@
       url = "github:nix-community/impermanence";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    openclaw = {
-      url = "github:openclaw/nix-openclaw";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = { flake-parts, ... }@inputs:
@@ -110,7 +105,6 @@
         vicishz
         green-rosetta
         bww
-        openclaw
       ])));
     in
     flake-parts.lib.mkFlake { inherit inputs; }

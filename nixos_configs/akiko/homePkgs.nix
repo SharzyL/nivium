@@ -65,7 +65,7 @@
     subconverter
     go-grip
     gh
-    openclaw-gateway
+    openclaw
 
     git-filter-repo
     git-absorb

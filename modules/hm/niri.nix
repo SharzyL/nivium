@@ -85,7 +85,6 @@ in
       dracula-theme
 
       xwayland-satellite
-      i3-volume
       xdg-utils
       libnotify
 
@@ -174,8 +173,8 @@ in
           backlight = {
             format = "{icon}  {}%";
             format-icons = [ "" "" "" "" "" "" "" "" "" ];
-            on-scroll-up = "light -U 1 && light -O";
-            on-scroll-down = "light -A 1 && light -O";
+            on-scroll-up = "brightnessctl set +1"; # TODO
+            on-scroll-down = "brightnessctl set -1";
           };
           disk = {
             format = "󰋊  {used}";
@@ -207,9 +206,9 @@ in
             format-icons = {
               default = [ "" "" "" ];
             };
-            on-scroll-up = "volume up 2";
-            on-scroll-down = "volume down 2";
-            on-click = "volume mute";
+            on-scroll-up = "i3-volume up 2";
+            on-scroll-down = "i3-volume down 2";
+            on-click = "i3-volume mute";
             on-click-right = "pavucontrol";
           };
           "niri/window" = {
@@ -281,12 +280,12 @@ in
       {
         waybar.Service.Environment = [
           "PATH=${lib.makeBinPath (with pkgs; [
-            i3-volume
             pavucontrol
             pulseaudio
             gawk
             swaynotificationcenter
-            light
+            brightnessctl
+            i3-volume
         ])}"
         ];
       }

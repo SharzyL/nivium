@@ -73,6 +73,8 @@
         servicesToRestart = [ "syncplay.service" ];
       };
     };
+
+    moltis.enable = true;
   };
 
   nivium.enableDNSACME = true;

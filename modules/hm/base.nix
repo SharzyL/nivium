@@ -79,11 +79,7 @@ in
         # note that hm depends on this option to set home.profileDirectory
         use-xdg-base-directories = true;
 
-        extra-experimental-features = mkBefore (
-          [ "nix-command" "flakes" ]
-          # https://github.com/NixOS/nix/pull/10299
-          ++ (lib.optionals (lib.versionOlder config.nix.package.version "2.22.0") [ "repl-flake" ])
-        );
+        extra-experimental-features = mkBefore [ "nix-command" "flakes" ];
       };
       nixPath = [ "nixpkgs=${inputs.nixpkgs}" "home-manager=${inputs.home-manager}" ];
       registry."nixpkgs".flake = inputs.nixpkgs;

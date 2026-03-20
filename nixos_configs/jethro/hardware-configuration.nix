@@ -10,6 +10,10 @@
   boot.initrd.kernelModules = [ "nvme" ];
   fileSystems."/" = { device = "/dev/vda1"; fsType = "ext4"; };
 
+  zramSwap.enable = true;
+  systemd.oomd.enable = false;
+  services.earlyoom.enable = true;
+
   networking = {
     hostName = "jethro";
     nameservers = [

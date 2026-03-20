@@ -105,7 +105,6 @@ in
           in
           {
             svi = "sudo -E nvim";
-            pc = "proxychains4";
 
             lkb = "latexmk ${latexmkArgs} -xelatex";
             lks = "latexmk ${latexmkArgs} -xelatex -pvc";
@@ -136,7 +135,7 @@ in
         )
         (lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
           ip = "ip -c";
-          xc = "wl-copy";
+          xc = "wl-copy --trim-newline";
 
           stl = "systemctl";
           sstl = "sudo systemctl";
@@ -148,6 +147,7 @@ in
       ];
       shellAliases = {
         g = "git";
+        pn = "pnpm";
         ".." = "cd ..";
         "..." = "cd ../..";
         "...." = "cd ../../..";
@@ -200,6 +200,7 @@ in
 
         abbr -a !! --position anywhere --function last_history_item
         abbr -a ns --set-cursor "nix shell p#%"
+        abbr -a cbb --set-cursor "cmake -B build -DCMAKE_BUILD_TYPE=%"
         complete -c bgrun -x -a '(__fish_complete_subcommand)'
         complete -c where -x -a '(complete -C "")'
 

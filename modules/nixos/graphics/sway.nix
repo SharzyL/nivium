@@ -16,7 +16,7 @@ in
     security.rtkit.enable = true;
 
     # services.gnome.at-spi2-core.enable = true;  # to remove warning of xdg-desktop-portal-gtk
-    programs.light.enable = true;
+    # programs.light.enable = true;
 
     services.pipewire = {
       enable = true;

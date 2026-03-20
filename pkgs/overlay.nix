@@ -7,6 +7,10 @@ let
   nixpkgs_master = (import inputs.nixpkgs_master {
     system = final.stdenv.hostPlatform.system;
     config.allowUnfree = true;
+    config.allowInsecurePredicate = pkg: (builtins.elem
+      (lib.getName pkg)
+      [ "openclaw" ]
+    );
   });
 
   versionGuard = pkg: version: drv: assert lib.assertMsg
@@ -31,9 +35,8 @@ in
   # to prevent collision with rustup
   rust-analyzer = lib.hiPrio prev.rust-analyzer;
 
-  openclaw = lib.hiPrio prev.openclaw;
-
   zoom-us = nixpkgs_master.zoom-us;
+  openclaw = nixpkgs_master.openclaw;
 
   firefox = prev.firefox.overrideAttrs (old: {
     buildCommand = old.buildCommand + ''
@@ -86,27 +89,6 @@ in
     libbluray = prev.libbluray;
     ffmpeg = final.my_ffmpeg;
   };
-
-  telegram-desktop = versionGuard prev.telegram-desktop "6.6.2" (prev.telegram-desktop.override {
-    unwrapped = prev.telegram-desktop.unwrapped.overrideAttrs (oldAttrs: rec {
-      # cmakeFlags = (oldAttrs.cmakeFlags or [ ]) ++ [
-      #   "-DDESKTOP_APP_USE_PACKAGED_FONTS=ON"
-      # ];
-      patches = (oldAttrs.patches or [ ]) ++ [
-        ./patches/telegram-recent-sticker-limit.patch
-        # ./patches/telegram-discussion-group-button.patch
-      ];
-      version = "6.6.2";
-
-      src = final.fetchFromGitHub {
-        owner = "telegramdesktop";
-        repo = "tdesktop";
-        rev = "v${version}";
-        fetchSubmodules = true;
-        hash = "sha256-sMg7h+he+mlqTu8wSLAsSJzCmwTX3t+suTEY77RH+aI=";
-      };
-    });
-  });
 
   kitty = prev.kitty.overrideAttrs (oldAttrs: {
     patches = (oldAttrs.patches or [ ]) ++ [

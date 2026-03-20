@@ -245,27 +245,6 @@
         },
         "version": "v2.3.5"
     },
-    "i3-volume": {
-        "cargoLock": null,
-        "date": null,
-        "extract": null,
-        "name": "i3-volume",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "hastinbe",
-            "repo": "i3-volume",
-            "rev": "v4.0.0",
-            "sha256": "sha256-IuJK03qW/WIK1K2gWJu3V1mVJM1wJx4IAcNKUBxtXf0=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "v4.0.0"
-    },
     "libaribcaption": {
         "cargoLock": null,
         "date": null,
