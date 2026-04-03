@@ -12,6 +12,7 @@
     python3
     nodejs
     pnpm
+    uv
 
     # media and doc cli
     imagemagick

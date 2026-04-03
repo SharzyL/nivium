@@ -2,12 +2,14 @@ return function(vim)
   local utils = require('LuaMyNvim/utils')(vim)
   local d = utils.d
   local nmap = utils.nmap
+  local map = utils.map
 
   ------------------------
   -- keymaps
   ------------------------
 
   vim.g.mapleader = ' '
+  vim.g.maplocalleader = '\\'
 
   -- save quickly
   nmap('<leader>w', ':w<CR>', d('Save buffer'))
@@ -28,4 +30,7 @@ return function(vim)
   nmap('<C-S-down>', ':res -5<CR>', d('Extend the lower boundary of the current window'))
   nmap('<C-S-right>', ':vertical resize-5<CR>', d('Extend the right boundary of the current window'))
   nmap('<C-S-left>', ':vertical resize+5<CR>', d('Extend the right boundary of the current window'))
+
+  -- text object of entire buffer
+  map({ 'x', 'o' }, 'A', ':<C-U>normal! ggVG<CR>', d('Entire buffer'))
 end

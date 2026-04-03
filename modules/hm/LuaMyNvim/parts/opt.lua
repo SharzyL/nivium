@@ -16,7 +16,7 @@ return function(vim)
   vim.opt.shiftwidth = 2
   vim.opt.softtabstop = 2
 
-  vim.opt.textwidth = 80
+  vim.opt.textwidth = 100
   vim.opt.colorcolumn = '+1'
 
   vim.opt.cindent = true
@@ -78,10 +78,6 @@ return function(vim)
   vim.opt.foldmethod = 'indent'
   vim.opt.foldlevel = 99
   vim.opt.foldenable = true
-
-  -- allow formatting of comments with gq
-  -- move a comment leader when joining lines
-  vim.opt.formatoptions = 'qj'
 
   -- persist undofile
   vim.opt.undofile = true

@@ -13,9 +13,11 @@ return function(vim)
     },
   })
 
-  vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>(leap-forward)')
-  vim.keymap.set({ 'n', 'x', 'o' }, 'S', '<Plug>(leap-backward)')
-  vim.keymap.set('n', 'gs', '<Plug>(leap-from-window)')
+  map({ 'n', 'x' }, 's', '<Plug>(leap-forward)')
+  map({ 'n', 'x' }, 'S', '<Plug>(leap-backward)')
+  map('n', 'gs', '<Plug>(leap-from-window)')
+  map({ 'o' }, 'z', '<Plug>(leap-forward)')
+  map({ 'o' }, 'Z', '<Plug>(leap-backward)')
 
   require('nvim-navic').setup({
     highlight = true,

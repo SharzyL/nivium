@@ -70,14 +70,14 @@ in
         nvim-navic # breadcrumb
         nvim-navbuddy # code outline
         trouble-nvim # diagnostic window
-        noice-nvim # replace messages, cmdline and popups
+        nvim-notify
         render-markdown-nvim
+        fidget-nvim # lsp progress notification
 
         # visual improvement
         nvim-spectre # file search panel
         indent-blankline-nvim # add indent guide line
         nvim-scrollbar
-        fidget-nvim
 
         # "transparent" enhancement
         vim-repeat

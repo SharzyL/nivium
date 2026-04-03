@@ -3,6 +3,43 @@ return function(vim, lsp_autostart)
   local d = utils.d
   local map = utils.map
 
+  -- vimtex config
+  vim.g.vimtex_view_method = 'zathura'
+  vim.g.vimtex_format_enabled = 1
+  vim.g.vimtex_quickfix_mode = 0
+  vim.g.vimtex_quickfix_ignore_filters = {
+    'Overfull \\hbox',
+    'Underfull \\hbox',
+  }
+
+  local vimtex_group = vim.api.nvim_create_augroup('VimtexTroubleIntegration', { clear = true })
+
+  vim.api.nvim_create_autocmd('User', {
+    group = vimtex_group,
+    pattern = 'VimtexEventCompileFailed',
+    callback = function()
+      require('trouble').open('qflist')
+    end,
+    desc = 'Open Trouble on Vimtex compile failure',
+  })
+
+  vim.api.nvim_create_autocmd('User', {
+    group = vimtex_group,
+    pattern = 'VimtexEventCompileSuccess',
+    callback = function()
+      require('trouble').close('qflist')
+    end,
+    desc = 'Close Trouble on Vimtex compile success',
+  })
+
+  vim.api.nvim_create_autocmd('User', {
+    group = vimtex_group,
+    pattern = 'VimtexEventCompileStarted',
+    callback = function()
+      vim.notify('Compiling LaTeX...', vim.log.levels.INFO, { title = 'Vimtex' })
+    end,
+  })
+
   -- lsp
   local servers = {
     gopls = {},
@@ -18,7 +55,14 @@ return function(vim, lsp_autostart)
         },
       },
     },
-    texlab = {},
+    texlab = {
+      post_attach = function(client, _)
+        -- use vimtex format
+        client.server_capabilities.documentFormattingProvider = false
+        client.server_capabilities.documentRangeFormattingProvider = false
+        map('n', 'gV', '<plug>(vimtex-view)', d('VimTex jump to viewer'))
+      end,
+    },
     basedpyright = {
       settings = {
         -- Using Ruff's import organizer

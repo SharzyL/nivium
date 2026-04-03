@@ -7,8 +7,19 @@ return function(vim)
     pattern = 'typst',
     callback = function()
       vim.opt_local.indentkeys:remove({ '0#' })
+    end,
+  })
+
+  vim.api.nvim_create_augroup('TextualFileType', { clear = true })
+  vim.api.nvim_create_autocmd('FileType', {
+    group = 'TextualFileType',
+    pattern = { 'typst', 'tex', 'plaintex', 'markdown' },
+    callback = function()
       vim.opt_local.linebreak = true
       vim.opt_local.spell = true
+      vim.opt.spelllang = { 'en_us', 'cjk' }
+      vim.opt_local.formatoptions:append({ 't', 'n' })
+      vim.opt_local.textwidth = 100
     end,
   })
 
