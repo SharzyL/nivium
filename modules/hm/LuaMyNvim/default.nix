@@ -1,8 +1,9 @@
-{ stdenv
-, lib
+{ lib
+, lua
+, buildLuaPackage
 }:
 
-stdenv.mkDerivation rec {
+buildLuaPackage {
   pname = "LuaMyNvim";
   version = "dev-1";
 
@@ -16,8 +17,13 @@ stdenv.mkDerivation rec {
     ];
   };
 
-  buildCommand = ''
-    mkdir -p $out/share/lua/5.1
-    cp -rT ${src} $out/share/lua/5.1/${pname}
+  dontConfigure = true;
+  dontBuild = true;
+
+  installPhase = ''
+    runHook preInstall
+    mkdir -p $out/share/lua/${lua.luaversion}
+    cp -rT $src $out/share/lua/${lua.luaversion}/LuaMyNvim
+    runHook postInstall
   '';
 }

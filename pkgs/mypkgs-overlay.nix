@@ -18,7 +18,10 @@ final: prev:
   torrenttools = final.callPackage ./in-overlay/torrenttools { };
 
   # other self-packaged packages
-  LuaMyNvim = final.callPackage ../modules/hm/LuaMyNvim { };
+  # Built against luajit because that's what neovim-unwrapped uses;
+  # the install path (share/lua/5.1/...) must match neovim's lua.luaversion
+  # so that wrapNeovim's extraLuaPackages env picks it up.
+  LuaMyNvim = final.luajitPackages.callPackage ../modules/hm/LuaMyNvim { };
   python3 = prev.python3.override {
     packageOverrides = pfinal: pprev: {
       pygments-extra = pprev.pygments.overridePythonAttrs (oldAttrs: {
