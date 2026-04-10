@@ -15,10 +15,11 @@
 
         {
           macos_option_as_alt = true;
-          font_size = lib.mkDefault "10.0";
           window_padding_width = lib.mkDefault "2.5";
           scrollback_pager_history_size = lib.mkDefault 50;
           enabled_layouts = lib.mkDefault "splits,grid,tall,vertical,horizontal,fat,stack";
+
+          touch_scroll_multiplier = 2;
 
           tab_bar_style = "separator";
           tab_separator = "\"\"";

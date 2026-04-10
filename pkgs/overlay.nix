@@ -7,10 +7,6 @@ let
   nixpkgs_master = (import inputs.nixpkgs_master {
     system = final.stdenv.hostPlatform.system;
     config.allowUnfree = true;
-    config.allowInsecurePredicate = pkg: (builtins.elem
-      (lib.getName pkg)
-      [ "openclaw" ]
-    );
   });
 
   versionGuard = pkg: version: drv: assert lib.assertMsg
@@ -20,6 +16,8 @@ let
   ;
 in
 {
+  nix = nixpkgs_master.nix;
+
   fido2luks = versionGuard prev.fido2luks "0.3.0" (prev.fido2luks.overrideAttrs (oldAttrs: rec {
     patches = (prev.patches or [ ]) ++ [ ./patches/fido2luks-bump-libcryptsetup.patch ];
     cargoDeps = oldAttrs.cargoDeps.overrideAttrs (lib.const {
@@ -36,7 +34,6 @@ in
   rust-analyzer = lib.hiPrio prev.rust-analyzer;
 
   zoom-us = nixpkgs_master.zoom-us;
-  openclaw = nixpkgs_master.openclaw;
 
   firefox = prev.firefox.overrideAttrs (old: {
     buildCommand = old.buildCommand + ''
@@ -89,15 +86,6 @@ in
     libbluray = prev.libbluray;
     ffmpeg = final.my_ffmpeg;
   };
-
-  kitty = prev.kitty.overrideAttrs (oldAttrs: {
-    patches = (oldAttrs.patches or [ ]) ++ [
-      # https://github.com/kovidgoyal/kitty/discussions/5959
-      ./patches/kitty-mouse.patch
-      # https://github.com/SharzyL/kitty/tree/feat/respawn
-      ./patches/kitty-respawn.patch
-    ];
-  });
 
   vimPlugins =
     prev.vimPlugins.extend

@@ -1,14 +1,14 @@
-commit f312102b70bb7ed22e03b7352ded2dc85195c937
+commit 1140a217dd0734828efdf4a3884fd8ddc46e1063
 Author: SharzyL <me@sharzy.in>
-Date:   Thu Jan 1 14:58:37 2026 +0800
+Date:   Thu Apr 9 13:14:53 2026 +0800
 
     feat: respawn_window
 
 diff --git a/kitty/boss.py b/kitty/boss.py
-index e84a92d4a..08b8d32d7 100644
+index 829832432..b75a5653c 100644
 --- a/kitty/boss.py
 +++ b/kitty/boss.py
-@@ -2848,6 +2848,51 @@ def launch(self, *args: str) -> None:
+@@ -3073,6 +3073,46 @@ def launch(self, *args: str) -> None:
              opts.next_to = opts.next_to or f'id:{self.window_for_dispatch.id}'
          launch(self, opts, args_)
  
@@ -24,31 +24,26 @@ index e84a92d4a..08b8d32d7 100644
 +    map shift+f5 respawn_window --cwd /some/path
 +''')
 +    def respawn_window(self, *args: str) -> None:
++        from kitty.launch import parse_launch_args
++        from kitty.window import CwdRequest, CwdRequestType
++
 +        window = self.window_for_dispatch or self.active_window
 +        if not window:
 +            return
 +
-+        cwd_value = None
-+        i = 0
-+        while i < len(args):
-+            arg = args[i]
-+            if arg.startswith('--cwd='):
-+                cwd_value = arg[6:]
-+                break
-+            elif arg == '--cwd' and i + 1 < len(args):
-+                cwd_value = args[i + 1]
-+                break
-+            i += 1
++        try:
++            launch_spec = parse_launch_args(args)
++        except ValueError as e:
++            self.show_error(_('Invalid arguments'), str(e))
++            return
 +
 +        cwd = None
++        cwd_value = launch_spec.opts.cwd
 +        if cwd_value == 'current':
-+            from kitty.window import CwdRequest
 +            cwd = CwdRequest(window).cwd_of_child
 +        elif cwd_value == 'last_reported':
-+            from kitty.window import CwdRequest, CwdRequestType
 +            cwd = CwdRequest(window, CwdRequestType.last_reported).cwd_of_child
 +        elif cwd_value in ('oldest', 'root'):
-+            from kitty.window import CwdRequest, CwdRequestType
 +            cwd_type = CwdRequestType.oldest if cwd_value == 'oldest' else CwdRequestType.root
 +            cwd = CwdRequest(window, cwd_type).cwd_of_child
 +        elif cwd_value:
@@ -57,14 +52,14 @@ index e84a92d4a..08b8d32d7 100644
 +        if not window.respawn_child(cwd=cwd):
 +            self.show_error(_('Respawn failed'), _('Failed to respawn window'))
 +
-     @ac('tab', 'Move the active tab forward')
+     @ac('tab', 'Move the active tab forward. You can also use drag and drop to re-arrange tabs.')
      def move_tab_forward(self) -> None:
          tm = self.active_tab_manager
 diff --git a/kitty/child-monitor.c b/kitty/child-monitor.c
-index 9f3312a1f..f39c787ba 100644
+index 9ce3d0b35..38ba912bc 100644
 --- a/kitty/child-monitor.c
 +++ b/kitty/child-monitor.c
-@@ -321,6 +321,37 @@ add_child(ChildMonitor *self, PyObject *args) {
+@@ -321,6 +321,49 @@ add_child(ChildMonitor *self, PyObject *args) {
      Py_RETURN_NONE;
  }
  
@@ -81,12 +76,23 @@ index 9f3312a1f..f39c787ba 100644
 +    bool found = false;
 +    for (size_t i = 0; i < self->count; i++) {
 +        if (children[i].id == id) {
++            // Drain old screen's write buffer so stale input is not sent to new child
++            {
++                Screen *screen = children[i].screen;
++                screen_mutex(lock, write);
++                screen->write_buf_used = 0;
++                screen_mutex(unlock, write);
++            }
++
 +            children[i].pid = pid;
 +            children[i].fd = fd;
 +            children_fds[EXTRA_FDS + i].fd = fd;
 +            Py_DECREF(children[i].screen);
 +            children[i].screen = (Screen*)screen;
 +            Py_INCREF(screen);
++            // Clear removal flag: if the old child died before this call,
++            // needs_removal may already be set. Reset it so the window survives.
++            children[i].needs_removal = false;
 +            found = true;
 +            break;
 +        }
@@ -96,13 +102,14 @@ index 9f3312a1f..f39c787ba 100644
 +        PyErr_SetString(PyExc_KeyError, "Child with given id not found");
 +        return NULL;
 +    }
++    wakeup_io_loop(self, false);
 +    Py_RETURN_NONE;
 +}
 +
- #define schedule_write_to_child_generic(id, num, va_start, get_next_arg, va_end) \
-     ChildMonitor *self = the_monitor; \
-     bool found = false; \
-@@ -2010,6 +2041,7 @@ send_response_to_peer(id_type peer_id, const char *msg, size_t msg_sz) {
+ static const unsigned write_buf_limit = 100 * 1024 * 1024;
+ 
+ #define schedule_write_to_child_generic(id, num, va_start, get_next_arg, va_end, found, too_much_data) \
+@@ -2113,6 +2156,7 @@ send_response_to_peer(id_type peer_id, const char *msg, size_t msg_sz, bool is_a
  // Boilerplate {{{
  static PyMethodDef methods[] = {
      METHOD(add_child, METH_VARARGS)
@@ -111,25 +118,25 @@ index 9f3312a1f..f39c787ba 100644
      METHOD(needs_write, METH_VARARGS)
      METHOD(start, METH_NOARGS)
 diff --git a/kitty/child.py b/kitty/child.py
-index ed3da1f37..2ee985a54 100644
+index 1e3629549..f121a5227 100644
 --- a/kitty/child.py
 +++ b/kitty/child.py
-@@ -398,6 +398,47 @@ def fork(self) -> int | None:
+@@ -398,6 +398,44 @@ def fork(self) -> int | None:
                  log_error("Could not move child process into a systemd scope: " + str(err))
          return pid
  
-+    def respawn(self, cwd: str | None = None, argv: list[str] | None = None) -> int | None:
++    def respawn(self, cwd: str | None = None, argv: list[str] | None = None) -> tuple[int, int] | None:
 +        """Respawn the child process with a new shell.
 +
 +        Args:
-+            cwd: Working directory for the new process. If None, uses os.getcwd()
-+                 (same as launch without --cwd).
++            cwd: Working directory for the new process. If None, keeps previous cwd.
 +            argv: Optional command to run (defaults to original argv)
 +
 +        Returns:
-+            The old pid to kill after updating the monitor, or None if failed.
-+            The new process reuses the same fd number via dup2(), so the
-+            child monitor continues polling the same fd seamlessly.
++            A tuple of (old_pid, old_fd) on success, or None if failed.
++            The caller must call replace_child() to swap the screen in the
++            child monitor BEFORE doing dup2() to redirect old_fd to the new
++            pty, so that new child data is read into the new screen.
 +        """
 +        if not self.forked:
 +            return None
@@ -141,8 +148,8 @@ index ed3da1f37..2ee985a54 100644
 +        # Get a new id like a new Child would, so systemd scope name is unique
 +        self.id = next(child_counter)
 +
-+        # Match launch behavior: use os.getcwd() when cwd not specified
-+        self.cwd = os.path.expandvars(os.path.expanduser(cwd or os.getcwd()))
++        # Keep previous cwd when not specified, matching user expectation for respawn
++        self.cwd = os.path.expandvars(os.path.expanduser(cwd or self.cwd))
 +        if argv is not None:
 +            self.argv = argv
 +
@@ -150,20 +157,17 @@ index ed3da1f37..2ee985a54 100644
 +        if new_pid is None:
 +            return None
 +
-+        # Reuse the old fd number: dup2 the new fd onto the old fd
-+        # This way the child monitor keeps polling the same fd number
-+        if self.child_fd != old_fd:
-+            os.dup2(self.child_fd, old_fd)
-+            os.close(self.child_fd)
-+            self.child_fd = old_fd
++        # Do NOT dup2 here — the caller must first swap the screen in the
++        # child monitor via replace_child(), then dup2 old_fd to the new pty.
++        # This ensures the io_thread reads new child data into the new screen.
 +
-+        return old_pid
++        return old_pid, old_fd
 +
      def __del__(self) -> None:
          fd = getattr(self, 'terminal_ready_fd', -1)
          if fd > -1:
 diff --git a/kitty/options/utils.py b/kitty/options/utils.py
-index 87232cd40..124880a25 100644
+index e72b5259b..4810e5943 100644
 --- a/kitty/options/utils.py
 +++ b/kitty/options/utils.py
 @@ -78,7 +78,7 @@ class InvalidMods(ValueError):
@@ -176,10 +180,10 @@ index 87232cd40..124880a25 100644
  def shlex_parse(func: str, rest: str) -> FuncArgsType:
      return func, to_cmdline(rest)
 diff --git a/kitty/window.py b/kitty/window.py
-index 692a28770..26b2c3654 100644
+index fa0b27343..a56a2555a 100644
 --- a/kitty/window.py
 +++ b/kitty/window.py
-@@ -1754,6 +1754,50 @@ def call_watchers(self, which: Iterable[Watcher], data: dict[str, Any]) -> None:
+@@ -1917,6 +1917,70 @@ def call_watchers(self, which: Iterable[Watcher], data: dict[str, Any]) -> None:
                  import traceback
                  traceback.print_exc()
  
@@ -197,21 +201,35 @@ index 692a28770..26b2c3654 100644
 +        if not self.child or self.destroyed:
 +            return False
 +
-+        # Respawn forks new process and reuses fd via dup2, returns old pid
-+        old_pid = self.child.respawn(cwd=cwd)
-+        if old_pid is None:
++        # Fork new child process. Does NOT dup2 yet — we must swap the screen
++        # in the child monitor first so the io_thread reads new data into the
++        # new screen, not the old one.
++        result = self.child.respawn(cwd=cwd)
++        if result is None:
 +            return False
++        old_pid, old_fd = result
 +
-+        # Reset the screen
++        # Create new screen before swapping in the monitor
 +        cell_width, cell_height = cell_size_for_window(self.os_window_id)
 +        opts = get_options()
 +        self.screen = Screen(self, 24, 80, opts.scrollback_lines, cell_width, cell_height, self.id)
 +
-+        # Update pid and screen reference in child monitor (fd unchanged)
-+        # Must do this BEFORE killing old process, otherwise monitor removes the child
-+        get_boss().child_monitor.replace_child(self.id, self.child.pid, self.child.child_fd, self.screen)
++        # Atomically swap pid + screen in the child monitor. This also:
++        # - Drains the old screen's write buffer (prevents stale input to new child)
++        # - Clears needs_removal (prevents old child death from removing the window)
++        # We pass old_fd since that's what the io_thread is currently polling.
++        get_boss().child_monitor.replace_child(self.id, self.child.pid, old_fd, self.screen)
 +
-+        # Now kill the old process
++        # NOW redirect old_fd to the new child's pty via dup2.
++        # After this, the io_thread reads new child data into the new screen.
++        new_fd = self.child.child_fd
++        if new_fd != old_fd:
++            os.dup2(new_fd, old_fd)
++            os.close(new_fd)
++            self.child.child_fd = old_fd
++
++        # Now kill the old process — safe because replace_child already
++        # updated the pid, so mark_child_for_removal won't match.
 +        with suppress(ProcessLookupError):
 +            os.kill(old_pid, signal.SIGHUP)
 +
@@ -219,6 +237,12 @@ index 692a28770..26b2c3654 100644
 +        self.needs_layout = True
 +        self.child_is_launched = False
 +        self.last_reported_pty_size = (-1, -1, -1, -1)
++        self._pause_resize_notifications_to_child = None
++        self.finish_scroll_animation()
++        self.kitten_result = None
++        self.kitten_result_processors = []
++        if hasattr(self, '_file_transmission'):
++            del self._file_transmission
 +
 +        # Trigger relayout to connect new screen to renderer
 +        tab = self.tabref()

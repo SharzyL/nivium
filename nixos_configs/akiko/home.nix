@@ -49,7 +49,7 @@
 
   systemd.user.services."autostart-nicotine" = {
     Service = {
-      TemporaryFileSystem = [ "/tank/mus/tlmc_selected/[KodamaSounds]" "~/ws" "~/download" ];
+      TemporaryFileSystem = [ "/tank/mus/tlmc_selected/[KodamaSounds]" "%h/ws" "%h/download" ];
     };
   };
 
@@ -140,7 +140,8 @@
     pictures = "$HOME/download/pic";
     videos = "$HOME/download/video";
     publicShare = "/tank";
-    templates = "$HOME/ws/Dropbox";
+    # https://gitlab.gnome.org/GNOME/nautilus/-/issues/4014
+    templates = "$HOME/tmp/templates";
   };
 
   programs = {

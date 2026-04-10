@@ -267,11 +267,11 @@ in
             Unit = {
               Description = "automatic starting ${name} on niri startup";
               After = [ "graphical-session.target" ];
-              PartOf = [ "graphical-session.target" ];
             };
             Install = { WantedBy = [ "graphical-session.target" ]; };
             Service = {
               ExecStart = path;
+              KillMode = "mixed"; # kill main process first, to avoid issues in multi-process env
             };
           }
         )

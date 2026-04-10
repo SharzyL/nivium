@@ -22,9 +22,9 @@ in
   config = lib.mkIf cfg.enable {
     home.packages = lib.mkIf cfg.lspPackages (with pkgs; [
       lua-language-server
-      nodePackages.vscode-json-languageserver
-      nodePackages.typescript-language-server
-      nodePackages.yaml-language-server
+      vscode-json-languageserver
+      typescript-language-server
+      yaml-language-server
       nil
       gopls
       texlab

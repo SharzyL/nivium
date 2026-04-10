@@ -32,13 +32,6 @@
   || (pkg.meta.licence.shortName or "" == "firefox")
   );
 
-  nixpkgs.config.allowInsecurePredicate = pkg: (builtins.elem
-    (lib.getName pkg)
-    (map lib.getName (with pkgs; [
-      openclaw
-    ]))
-  );
-
   # to allow firefox-bin used by dropbox
   nixpkgs.config.allowlistedLicenses = [
     {
