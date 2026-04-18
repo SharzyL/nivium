@@ -27,7 +27,7 @@
     };
 
     tg-searcher = {
-      url = "github:SharzyL/tg_searcher/dev";
+      url = "github:SharzyL/tg_searcher/riir";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

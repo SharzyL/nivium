@@ -40,12 +40,12 @@ inputs.colmena.lib.makeHive {
     imports = [ ./jethro ];
   };
 
-  sunra = { ... }: {
-    nixpkgs.system = "aarch64-linux";
+  phuong = { ... }: {
+    nixpkgs.system = "x86_64-linux";
     deployment = {
-      targetHost = "sunra.d.shz.al";
+      targetHost = "160.22.16.191";
       tags = [ "remote" ];
     };
-    imports = [ ./sunra ];
+    imports = [ ./phuong ];
   };
 }

@@ -1,0 +1,39 @@
+admin_id = 629325599
+
+endpoints = [
+  { name = "ohmygpt", url = "https://api.ohmygpt.com", default_suffix = "/v1" },
+  { name = "novita", url = "https://api.novita.ai", default_suffix = "/openai/v1" },
+  { name = "openrouter", url = "https://openrouter.ai/api", default_suffix = "/v1" },
+]
+default_endpoint = "ohmygpt"
+
+models = [
+  # openai
+  { prefix = "o", name = "gpt-5.4", thinking = "high" },
+  { prefix = "om", name = "gpt-5.4-mini" },
+  { prefix = "on", name = "gpt-5.4-nano" },
+
+  # openai
+  { prefix = "o/o", endpoint = "openrouter", name = "gpt-5.4", thinking = "high" },
+  { prefix = "o/om", endpoint = "openrouter", name = "gpt-5.4-mini" },
+  { prefix = "o/on", endpoint = "openrouter", name = "gpt-5.4-nano" },
+
+  # deepseek
+  { prefix = "d", name = "deepseek-reasoner", api_type = "openai_legacy" },
+  { prefix = "n/d", name = "deepseek/deepseek-v3.2", endpoint = "novita", api_type = "openai_legacy" },
+
+  # google
+  { prefix = "gf", name = "gemini-3-flash-preview" },
+  { prefix = "gl", name = "gemini-3.1-flash-lite-preview", api_type = "openai_legacy" },
+  { prefix = "gp", name = "gemini-3.1-pro-preview", api_type = "openai_legacy" },
+
+  # claude
+  { prefix = "ch", name = "claude-haiku-4-5", api_type = "anthropic", suffix = "" },
+  { prefix = "cs", name = "claude-sonnet-4-6", api_type = "anthropic", suffix = "", thinking = "adaptive" },
+  { prefix = "co", name = "claude-opus-4-6", api_type = "anthropic", suffix = "", thinking = "adaptive" },
+
+  # custom
+  { prefix = "tp", name = "gpt-5.4-mini", system_prompt = "The user will send you some text and optionally a language name. You need to translate it into Chinese. If the user sends a single word, you should also include some expanations and usages. Note that your answer should also in Chinese." },
+  { prefix = "t", name = "gpt-5.4-mini", system_prompt = "The user will send you some text and optionally a language name. You need to translate it into Chinese. If the user sends a single word, you should also include some expanations and usages. Note that your answer should also in Chinese." },
+]
+

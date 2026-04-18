@@ -5,6 +5,7 @@ keys:
     - &akiko    age13elz7mxhqn7vpmskfltle4tg0skk6jxaa9dzlyc8efpmfcde79pq35el55
     - &godiego  age19tcmxpm3k32wn0m4tqq5ae5d6srmewrhvugd9jsucw6jty69ncyqkvwtms
     - &jethro   age1k2u5ygvyxus5wd53yk3434q02m3r6l2jc7q36x8qae5tx55049eq0l5sd8
+    - &phuong   age1v26kecvygtvuaceq5ne7ru2fpz29hwtctc7yp9ak4ttryzssyf9qm99f0j
   pgp:
     - &gpg      115AB673F93A781A1501E71B7F6354E5A6AAADDF
 
@@ -19,6 +20,7 @@ creation_rules:
         - *akiko
         - *godiego
         - *jethro
+        - *phuong
 
         # cover-all keys
         - *ssh
@@ -51,6 +53,13 @@ creation_rules:
     key_groups:
       - age:
         - *jethro
+        - *ssh
+        pgp: [ *gpg ]
+
+  - path_regex: secrets/phuong.yaml$
+    key_groups:
+      - age:
+        - *phuong
         - *ssh
         pgp: [ *gpg ]
 

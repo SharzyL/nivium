@@ -84,7 +84,6 @@
   services.tg-searcher = {
     enable = true;
     configFile = "%S/tg-searcher/config.yaml"; # require manually copy to host
-    redis.enable = true;
   };
 
   services.green-rosetta = {
@@ -105,12 +104,6 @@
       };
       default = "http_status:404";
     };
-  };
-
-  services.chatgpt-telegram-bot = {
-    enable = true;
-    envFile = config.sops.secrets."chatgpt_bot".path;
-    configFile = ./etc/chatgpt.toml;
   };
 
   services.fail2ban = {

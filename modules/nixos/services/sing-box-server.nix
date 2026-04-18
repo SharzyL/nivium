@@ -94,7 +94,6 @@ in
         EnvironmentFile = cfg.envFile;
         ExecStartPre = lib.mkForce (pkgs.writeShellScript "sing-box-pre-start" ''
           umask 0077
-          mkdir -p /etc/sing-box
           ${genJqSecretsEnvReplacementSnippet sbCfg.settings "\${RUNTIME_DIRECTORY}/config.json"}
         '');
       };
