@@ -107,7 +107,6 @@
     pb
     sharzyscripts
     music-tag
-    sharzyscripts
     csync
     rdict
     bww
@@ -136,7 +135,6 @@
     thunderbird
     parsec-bin
     chromium
-    imhex
     nicotine-plus
     blender
     pavucontrol
@@ -152,8 +150,6 @@
     zoom-us
 
     # ide
-    jetbrains.rust-rover
-    vscode
     claude-code
   ];
 }

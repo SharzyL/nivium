@@ -27,7 +27,6 @@
         obsidian
         parsec-bin
         zoom-us
-        vscode
         snipaste
         claude-code
         codex

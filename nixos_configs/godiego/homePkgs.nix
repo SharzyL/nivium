@@ -127,7 +127,6 @@
     # jetbrains.goland
     # jetbrains.idea-ultimate
     # jetbrains.webstorm
-    vscode
 
     # x cli
     xclip

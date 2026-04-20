@@ -6,6 +6,9 @@ endpoints = [
   { name = "openrouter", url = "https://openrouter.ai/api", default_suffix = "/v1" },
 ]
 default_endpoint = "ohmygpt"
+default_image_prompt = "Describe the image in Chinese. If the image is primarily text, give the original text and translate it to Chinese, both in blockquotes."
+system_prompt = "Today is {current_date}. You are {model} model. Reply in the same language as the user sent you. Format the reply in MarkdownV2 but do not use markdown headings, tables, separator lines and TeX math. Be direct. No flattery. If the user is wrong, say so plainly. Skip hedging and filler. Don't restate my question before answering. No closing summaries unless I ask."
+image_cache_size = 500000
 
 models = [
   # openai
@@ -13,19 +16,22 @@ models = [
   { prefix = "om", name = "gpt-5.4-mini" },
   { prefix = "on", name = "gpt-5.4-nano" },
 
-  # openai
-  { prefix = "o/o", endpoint = "openrouter", name = "gpt-5.4", thinking = "high" },
-  { prefix = "o/om", endpoint = "openrouter", name = "gpt-5.4-mini" },
   { prefix = "o/on", endpoint = "openrouter", name = "gpt-5.4-nano" },
+  { prefix = "o/om", endpoint = "openrouter", name = "gpt-5.4-mini" },
+  { prefix = "o/o", endpoint = "openrouter", name = "gpt-5.4", thinking = "high" },
 
   # deepseek
   { prefix = "d", name = "deepseek-reasoner", api_type = "openai_legacy" },
   { prefix = "n/d", name = "deepseek/deepseek-v3.2", endpoint = "novita", api_type = "openai_legacy" },
 
-  # google
-  { prefix = "gf", name = "gemini-3-flash-preview" },
-  { prefix = "gl", name = "gemini-3.1-flash-lite-preview", api_type = "openai_legacy" },
-  { prefix = "gp", name = "gemini-3.1-pro-preview", api_type = "openai_legacy" },
+  # google (default to openrouter)
+  { prefix = "gf", endpoint = "openrouter", name = "gemini-3-flash-preview" },
+  { prefix = "gl", endpoint = "openrouter", name = "gemini-3.1-flash-lite-preview" },
+  { prefix = "gp", endpoint = "openrouter", name = "gemini-3.1-pro-preview", thinking = "high" },
+
+  { prefix = "o/gf", name = "gemini-3-flash-preview" },
+  { prefix = "o/gl", name = "gemini-3.1-flash-lite-preview", api_type = "openai_legacy" },
+  { prefix = "o/gp", name = "gemini-3.1-pro-preview", api_type = "openai_legacy", thinking = "high" },
 
   # claude
   { prefix = "ch", name = "claude-haiku-4-5", api_type = "anthropic", suffix = "" },

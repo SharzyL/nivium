@@ -21,7 +21,6 @@
       obsidian
       parsec-bin
       zoom-us
-      vscode
       mlc
       snipaste
 

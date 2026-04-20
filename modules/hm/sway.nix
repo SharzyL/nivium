@@ -378,7 +378,7 @@ in
           };
 
           "custom/trackpad" = {
-            exec = "${pkgs.sharzyscripts}/bin/bt-battery --show_waybar_icon 'Magic Trackpad' ";
+            exec = "${pkgs.sharzyscripts.misc}/bin/bt-battery --show_waybar_icon 'Magic Trackpad' ";
             return-type = "json";
             interval = 5;
             format = "󰀵  {percentage}%";
