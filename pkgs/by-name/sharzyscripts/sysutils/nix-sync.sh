@@ -10,7 +10,7 @@ nixpkgs_rev=$(get_rev nixpkgs)
 flake_parts_rev=$(get_rev flake-parts)
 treefmt_nix_rev=$(get_rev treefmt-nix)
 
-args=(nix flake update nixpkgs flake-parts treefmt-nix)
+args=(nix flake update --no-warn-dirty nixpkgs flake-parts treefmt-nix)
 
 if [ -n "$nixpkgs_rev" ] && [ "$nixpkgs_rev" != "null" ]; then
   args+=(--override-flake nixpkgs "github:NixOS/nixpkgs/$nixpkgs_rev")
