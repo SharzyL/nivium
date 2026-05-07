@@ -272,6 +272,7 @@ in
             Service = {
               ExecStart = path;
               KillMode = "mixed"; # kill main process first, to avoid issues in multi-process env
+              X-StopIfChanged = false;   # don't restart on unit-content change
             };
           }
         )

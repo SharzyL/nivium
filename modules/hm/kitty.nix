@@ -94,8 +94,8 @@
         "ctrl+k>$" = "launch --location=vsplit";
         "ctrl+k>\"" = "launch --location=hsplit --cwd=current";
         "ctrl+k>'" = "launch --location=hsplit";
-        "ctrl+k>r" = "respawn_window --cwd=current";
-        "ctrl+k>shift+r" = "respawn_window";
+        "ctrl+k>r" = "launch --type=overlay --cwd=current";
+        "ctrl+k>shift+r" = "launch --type=overlay";
       };
     };
   };

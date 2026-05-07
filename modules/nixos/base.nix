@@ -188,7 +188,7 @@ in
         defaults = {
           email = "acme@sharzy.in";
           dnsProvider = "cloudflare";
-          credentialsFile = config.sops.secrets."cf_secret_for_acme".path;
+          environmentFile = config.sops.secrets."cf_secret_for_acme".path;
         };
       };
     })

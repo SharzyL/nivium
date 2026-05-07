@@ -117,7 +117,7 @@
     zathura
     (texlive.combine {
       inherit (texlive) scheme-full;
-      pkgFilter = pkg: lib.elem pkg.tlType [ "run" "bin" "doc" ];
+      pkgFilter = pkg: lib.elem pkg.tlType [ "run" "bin" ];
     })
 
     typst

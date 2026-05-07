@@ -87,9 +87,14 @@ in
     ffmpeg = final.my_ffmpeg;
   };
 
-  vimPlugins =
-    prev.vimPlugins.extend
-      (vfinal: vprev: {
+  vimPlugins = prev.vimPlugins.extend
+    (vfinal: vprev:
+      let
+        removeLicense = name: vprev."${name}".overrideAttrs (oldAttrs: {
+          meta = lib.removeAttrs oldAttrs.meta [ "license" ];
+        });
+      in
+      {
         nvim-cmp = vprev.nvim-cmp.overrideAttrs (oldAttrs: {
           # https://github.com/hrsh7th/nvim-cmp/issues/1877
           src = final.fetchFromGitHub {
@@ -115,6 +120,10 @@ in
             hash = "sha256-BYTY2ezYuxsneAl/yQbwL1aQvVWKSsN3IVqzTlrBSEU=";
           };
         });
+
+        smartyank-nvim = removeLicense "smartyank-nvim";
+        vim-argumentative = removeLicense "vim-argumentative";
+        barbar-nvim = removeLicense "barbar-nvim";
       });
 
   go-grip = prev.go-grip.overrideAttrs (oldAttrs: {

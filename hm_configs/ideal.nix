@@ -1,9 +1,11 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   home.username = "luoyunqian";
   home.homeDirectory = "/scorpio/home/luoyunqian";
   nivium.profile = "full";
+
+  home.packages = [ pkgs.sharzyscripts.sysutils pkgs.uv ];
 
   programs.bash = {
     enable = true;

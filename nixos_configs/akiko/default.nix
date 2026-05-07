@@ -13,6 +13,7 @@
       memtest86-efi
       linuxPackages.nvidia_x11
       linuxPackages.nvidia_x11.settings
+      linuxPackages.nvidia_x11.mod
 
       cloudflare-warp
       mathematica
