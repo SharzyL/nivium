@@ -40,7 +40,9 @@ in
         '';
 
         _tide_item_parent = ''
-          if [ -n "$IN_NIX_SHELL" ]
+          if [ -n "$FISH_PARENT" ]
+              _tide_print_item parent "[$FISH_PARENT]"
+          else if [ -n "$IN_NIX_SHELL" ]
               _tide_print_item parent "[nix: $IN_NIX_SHELL]"
           else if [ -n "$pcomm" ]
               _tide_print_item parent "[$pcomm]"
@@ -131,6 +133,7 @@ in
             js = "just";
 
             bear = "noproxy bear";
+            pn = "pnpm";
           }
         )
         (lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
@@ -147,7 +150,6 @@ in
       ];
       shellAliases = {
         g = "git";
-        pn = "pnpm";
         ".." = "cd ..";
         "..." = "cd ../..";
         "...." = "cd ../../..";
@@ -155,12 +157,13 @@ in
         "......" = "cd ../../../../..";
         noproxy = "env -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY -u http_proxy -u https_proxy -u all_proxy";
         wget = "wget --hsts-file=${config.xdg.dataHome}/wget-hsts";
-        ls = "eza";
-        l = "eza -lgF";
-        ll = "eza -lgaF";
-        la = "eza -lgaaF";
-        lt = "eza -gTF";
-        lm = "eza -gl --sort=modified";
+        ls = "eza --hyperlink";
+        l = "eza -lgF --hyperlink";
+        ll = "eza -lgaF --hyperlink";
+        la = "eza -lgaaF --hyperlink";
+        lt = "eza -gTF --hyperlink";
+        lm = "eza -gl --hyperlink --sort=modified";
+        rg = "rg --hyperlink-format kitty";
       };
 
       shellInit =

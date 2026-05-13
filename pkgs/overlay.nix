@@ -16,8 +16,6 @@ let
   ;
 in
 {
-  nix = nixpkgs_master.nix;
-
   fido2luks = versionGuard prev.fido2luks "0.3.0" (prev.fido2luks.overrideAttrs (oldAttrs: rec {
     patches = (prev.patches or [ ]) ++ [ ./patches/fido2luks-bump-libcryptsetup.patch ];
     cargoDeps = oldAttrs.cargoDeps.overrideAttrs (lib.const {
@@ -33,7 +31,7 @@ in
   # to prevent collision with rustup
   rust-analyzer = lib.hiPrio prev.rust-analyzer;
 
-  zoom-us = nixpkgs_master.zoom-us;
+  # zoom-us = nixpkgs_master.zoom-us;
 
   firefox = prev.firefox.overrideAttrs (old: {
     buildCommand = old.buildCommand + ''
@@ -57,7 +55,7 @@ in
       cp "$desktopPath" $out/share/applications
       chmod +w $out/share/applications/chromium-browser.desktop
       substituteInPlace $out/share/applications/chromium-browser.desktop \
-        --replace "Exec=chromium" "Exec=env -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY -u http_proxy -u https_proxy -u all_proxy chromium"
+        --replace "Exec=chromium" "Exec=env -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY -u http_proxy -u https_proxy -u all_proxy chromium --password-store=basic"
     '';
   });
 

@@ -10,6 +10,12 @@ let
     mimeTypes = [ "inode/directory" ];
     exec = "${cfg.defaultTerminal} yazi";
   };
+  text-openner = pkgs.makeDesktopItem {
+    name = "text-openner";
+    desktopName = "Directory Openner";
+    mimeTypes = [ "text/plain" ];
+    exec = "${cfg.defaultTerminal} nvim";
+  };
 in
 {
   options.nivium = with lib.types; {
@@ -32,6 +38,7 @@ in
       pkgs.${cfg.defaultBrowser}
       pkgs.${cfg.defaultTerminal}
       dir-openner
+      text-openner
 
       pkgs.geeqie
     ];
@@ -71,7 +78,6 @@ in
 
         "application/pdf" = "${cfg.defaultBrowser}.desktop";
         "text/html" = "${cfg.defaultBrowser}.desktop";
-        "text/plain" = "code.desktop";
         "x-scheme-handler/http" = "${cfg.defaultBrowser}.desktop";
         "x-scheme-handler/https" = "${cfg.defaultBrowser}.desktop";
         "x-scheme-handler/tg" = "org.telegram.desktop.desktop";
@@ -81,6 +87,7 @@ in
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" = "wps-office-et.desktop";
 
         "inode/directory" = "dir-openner.desktop";
+        "text/plain" = "text-openner.desktop";
       };
     };
 

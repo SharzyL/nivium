@@ -98,6 +98,7 @@
     tcpdump
     q
     tun2socks
+    passt
     nali
     tcping-go
     iptraf-ng # TODO: make it setcap

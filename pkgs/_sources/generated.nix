@@ -114,31 +114,31 @@
   };
   geoip-cn = {
     pname = "geoip-cn";
-    version = "6611af30ec3490a97b2a22a6b3b6623365f640e0";
+    version = "86ae2ec85f07e08140bd0638588e42055c2cd731";
     src = fetchurl {
-      url = "https://raw.githubusercontent.com/SagerNet/sing-geoip/6611af30ec3490a97b2a22a6b3b6623365f640e0/geoip-cn.srs";
-      sha256 = "sha256-9ys2jgSy06d/zfsq7U5lhIoVyo2R9Lou3FODA0qxruo=";
+      url = "https://raw.githubusercontent.com/SagerNet/sing-geoip/86ae2ec85f07e08140bd0638588e42055c2cd731/geoip-cn.srs";
+      sha256 = "sha256-jpkBok3/pEmCt8b/K6IOY7juX9fqMEEGB+YesMxqhE0=";
     };
-    date = "2026-03-12";
+    date = "2026-05-12";
   };
   geosite-cn = {
     pname = "geosite-cn";
-    version = "d7c65e70d426afdc0fc0c607e75d26874a45248d";
+    version = "e238c6e285ae80ea96294568ff2eb607a831e880";
     src = fetchurl {
-      url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/d7c65e70d426afdc0fc0c607e75d26874a45248d/geosite-cn.srs";
-      sha256 = "sha256-72gfoRxyLt9zNN2HQkjp917GgBp3V6/FYUd0tQKpxJY=";
+      url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/e238c6e285ae80ea96294568ff2eb607a831e880/geosite-cn.srs";
+      sha256 = "sha256-Idc8crUEgy3sp18oatiiJyIV2MqzXU/IbGoJuHuvG38=";
     };
-    date = "2026-03-14";
+    date = "2026-05-13";
   };
   goauthing = {
     pname = "goauthing";
-    version = "v2.3.5";
+    version = "v2.4.0";
     src = fetchFromGitHub {
       owner = "z4yx";
       repo = "GoAuthing";
-      rev = "v2.3.5";
+      rev = "v2.4.0";
       fetchSubmodules = false;
-      sha256 = "sha256-pZD54SoumOoSOE+r2Llgw71h8wkJ15pqkPX/LRS2R2Y=";
+      sha256 = "sha256-BeQXyahSTyaQ+2ai7oKVszTsvNsZuTeuXs95w4nlpvk=";
     };
   };
   libaribcaption = {
@@ -154,13 +154,13 @@
   };
   logchecker = {
     pname = "logchecker";
-    version = "0.14.2";
+    version = "0.14.3";
     src = fetchFromGitHub {
       owner = "OPSnet";
       repo = "Logchecker";
-      rev = "0.14.2";
+      rev = "0.14.3";
       fetchSubmodules = false;
-      sha256 = "sha256-uli4H4FXHZ6x0ei/9k+X1oTQ7BsPkn591eLVcoNC0Kc=";
+      sha256 = "sha256-Dr0O7pmQIrTsi3HGByEo7t+qjoIUPIIMQZhnh8SWftM=";
     };
   };
   music-tag = {
@@ -181,15 +181,15 @@
   };
   pb = {
     pname = "pb";
-    version = "e7a49eb242afdb02f6218ca4ac4baad64600c7f0";
+    version = "0273794a7ce09c52061b7f34bd73b4c380d28af7";
     src = fetchFromGitHub {
       owner = "SharzyL";
       repo = "pastebin-worker";
-      rev = "e7a49eb242afdb02f6218ca4ac4baad64600c7f0";
+      rev = "0273794a7ce09c52061b7f34bd73b4c380d28af7";
       fetchSubmodules = false;
-      sha256 = "sha256-qnJ1WYGB6eZCRRsilCSuIfPWyPYX8W7Me4N6hwpEt2c=";
+      sha256 = "sha256-8fp+BTf2HEm9HoFQebOFxzURQi34LrlIGtnUU5INzRk=";
     };
-    date = "2026-03-13";
+    date = "2026-05-13";
   };
   pprp = {
     pname = "pprp";
@@ -233,51 +233,51 @@
   };
   rime-essay = {
     pname = "rime-essay";
-    version = "816b9eeab0f012e896d6c8d4f9b19f1524574378";
+    version = "425cc5d152a84389b6fde0ed85929abbfdea401d";
     src = fetchFromGitHub {
       owner = "rime";
       repo = "rime-essay";
-      rev = "816b9eeab0f012e896d6c8d4f9b19f1524574378";
+      rev = "425cc5d152a84389b6fde0ed85929abbfdea401d";
       fetchSubmodules = false;
-      sha256 = "sha256-STrP4yU9zTHJnWXa93YTStLZVqBP8cBWggwRcoeTryA=";
+      sha256 = "sha256-6SBhb7wwNq7NCPWhTJrf4n8X2HAZjS+doz93G0e1WYc=";
     };
-    date = "2026-01-06";
+    date = "2026-05-02";
   };
   rime-ice = {
     pname = "rime-ice";
-    version = "4fe519c81eb0f7add2707ea80af5efe73f9d55f5";
+    version = "5f130b4fbc9a228dea9c9ad25597d4bab284ee1d";
     src = fetchFromGitHub {
       owner = "iDvel";
       repo = "rime-ice";
-      rev = "4fe519c81eb0f7add2707ea80af5efe73f9d55f5";
+      rev = "5f130b4fbc9a228dea9c9ad25597d4bab284ee1d";
       fetchSubmodules = false;
-      sha256 = "sha256-n1XFLBNxrbYf9c/6LzGV92zNQNXyJyCjpGtWR81YG5M=";
+      sha256 = "sha256-eKHGJ8oioBncKntA8kuDuH6qXFfMHFwXJuUBlkCLn4w=";
     };
-    date = "2026-03-11";
+    date = "2026-05-06";
   };
   rime-luna-pinyin = {
     pname = "rime-luna-pinyin";
-    version = "d7b4e52f8021bbad5c5a99b2314ca1771cd6f222";
+    version = "ba97605aa00b4a972c1bfcd705b957fcd90b192c";
     src = fetchFromGitHub {
       owner = "rime";
       repo = "rime-luna-pinyin";
-      rev = "d7b4e52f8021bbad5c5a99b2314ca1771cd6f222";
+      rev = "ba97605aa00b4a972c1bfcd705b957fcd90b192c";
       fetchSubmodules = false;
-      sha256 = "sha256-KSBwvr0xaC+3/TtIRwWY8j0Oan1sZYeJIek9xr24458=";
+      sha256 = "sha256-mrzjqfdkLOm9vv95KSZYB+vak8JwrJHYT8PQVTeyt+k=";
     };
-    date = "2026-01-06";
+    date = "2026-05-09";
   };
   rime-prelude = {
     pname = "rime-prelude";
-    version = "db691d2420b8e656a79692a94f9db0fb3e7aa12b";
+    version = "082425ea0684bca36474415d4a0e8db9b016487e";
     src = fetchFromGitHub {
       owner = "rime";
       repo = "rime-prelude";
-      rev = "db691d2420b8e656a79692a94f9db0fb3e7aa12b";
+      rev = "082425ea0684bca36474415d4a0e8db9b016487e";
       fetchSubmodules = false;
-      sha256 = "sha256-sllcT3Kq572xJvlh+j4zN0AUblFzXlhZtL9RGT/GY7g=";
+      sha256 = "sha256-roHPpaAbsnQgnz6kupMz/kHFQWwshRYojNsdS5iFApI=";
     };
-    date = "2025-12-30";
+    date = "2026-05-09";
   };
   rssbot = {
     pname = "rssbot";
@@ -333,15 +333,15 @@
   };
   tree-sitter-just = {
     pname = "tree-sitter-just";
-    version = "60df3d5b3fda2a22fdb3621226cafab50b763663";
+    version = "5685543a6e64f66335e25518c9ae8ffa1dae3d01";
     src = fetchFromGitHub {
       owner = "IndianBoy42";
       repo = "tree-sitter-just";
-      rev = "60df3d5b3fda2a22fdb3621226cafab50b763663";
+      rev = "5685543a6e64f66335e25518c9ae8ffa1dae3d01";
       fetchSubmodules = false;
-      sha256 = "sha256-cul4U1V42l/nYcCvs2eVA09qSrPi34t0eJ/Pr/Ewfhc=";
+      sha256 = "sha256-lrW5E+HIqrDSWZ4+KOjIc80/wYm/WV9ZOfdLXxPIbX4=";
     };
-    date = "2026-02-09";
+    date = "2026-03-25";
   };
   vim-barbaric = {
     pname = "vim-barbaric";
@@ -365,14 +365,14 @@
   };
   yazi-flavors = {
     pname = "yazi-flavors";
-    version = "9511cb09cadcbf57e39a46b06a52d00957177175";
+    version = "06708015bfb53b169d99bb3907829f9175105d57";
     src = fetchFromGitHub {
       owner = "yazi-rs";
       repo = "flavors";
-      rev = "9511cb09cadcbf57e39a46b06a52d00957177175";
+      rev = "06708015bfb53b169d99bb3907829f9175105d57";
       fetchSubmodules = false;
-      sha256 = "sha256-3RR8mi7CcVMDMitdTdaonFmfAIkeOzWK/CVKQmomIhE=";
+      sha256 = "sha256-Gm6ThktOLUR+KDs6f3s1WCgrw2TOKQ4tolVvVdCxnCM=";
     };
-    date = "2026-03-13";
+    date = "2026-04-09";
   };
 }

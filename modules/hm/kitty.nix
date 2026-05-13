@@ -4,6 +4,10 @@
   # kitty is already added to home.packages in graphics-common.nix
 
   config = lib.mkIf (config.programs.kitty.enable == true) {
+    home.packages = lib.mkIf (config.nivium.profile == "full") [
+      pkgs.ghostscript_headless # used for pdf icat
+    ];
+
     programs.fish.interactiveShellInit = lib.mkAfter ''
       if [ -n "$KITTY_PID" ]
         abbr --add -- ks "kitten ssh"
@@ -17,9 +21,11 @@
           macos_option_as_alt = true;
           window_padding_width = lib.mkDefault "2.5";
           scrollback_pager_history_size = lib.mkDefault 50;
+          strip_trailing_spaces = "always";
           enabled_layouts = lib.mkDefault "splits,grid,tall,vertical,horizontal,fat,stack";
 
           touch_scroll_multiplier = 2;
+          inactive_text_alpha = 0.6;
 
           tab_bar_style = "separator";
           tab_separator = "\"\"";
@@ -41,7 +47,7 @@
         }
         (lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
           allow_remote_control = "password";
-          remote_control_password = "\"\" focus-window ls";
+          remote_control_password = "\"\" focus-window ls set-tab-title set-colors";
           listen_on = "unix:\${XDG_RUNTIME_DIR}/kitty-{kitty_pid}.sock";
         })
       ];
@@ -94,9 +100,24 @@
         "ctrl+k>$" = "launch --location=vsplit";
         "ctrl+k>\"" = "launch --location=hsplit --cwd=current";
         "ctrl+k>'" = "launch --location=hsplit";
-        "ctrl+k>r" = "launch --type=overlay --cwd=current";
-        "ctrl+k>shift+r" = "launch --type=overlay";
+        "ctrl+k>r" = "combine | launch --cwd=current --type=overlay-main | remote_control close-window --match state:overlay_parent";
+        "ctrl+k>shift+r" = "combine | launch --type=overlay-main | remote_control close-window --match state:overlay_parent";
       };
     };
+
+    xdg.configFile."kitty/open-actions.conf".text = ''
+      protocol file
+      mime text/*
+      action launch --type=overlay nvim -- ''${FILE_PATH}
+
+      protocol file
+      mime image/*
+      action launch --type=overlay kitten icat --hold --fit=both -- ''${FILE_PATH}
+
+      protocol file
+      fragment_matches [0-9]+
+      action launch --type=overlay --cwd=current nvim +''${FRAGMENT} -- ''${FILE_PATH}
+    '';
+
   };
 }
