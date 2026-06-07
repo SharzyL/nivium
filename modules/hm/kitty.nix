@@ -42,12 +42,13 @@
             + "{fmt.fg._5e3719}{'' if layout_name == 'splits' else 'Z' if layout_name == 'stack' else '/' + layout_name}"
             + "{fmt.fg._e5c07b}{fmt.bg.default} \"";
           tab_bar_min_tabs = 1;
+          auto_reload_config = -1;
 
           inactive_border_color = "#333333";
         }
         (lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
           allow_remote_control = "password";
-          remote_control_password = "\"\" focus-window ls set-tab-title set-colors";
+          remote_control_password = "\"\" focus-window ls set-tab-title set-colors set-window-logo";
           listen_on = "unix:\${XDG_RUNTIME_DIR}/kitty-{kitty_pid}.sock";
         })
       ];
@@ -82,8 +83,7 @@
         "ctrl+k>c" = "new_tab";
         "ctrl+k>x" = "close_window";
         "ctrl+k>shift+x" = "close_tab";
-        "ctrl+k>z" = "toggle_layout stack"; # toggle zoom
-        "alt+z" = "toggle_layout stack"; # toggle zoom
+        "alt+z" = "kitten zoom.py"; # toggle zoom
         "ctrl+k>s" = "toggle_layout splits";
         "ctrl+shift+l" = "next_layout";
         "ctrl+k>b" = "detach_window new-tab"; # break-pane

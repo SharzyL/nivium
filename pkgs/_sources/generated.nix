@@ -181,13 +181,13 @@
   };
   pb = {
     pname = "pb";
-    version = "0273794a7ce09c52061b7f34bd73b4c380d28af7";
+    version = "6ae8e10264395cb5856b0a2b3f99f9ac77d99db4";
     src = fetchFromGitHub {
       owner = "SharzyL";
       repo = "pastebin-worker";
-      rev = "0273794a7ce09c52061b7f34bd73b4c380d28af7";
+      rev = "6ae8e10264395cb5856b0a2b3f99f9ac77d99db4";
       fetchSubmodules = false;
-      sha256 = "sha256-8fp+BTf2HEm9HoFQebOFxzURQi34LrlIGtnUU5INzRk=";
+      sha256 = "sha256-ddx2m0NQeoTt7CIGj8pyIcehvRw1zJiu0l2xQOWlbbk=";
     };
     date = "2026-05-13";
   };

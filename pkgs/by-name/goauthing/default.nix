@@ -3,7 +3,7 @@
 pkgs.buildGoModule {
   inherit (srcs.goauthing) pname version src;
 
-  vendorHash = "sha256-FRLpeOYOTSnq66qjljfomdSSHZhIxA0n3EcIqcoxn4c=";
+  vendorHash = "sha256-Lwx3Z+BXFf2GWcJjTKEt4gZ7LO+UIbile7U7N/1+quU=";
   subPackages = [ "cli" ];
 
   postInstall = ''

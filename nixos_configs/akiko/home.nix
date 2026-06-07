@@ -49,7 +49,22 @@
 
   systemd.user.services."autostart-nicotine" = {
     Service = {
-      TemporaryFileSystem = [ "/tank/mus/tlmc_selected/[KodamaSounds]" "%h/ws" "%h/download" ];
+      TemporaryFileSystem = [ "/tank/mus/tlmc_selected/[KodamaSounds]" "%h" ];
+      BindPaths = [ "%E/nicotine" "%D/nicotine" "%h/download/music/soulseek" ];
+      BindReadOnlyPaths = [ "%h/tank/mus" ];
+    };
+  };
+
+  systemd.user.services."autostart-dropbox" = {
+    Service = {
+      TemporaryFileSystem = [ "%h" ];
+      BindPaths = [ "%h/.dropbox" "%h/.dropbox-dist" "%h/ws/Dropbox" ];
+    };
+  };
+
+  systemd.user.services."autostart-telegram" = {
+    Service = {
+      TemporaryFileSystem = [ "%h/.ssh" ];
     };
   };
 

@@ -331,12 +331,12 @@
             "name": null,
             "owner": "SharzyL",
             "repo": "pastebin-worker",
-            "rev": "0273794a7ce09c52061b7f34bd73b4c380d28af7",
-            "sha256": "sha256-8fp+BTf2HEm9HoFQebOFxzURQi34LrlIGtnUU5INzRk=",
+            "rev": "6ae8e10264395cb5856b0a2b3f99f9ac77d99db4",
+            "sha256": "sha256-ddx2m0NQeoTt7CIGj8pyIcehvRw1zJiu0l2xQOWlbbk=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "0273794a7ce09c52061b7f34bd73b4c380d28af7"
+        "version": "6ae8e10264395cb5856b0a2b3f99f9ac77d99db4"
     },
     "pprp": {
         "cargoLock": null,

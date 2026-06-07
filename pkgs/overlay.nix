@@ -140,6 +140,7 @@ in
       message = ''
         ${name} of hash ${hash} missing in nix store
       '';
+      meta.license = final.lib.licenses.free; # to avoid the anonying license check
     };
   }).overrideAttrs (oldAttrs: {
     postInstall = (oldAttrs.postInstall or "") + ''
