@@ -31,6 +31,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    era_ls = {
+      url = "github:SharzyL/era_ls/goshujin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     bww = {
       url = "github:SharzyL/bww/goshujin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -105,6 +110,7 @@
         vicishz
         green-rosetta
         bww
+        era_ls
       ])));
     in
     flake-parts.lib.mkFlake { inherit inputs; }

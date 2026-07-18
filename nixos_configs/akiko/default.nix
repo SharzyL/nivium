@@ -121,7 +121,7 @@
     enable = true;
     networks = {
       "ether" = {
-        matchConfig.Name = "enp* wlp*";
+        matchConfig.Name = "enp* wlan*";
         networkConfig.DHCP = "yes";
         dhcpV4Config.ClientIdentifier = "mac";
         dhcpV4Config.Anonymize = "yes";
@@ -138,11 +138,6 @@
 
   networking.wireless.iwd = {
     enable = true;
-    settings = {
-      Settings = {
-        AutoConnect = false;
-      };
-    };
   };
 
   boot.supportedFilesystems = [ "zfs" "nfs4" ];

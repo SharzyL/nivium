@@ -111,6 +111,12 @@ return function(vim, lsp_autostart)
       end,
     },
     coq_lsp = {},
+    era_ls = {
+      -- Not in nvim-lspconfig's registry, so cmd/filetypes/root must be given.
+      cmd = { 'era-ls', 'lsp' },
+      filetypes = { 'era' },
+      root_markers = { 'CSV', '.git' },
+    },
   }
 
   vim.lsp.config('*', {
@@ -123,6 +129,8 @@ return function(vim, lsp_autostart)
       settings = opts.settings,
       init_options = opts.init_options,
       cmd = opts.cmd,
+      filetypes = opts.filetypes,
+      root_markers = opts.root_markers,
       single_file_support = opts.single_file_support or true,
       -- root_dir = opts.root_dir or (require('lspconfig.util')).find_git_ancestor,
 

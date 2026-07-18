@@ -122,8 +122,10 @@ in
             tree-sitter-beancount
             tree-sitter-typst
             tree-sitter-typescript
+            pkgs.tree-sitter-era
           ]
         ))
+        nvim-treesitter-context
         # nvim-treesitter-textobjects
         vimtex
 

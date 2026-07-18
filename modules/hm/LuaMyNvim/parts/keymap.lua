@@ -18,6 +18,8 @@ return function(vim)
   -- shut down the search high light
   nmap('<leader> ', ':nohlsearch<CR>', d('Close search highlight'))
 
+  nmap('<leader>i', ':Inspect<CR>', d('Inspect node'))
+
   --- move around the window
   nmap('<leader>k', '<C-w>k', d('Jump to window above'))
   nmap('<leader>j', '<C-w>j', d('Jump to window below'))

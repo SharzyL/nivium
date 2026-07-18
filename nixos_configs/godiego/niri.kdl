@@ -200,9 +200,9 @@ binds {
     Mod+Return { spawn "kitty"; }
 
     Mod+O { spawn "vicinae" "vicinae://toggle"; }
-    Mod+Tab { spawn "vicinae" "vicinae://extensions/vicinae/wm/switch-windows"; }
-    Mod+D { spawn "vicinae" "vicinae://extensions/SharzyL/vicishz/kitty-windows"; }
-    Ctrl+Alt+D { spawn "vicinae" "vicinae://extensions/SharzyL/vicishz/rdict-quick"; }
+    Mod+Tab { spawn "vicinae" "vicinae://launch/@SharzyL/vicinae-0.1/wm/switch-windows"; }
+    Mod+D { spawn "vicinae" "vicinae://launch/@SharzyL/vicishz-0.1/kitty-windows"; }
+    Ctrl+Alt+D { spawn "vicinae" "vicinae://launch/@SharzyL/vicishz-0.1/rdict-quick"; }
 
     Mod+N { spawn-sh "swaync-client -t -sw"; }
     Mod+Escape { spawn-sh "swaylock && niri msg action power-on-monitors"; }

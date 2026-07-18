@@ -86,7 +86,7 @@
     colmena
 
     # wine
-    winePackages.full
+    wineWow64Packages.waylandFull
     winetricks
     dxvk
 

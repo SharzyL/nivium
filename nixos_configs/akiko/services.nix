@@ -9,6 +9,7 @@
   sops.secrets."goauthing_config" = { sopsFile = ../../secrets/desktop.yaml; };
   sops.secrets."restic_env" = { owner = "sharzy"; sopsFile = ../../secrets/desktop.yaml; };
   sops.secrets."oomori_rsync_env" = { sopsFile = ../../secrets/desktop.yaml; };
+  sops.secrets."cloudflared-creds" = { sopsFile = ../../secrets/akiko.yaml; };
 
   nivium.services = {
     goauthing = {
@@ -104,13 +105,13 @@
     wantedBy = [ "timers.target" ];
   };
 
-  services.openvpn.servers = {
-    felix = { config = '' config /var/lib/nivium/felix.ovpn ''; };
-  };
-  systemd.services.openvpn-felix.unitConfig = {
-    After = lib.mkForce [ "network-online.target" ];
-    Wants = lib.mkForce [ "network-online.target" ];
-  };
+  # services.openvpn.servers = {
+  #   felix = { config = '' config /var/lib/nivium/felix.ovpn ''; };
+  # };
+  # systemd.services.openvpn-felix.unitConfig = {
+  #   After = lib.mkForce [ "network-online.target" ];
+  #   Wants = lib.mkForce [ "network-online.target" ];
+  # };
 
   services.smartdns = {
     enable = true;
@@ -153,4 +154,12 @@
   };
 
   services.upower.enable = true;
+
+  services.cloudflared = {
+    enable = true;
+    tunnels."33d869ff-6935-40fa-9982-7a770578cefe" = {
+      credentialsFile = config.sops.secrets."cloudflared-creds".path;
+      default = "http_status:404";
+    };
+  };
 }
