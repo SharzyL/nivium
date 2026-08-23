@@ -3,9 +3,8 @@ keys:
     - &ssh      age1qqquny76zrfgy4thjv77fwntzfnlfds02d5lr5pguca4wpa9z5js0qpzal  # converted from ssh ed_25519 key
     - &general  age1fp53ld8q6a7uswh84pa8ys9yhvutvlqu35x3ex3pz6d7gw6l0v5q7qngtr
     - &akiko    age13elz7mxhqn7vpmskfltle4tg0skk6jxaa9dzlyc8efpmfcde79pq35el55
-    - &godiego  age19tcmxpm3k32wn0m4tqq5ae5d6srmewrhvugd9jsucw6jty69ncyqkvwtms
     - &jethro   age1k2u5ygvyxus5wd53yk3434q02m3r6l2jc7q36x8qae5tx55049eq0l5sd8
-    - &phuong   age19rghms02443aq0c8czdl0pdgsh74jx73ftcu4fue7z9vz7ya9vms2zmk6t
+    - &phuong   age1w7twg5vdlmysah6aewz5yd3qxuqfpj9fcn3gwdp7zal6k2kxgcuqdyg7qn
   pgp:
     - &gpg      115AB673F93A781A1501E71B7F6354E5A6AAADDF
 
@@ -18,7 +17,6 @@ creation_rules:
       - age:
         # per-device keys
         - *akiko
-        - *godiego
         - *jethro
         - *phuong
 
@@ -31,7 +29,6 @@ creation_rules:
     key_groups:
       - age:
         - *akiko
-        - *godiego
         - *ssh
         pgp: [ *gpg ]
 
@@ -39,13 +36,6 @@ creation_rules:
     key_groups:
       - age:
         - *akiko
-        - *ssh
-        pgp: [ *gpg ]
-
-  - path_regex: secrets/godiego.yaml$
-    key_groups:
-      - age:
-        - *godiego
         - *ssh
         pgp: [ *gpg ]
 

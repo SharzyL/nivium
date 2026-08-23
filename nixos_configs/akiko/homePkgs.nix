@@ -116,10 +116,7 @@
     python3.pkgs.pygments-extra
     latexrun
     zathura
-    (texlive.combine {
-      inherit (texlive) scheme-full;
-      pkgFilter = pkg: lib.elem pkg.tlType [ "run" "bin" ];
-    })
+    texliveBasic
 
     typst
 

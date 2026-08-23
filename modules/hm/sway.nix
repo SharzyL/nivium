@@ -68,7 +68,6 @@ in
       dbus-sway-environment
 
       gnome3.adwaita-icon-theme
-      dracula-theme
 
       swayidle
       wofi

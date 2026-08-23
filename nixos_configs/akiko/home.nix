@@ -11,7 +11,7 @@
     withGraphics = true;
 
     attic-cache = {
-      enable = true;
+      enable = false; # not needed now
       caches = [{
         substituter = "https://cache.shz.al/shz";
         pubKey = "shz:7ZMa88EJfJD1evQ2eSEt8ekk9yRsHg77DM9RnTsfsPE=";

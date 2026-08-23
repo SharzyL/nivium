@@ -52,7 +52,7 @@ in
       '';
 
       nix = {
-        package = pkgs.nix;
+        package = pkgs.nixVersions.latest;
         channel.enable = false;
         settings = {
           trusted-users = mkBefore [ "root" cfg.adminUser ];
@@ -192,9 +192,5 @@ in
         };
       };
     })
-
-    {
-      environment.systemPackages = [ pkgs.nixVersions.latest ];
-    }
   ];
 }

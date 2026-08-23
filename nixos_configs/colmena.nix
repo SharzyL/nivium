@@ -21,16 +21,6 @@ inputs.colmena.lib.makeHive {
     imports = [ ./akiko ];
   };
 
-  godiego = { ... }: {
-    nixpkgs.system = "x86_64-linux";
-    deployment = {
-      allowLocalDeployment = true;
-      targetHost = "godiego";
-      buildOnTarget = true;
-    };
-    imports = [ ./godiego ];
-  };
-
   jethro = { ... }: {
     nixpkgs.system = "x86_64-linux";
     deployment = {
@@ -43,7 +33,7 @@ inputs.colmena.lib.makeHive {
   phuong = { ... }: {
     nixpkgs.system = "x86_64-linux";
     deployment = {
-      targetHost = "160.22.16.191";
+      targetHost = "phuong4.d.shz.al";
       tags = [ "remote" ];
     };
     imports = [ ./phuong ];

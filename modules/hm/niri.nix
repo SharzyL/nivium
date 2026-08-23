@@ -82,8 +82,6 @@ in
     home.packages = with pkgs; [
       dbus-niri-environment
 
-      dracula-theme
-
       xwayland-satellite
       xdg-utils
       libnotify

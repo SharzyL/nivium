@@ -21,9 +21,12 @@
     environmentFile = config.sops.secrets."attic_secret".path;
     settings = {
       listen = "127.0.0.1:8533";
-      database.url = "postgresql:///atticd?host=/run/postgresql";
-      allowed-hosts = [ "attic.jethro.d.shz.al" ];
-      api-endpoint = "https://attic.jethro.d.shz.al/";
+      # `user=` must be explicit: sqlx >= 0.9 depends on whoami with default-features
+      # off, which disables whoami's `std` feature and leaves it on the stub backend
+      # that reports the username as "anonymous", breaking peer authentication.
+      database.url = "postgresql:///atticd?host=/run/postgresql&user=atticd";
+      allowed-hosts = [ "cache.shz.al" ];
+      api-endpoint = "https://cache.shz.al/";
       chunking = {
         nar-size-threshold = 128 * 1024;
         min-size = 64 * 1024;
@@ -51,8 +54,8 @@
       extraConfig = ''
         client_max_body_size 2000M;
         include ${config.sops.secrets.attic_nginx_proxy_config.path};
-        proxy_set_header Host "attic.jethro.d.shz.al";
       '';
+      recommendedProxySettings = true;
     };
   };
 }
