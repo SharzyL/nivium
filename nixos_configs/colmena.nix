@@ -38,4 +38,13 @@ inputs.colmena.lib.makeHive {
     };
     imports = [ ./phuong ];
   };
+
+  sunra = { ... }: {
+    nixpkgs.system = "x86_64-linux";
+    deployment = {
+      targetHost = "sunra.d.shz.al";
+      tags = [ "remote" ];
+    };
+    imports = [ ./sunra ];
+  };
 }

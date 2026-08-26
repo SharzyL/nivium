@@ -5,6 +5,7 @@ keys:
     - &akiko    age13elz7mxhqn7vpmskfltle4tg0skk6jxaa9dzlyc8efpmfcde79pq35el55
     - &jethro   age1k2u5ygvyxus5wd53yk3434q02m3r6l2jc7q36x8qae5tx55049eq0l5sd8
     - &phuong   age1w7twg5vdlmysah6aewz5yd3qxuqfpj9fcn3gwdp7zal6k2kxgcuqdyg7qn
+    - &sunra    age1hq65xuspp4casafnmpp8ytutgzek2wxtce3r5rvclmdfwffv5g0sl35xrg
   pgp:
     - &gpg      115AB673F93A781A1501E71B7F6354E5A6AAADDF
 
@@ -19,6 +20,7 @@ creation_rules:
         - *akiko
         - *jethro
         - *phuong
+        - *sunra
 
         # cover-all keys
         - *ssh
