@@ -1,4 +1,4 @@
-{ self, ... }: {
+{ self, config, ... }: {
   imports = [
     self.nixosModules.default
     ./hardware-configuration.nix
@@ -32,6 +32,20 @@
           fish.enable = true;
         };
       };
+    };
+  };
+
+  # holds the [server] section of the rathole config, i.e. default_token
+  sops.secrets."rathole_token" = { sopsFile = ../../secrets/sunra.yaml; };
+
+  # expose akiko's sshd (which listens on 23333) as sunra:23333
+  services.rathole = {
+    enable = true;
+    role = "server";
+    credentialsFile = config.sops.secrets."rathole_token".path;
+    settings.server = {
+      bind_addr = "0.0.0.0:24333";
+      services.akiko_ssh.bind_addr = "0.0.0.0:23333";
     };
   };
 

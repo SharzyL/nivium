@@ -36,11 +36,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787413135,
-        "narHash": "sha256-3L/YO5DVS9BXMtkGUK6ByoQ3Ug+SdfGRFXIwoZP3E9E=",
+        "lastModified": 1788077899,
+        "narHash": "sha256-lnD0f4iHSMpVLr7orgQfDiKLxZ9unvKx8HsEpjzeUBY=",
         "owner": "SharzyL",
         "repo": "chatgpt-telegram-bot",
-        "rev": "a8fbe4275a847dbef04a7124d823c32ea156e07b",
+        "rev": "3b05a3616acffc1b342ac415341e98029ba280a8",
         "type": "github"
       },
       "original": {
@@ -325,11 +325,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787462979,
-        "narHash": "sha256-uMd8e8aHVWkCmgF9Yj7q72MstUboZKzUxupBNkr/XOw=",
+        "lastModified": 1788073645,
+        "narHash": "sha256-ENMFU13nwUbQPvQPNwbNyUenU4hjZ0QDVBFAoM0CrSE=",
         "owner": "SharzyL",
         "repo": "green_rosetta",
-        "rev": "da92b7f704acd0ed37cf005755f4339ae54e6b78",
+        "rev": "a0f04f85c25970f9d43043dd6c776b7806b2c737",
         "type": "github"
       },
       "original": {

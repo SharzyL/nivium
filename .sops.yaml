@@ -55,3 +55,10 @@ creation_rules:
         - *ssh
         pgp: [ *gpg ]
 
+  - path_regex: secrets/sunra.yaml$
+    key_groups:
+      - age:
+        - *sunra
+        - *ssh
+        pgp: [ *gpg ]
+

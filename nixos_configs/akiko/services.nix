@@ -10,6 +10,8 @@
   sops.secrets."restic_env" = { owner = "sharzy"; sopsFile = ../../secrets/desktop.yaml; };
   sops.secrets."oomori_rsync_env" = { sopsFile = ../../secrets/desktop.yaml; };
   sops.secrets."cloudflared-creds" = { sopsFile = ../../secrets/akiko.yaml; };
+  # holds the [client] section of the rathole config, i.e. default_token
+  sops.secrets."rathole_token" = { sopsFile = ../../secrets/akiko.yaml; };
 
   nivium.services = {
     goauthing = {
@@ -57,6 +59,17 @@
     };
   };
   nivium.enableDNSACME = true;
+
+  # publish our sshd on sunra:23333
+  services.rathole = {
+    enable = true;
+    role = "client";
+    credentialsFile = config.sops.secrets."rathole_token".path;
+    settings.client = {
+      remote_addr = "sunra.d.shz.al:24333";
+      services.akiko_ssh.local_addr = "127.0.0.1:23333";
+    };
+  };
 
   users.users."sharzy".extraGroups = lib.mkBefore [ "qbittorrent" ];
   systemd.services.ddns.serviceConfig.Environment = [
