@@ -1,5 +1,7 @@
 admin_id = 629325599
 
+allowed_chats = [696093468]
+
 endpoints = [
   { name = "ohmygpt", url = "https://api.ohmygpt.com", default_suffix = "/v1" },
   { name = "novita", url = "https://api.novita.ai", default_suffix = "/openai/v1" },
@@ -16,6 +18,8 @@ models = [
   { prefix = "ot", name = "gpt-5.6-terra" },
   { prefix = "ol", name = "gpt-5.6-luna" },
   { prefix = "om", name = "gpt-5.4-mini" },
+
+  { prefix = "x", name = "grok-4.5", thinking = "high" },
 
   # deepseek
   { prefix = "d", name = "deepseek-v4-pro", api_type = "openai_legacy" },

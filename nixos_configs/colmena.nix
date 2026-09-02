@@ -24,7 +24,7 @@ inputs.colmena.lib.makeHive {
   jethro = { ... }: {
     nixpkgs.system = "x86_64-linux";
     deployment = {
-      targetHost = "jethro";
+      targetHost = "jethro.d.shz.al";
       tags = [ "remote" ];
     };
     imports = [ ./jethro ];
@@ -33,7 +33,7 @@ inputs.colmena.lib.makeHive {
   phuong = { ... }: {
     nixpkgs.system = "x86_64-linux";
     deployment = {
-      targetHost = "phuong4.d.shz.al";
+      targetHost = "phuong.d.shz.al";
       tags = [ "remote" ];
     };
     imports = [ ./phuong ];

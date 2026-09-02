@@ -81,6 +81,11 @@
 
   services.openssh.settings.X11Forwarding = true;
 
+  # keep sshd from giving up with "Too many authentication failures" (and thereby
+  # promoting every buffered publickey line into a fail2ban strike) when the
+  # gpg agent offers more than the default 6 identities
+  services.openssh.settings.MaxAuthTries = 20;
+
   services.tg-searcher = {
     enable = true;
     configFile = "%S/tg-searcher/config.yaml"; # require manually copy to host
@@ -108,7 +113,30 @@
 
   services.fail2ban = {
     enable = true;
+
+    # a single ssh connection can emit several failure lines (one per key the
+    # agent offers), so the default of 3 is barely one fat-fingered attempt
+    maxretry = 10;
+    bantime = "10m";
+
+    # gentle first ban, harsh on anyone who keeps knocking: 10m, 20m, 40m ... 48h
+    bantime-increment = {
+      enable = true;
+      maxtime = "48h";
+      overalljails = true;
+    };
+
+    # never ban ourselves over tailscale
+    ignoreIP = [
+      "100.64.0.0/10"
+      "fd7a:115c:a1e0::/48"
+    ];
   };
+
+  # networking.firewall is off here, so the module's own partOf is empty; without
+  # this an nftables reload (exporters.nix owns the ruleset, and flushRuleset is
+  # on) wipes f2b-table while fail2ban still believes the bans are in place
+  systemd.services.fail2ban.partOf = [ "nftables.service" ];
 
   services.grafana = {
     enable = true;
