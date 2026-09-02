@@ -29,22 +29,25 @@
 
           tab_bar_style = "separator";
           tab_separator = "\"\"";
-          tab_title_template =
+          tab_title_template = lib.mkDefault (
             "\"{fmt.fg._5c6370}{fmt.bg.default}"
             + "{fmt.fg._abb2bf}{fmt.bg._5c6370}{index}"
             + "{fmt.fg._abb2bf} {title[:20]}"
             + "{fmt.fg._7209b7}{'' if num_windows == 1 else ' *' + str(num_windows)}"
-            + "{fmt.fg._5c6370}{fmt.bg.default} \"";
-          active_tab_title_template = "\"{fmt.fg._e5c07b}{fmt.bg.default}"
+            + "{fmt.fg._5c6370}{fmt.bg.default} \""
+          );
+          active_tab_title_template = lib.mkDefault (
+            "\"{fmt.fg._e5c07b}{fmt.bg.default}"
             + "{fmt.fg._335c9a}{fmt.bg._e5c07b}{index}"
             + "{fmt.fg._282c34} {title[:20]}"
             + "{fmt.fg._7209b7}{'' if num_windows == 1 else ' *' + str(num_windows)}"
             + "{fmt.fg._5e3719}{'' if layout_name == 'splits' else 'Z' if layout_name == 'stack' else '/' + layout_name}"
-            + "{fmt.fg._e5c07b}{fmt.bg.default} \"";
+            + "{fmt.fg._e5c07b}{fmt.bg.default} \""
+          );
           tab_bar_min_tabs = 1;
           auto_reload_config = -1;
 
-          inactive_border_color = "#333333";
+          inactive_border_color = lib.mkDefault "#333333";
         }
         (lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
           allow_remote_control = "password";

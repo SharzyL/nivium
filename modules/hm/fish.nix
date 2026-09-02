@@ -157,12 +157,12 @@ in
         "......" = "cd ../../../../..";
         noproxy = "env -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY -u http_proxy -u https_proxy -u all_proxy";
         wget = "wget --hsts-file=${config.xdg.dataHome}/wget-hsts";
-        ls = "eza --hyperlink=always";
-        l = "eza -lgF --hyperlink=always";
-        ll = "eza -lgaF --hyperlink=always";
-        la = "eza -lgaaF --hyperlink=always";
-        lt = "eza -gTF --hyperlink=always";
-        lm = "eza -gl --hyperlink=always --sort=modified";
+        ls = "eza --hyperlink=auto";
+        l = "eza -lgF --hyperlink=auto";
+        ll = "eza -lgaF --hyperlink=auto";
+        la = "eza -lgaaF --hyperlink=auto";
+        lt = "eza -gTF --hyperlink=auto";
+        lm = "eza -gl --hyperlink=auto --sort=modified";
         rg = "rg --hyperlink-format kitty";
       };
 

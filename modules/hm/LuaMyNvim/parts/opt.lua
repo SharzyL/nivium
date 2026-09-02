@@ -2,9 +2,23 @@ return function(vim)
   -- Enables the experimental Lua module loader
   vim.loader.enable()
 
-  -- Enables 24-bit RGB color in the TUI, and set background to dark
   vim.opt.termguicolors = true
-  vim.opt.background = 'dark'
+
+  -- The TUI asks the terminal for its background itself, but the answer only
+  -- arrives after the first redraw: the colorscheme is then loaded a second
+  -- time and the whole window visibly flips. Both of these are set before any
+  -- drawing happens, so the right colorscheme is loaded the first time:
+  --   $TERM_THEME_OVERRIDE  what was asked for, where the terminal cannot answer
+  --   $TERM_THEME_DETECTED  what the shell found out (see light-mode.nix)
+  -- Setting 'background' here also stops the TUI from setting it later, so a
+  -- hint that has gone stale stays until the shell refreshes it (`retheme`).
+  local hint = os.getenv('TERM_THEME_OVERRIDE')
+  if hint ~= 'light' and hint ~= 'dark' then
+    hint = os.getenv('TERM_THEME_DETECTED')
+  end
+  if hint == 'light' or hint == 'dark' then
+    vim.opt.background = hint
+  end
 
   vim.opt.number = true
   vim.opt.cursorline = true

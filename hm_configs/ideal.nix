@@ -5,7 +5,7 @@
   home.homeDirectory = "/scorpio/home/luoyunqian";
   nivium.profile = "full";
 
-  home.packages = [ pkgs.sharzyscripts.sysutils pkgs.uv ];
+  home.packages = [ pkgs.uv ];
 
   programs.bash = {
     enable = true;

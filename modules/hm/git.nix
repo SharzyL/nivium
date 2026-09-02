@@ -11,8 +11,8 @@
     lfs.enable = lib.mkDefault true;
     settings = {
       user = {
-        name = "SharzyL";
-        email = "me@sharzy.in";
+        name = lib.mkDefault "SharzyL";
+        email = lib.mkDefault "me@sharzy.in";
       };
       alias = {
         g = "log --graph --pretty=format:'%Cred%h%Creset - %s %Cgreen(%cr) %C(bold blue)%an%Creset %C(yellow)%d%Creset'";

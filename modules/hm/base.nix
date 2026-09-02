@@ -161,6 +161,7 @@ in
       home.packages = with pkgs; [
         trash-cli
         just
+        sharzyscripts.sysutils
       ];
       programs.yazi.enable = true;
     })];

@@ -15,6 +15,7 @@
     ./attic-cache.nix
     ./fcitx5-rime.nix
     ./kitty.nix
+    ./light-mode.nix
     ./yazi.nix
   ];
 

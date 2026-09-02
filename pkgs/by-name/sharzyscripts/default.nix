@@ -55,6 +55,12 @@ let
       runtimeInputs = with pkgs; [ jq nix ];
     };
 
+    term-bg = writeShellApplication {
+      name = "term-bg";
+      text = builtins.readFile ./sysutils/term-bg.sh;
+      runtimeInputs = with pkgs; [ coreutils gawk ];
+    };
+
     # musutils
     cue-lint = writeShellApplication {
       name = "cue-lint";
@@ -104,7 +110,7 @@ let
   groups = {
     sysutils = symlinkJoin {
       name = "sharzyscripts-sysutils";
-      paths = with scripts; [ nsw sc_monitor vr direnv-gc crun nix-sync ];
+      paths = with scripts; [ nsw sc_monitor vr direnv-gc crun nix-sync term-bg ];
     };
 
     musutils = symlinkJoin {
