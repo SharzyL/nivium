@@ -124,7 +124,7 @@
     sioyek
     telegram-desktop
     snipaste
-    zotero
+    # zotero # https://github.com/NixOS/nixpkgs/pull/569006
     dropbox
     obsidian
     mpv
@@ -136,6 +136,7 @@
     nicotine-plus
     blender
     pavucontrol
+    wezterm # for connection from wezterm
 
     # design
     gimp

@@ -265,12 +265,12 @@ in
             Unit = {
               Description = "automatic starting ${name} on niri startup";
               After = [ "graphical-session.target" ];
+              X-SwitchMethod = "keep-old"; # sd-switch: don't restart running apps on unit-content change
             };
             Install = { WantedBy = [ "graphical-session.target" ]; };
             Service = {
               ExecStart = path;
               KillMode = "mixed"; # kill main process first, to avoid issues in multi-process env
-              X-StopIfChanged = false; # don't restart on unit-content change
             };
           }
         )

@@ -1,11 +1,12 @@
 admin_id = 629325599
 
-allowed_chats = [696093468]
+allowed_chats = [696093468, 442599907]
 
 endpoints = [
   { name = "ohmygpt", url = "https://api.ohmygpt.com", default_suffix = "/v1" },
   { name = "novita", url = "https://api.novita.ai", default_suffix = "/openai/v1" },
   { name = "openrouter", url = "https://openrouter.ai/api", default_suffix = "/v1" },
+  { name = "deepseek", url = "https://api.deepseek.com", default_suffix = "/v1" },
 ]
 default_endpoint = "ohmygpt"
 default_image_prompt = "Describe the image in Chinese. If the image is primarily text, give the original text and translate it to Chinese, both in blockquotes."
@@ -21,9 +22,12 @@ models = [
 
   { prefix = "x", name = "grok-4.5", thinking = "high" },
 
+  { prefix = "dp", name = "deepseek-v4-pro", endpoint = "deepseek", thinking = "high" },
+  { prefix = "df", name = "deepseek-flash", endpoint = "deepseek", thinking = "high" },
+
   # deepseek
-  { prefix = "d", name = "deepseek-v4-pro", api_type = "openai_legacy" },
-  { prefix = "df", name = "deepseek-v4-flash", api_type = "openai_legacy" },
+  { prefix = "om/dp", name = "deepseek-v4-pro", api_type = "openai_legacy" },
+  { prefix = "om/df", name = "deepseek-v4-flash", api_type = "openai_legacy" },
   { prefix = "n/d", name = "deepseek/deepseek-v4-pro-0813", endpoint = "novita", api_type = "openai_legacy" },
 
   # google (default to openrouter)
@@ -31,9 +35,9 @@ models = [
   { prefix = "o/gl", endpoint = "openrouter", name = "gemini-3.1-flash-lite-preview" },
   { prefix = "o/gp", endpoint = "openrouter", name = "gemini-3.1-pro-preview", thinking = "high" },
 
-  { prefix = "gf", name = "gemini-3.7-flash", api_type = "openai_legacy" },
+  { prefix = "gf", name = "gemini-3.8-flash", api_type = "openai_legacy" },
   { prefix = "gl", name = "gemini-3.5-flash-lite", api_type = "openai_legacy" },
-  { prefix = "gp", name = "gemini-3.5-pro-preview", api_type = "openai_legacy", thinking = "high" },
+  { prefix = "gp", name = "gemini-3.1-pro-preview", api_type = "openai_legacy", thinking = "high" },
 
   # claude
   { prefix = "ch", name = "claude-haiku-4-5", api_type = "anthropic", suffix = "" },
