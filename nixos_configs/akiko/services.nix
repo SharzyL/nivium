@@ -1,9 +1,9 @@
-{ config, pkgs, lib, inputs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports = [
     ./services/jellyfin.nix
-    inputs.hermes-agent.nixosModules.default
+    ./services/hermes.nix
   ];
 
   sops.secrets."thu_passwd" = { sopsFile = ../../secrets/desktop.yaml; };
@@ -13,8 +13,6 @@
   sops.secrets."cloudflared-creds" = { sopsFile = ../../secrets/akiko.yaml; };
   # holds the [client] section of the rathole config, i.e. default_token
   sops.secrets."rathole_token" = { sopsFile = ../../secrets/akiko.yaml; };
-  # dotenv-style KEY=VALUE lines for hermes-agent, see services.hermes-agent below
-  sops.secrets."hermes_env" = { sopsFile = ../../secrets/akiko.yaml; };
 
   nivium.services = {
     goauthing = {
@@ -72,46 +70,6 @@
       remote_addr = "sunra.d.shz.al:24333";
       services.akiko_ssh.local_addr = "127.0.0.1:23333";
     };
-  };
-
-  services.hermes-agent = {
-    enable = true;
-    addToSystemPackages = true;
-    # expects DEEPSEEK_API_KEY, OHMYGPT_API_KEY, DISCORD_BOT_TOKEN, DISCORD_ALLOWED_USERS
-    environmentFiles = [ config.sops.secrets."hermes_env".path ];
-    environment = {
-      DISCORD_HOME_CHANNEL = "1557648855615672330";
-    };
-    settings = {
-      model = {
-        provider = "deepseek";
-        default = "deepseek-flash";
-      };
-      # switch with `/model custom:ohmygpt:<model>`
-      providers.ohmygpt = {
-        api = "https://api.ohmygpt.com/v1";
-        key_env = "OHMYGPT_API_KEY";
-        transport = "chat_completions";
-        discover_models = false;
-        models = [
-          "gemini-3.8-flash"
-          "gemini-3.5-flash-lite"
-          "gemini-3.1-pro-preview"
-          "grok-4.5"
-          "glm-5.2"
-        ];
-      };
-      discord = {
-        require_mention = true;
-        auto_thread = true;
-        reactions = true;
-      };
-      group_sessions_per_user = true;
-    };
-  };
-  systemd.services.hermes-agent.environment = {
-    HTTPS_PROXY = "http://127.0.0.1:1094";
-    HTTP_PROXY = "http://127.0.0.1:1094";
   };
 
   users.users."sharzy".extraGroups = lib.mkBefore [ "qbittorrent" ];
