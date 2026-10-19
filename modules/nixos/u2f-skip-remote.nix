@@ -9,25 +9,24 @@ let
   # started remotely here, and a pane's ancestry leads to the server rather than
   # to whoever is attached, so they have to count on their own.
   #
-  # pam_exec runs this with the caller's real uid, so it can only see the
-  # caller's own processes. That is enough: the session's sshd-session, the
-  # tmux server and the wezterm mux server all run as the user.
+  # Processes are named by their comm from /proc/PID/stat, not by readlink on
+  # /proc/PID/exe: that needs ptrace access to the target, which the mixed
+  # credentials pam_exec inherits from sudo do not reliably have, while stat is
+  # readable by anyone. A process can rename its comm, but faking a remote
+  # session only gets the password prompt instead of the key.
   isRemote = pkgs.writeShellScript "pam-u2f-is-remote" ''
     pid=$PPID
     while [ "$pid" -gt 1 ]; do
-      exe=$(${pkgs.coreutils}/bin/readlink "/proc/$pid/exe" 2>/dev/null) || exe=
-      name=''${exe##*/}
-      # nix wrappers rename the real binary to .NAME-wrapped
-      name=''${name#.}
-      name=''${name%-wrapped}
-      case $name in
-        sshd | sshd-session | tmux | wezterm-mux-server) exit 0 ;;
-      esac
       stat=$(<"/proc/$pid/stat") || exit 1
-      # the command name in parentheses may contain spaces; ppid is the second
-      # field after it
-      stat=''${stat##*) }
-      read -r _ pid _ <<<"$stat"
+      # "PID (COMM) STATE PPID ...", where COMM may itself contain spaces and
+      # parentheses: cut at the first "(" and the last ")"
+      comm=''${stat#*(}
+      comm=''${comm%)*}
+      # comm is truncated to 15 characters, hence wezterm-mux-ser
+      case $comm in
+        sshd | sshd-session | "tmux: server" | wezterm-mux-ser) exit 0 ;;
+      esac
+      read -r _ pid _ <<<"''${stat##*) }"
     done
     exit 1
   '';
