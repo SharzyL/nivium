@@ -43,7 +43,7 @@ in
       default = [ "sudo" ];
       description = ''
         PAM services to apply this to. An explicit list: deriving it from every
-        service with u2fAuth set would recurse into security.pam.services.
+        service with u2f.enable set would recurse into security.pam.services.
       '';
     };
   };
@@ -54,8 +54,8 @@ in
     assertions = map
       (name:
         let svc = config.security.pam.services.${name}; in {
-          assertion = svc.u2fAuth && svc.rules.auth.u2f.control == "sufficient";
-          message = "nivium.u2f.skipRemote: PAM service ${name} must have u2fAuth with control \"sufficient\"";
+          assertion = svc.u2f.enable && svc.u2f.control == "sufficient";
+          message = "nivium.u2f.skipRemote: PAM service ${name} must have u2f.enable with control \"sufficient\"";
         })
       cfg.services;
 

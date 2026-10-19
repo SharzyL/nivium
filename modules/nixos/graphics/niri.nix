@@ -16,7 +16,7 @@ in
       useNautilus = true;
     };
 
-    security.pam.services.swaylock.u2fAuth = true;
+    security.pam.services.swaylock.u2f.enable = true;
 
     services.dbus.implementation = "broker";
 
