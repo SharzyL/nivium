@@ -14,6 +14,7 @@ in
     ./graphics
     ./dhack
     ./systemd-hardening.nix
+    ./u2f-skip-remote.nix
   ] ++ (map (flake: flake.nixosModules.default) (with self.inputs; [
     sops-nix
     home-manager

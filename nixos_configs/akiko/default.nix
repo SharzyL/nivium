@@ -168,6 +168,7 @@
   };
 
   security.pam.services.sudo.u2fAuth = true;
+  nivium.u2f.skipRemote.enable = true;
 
   security.auditd.enable = true;
 
