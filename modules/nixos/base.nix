@@ -189,6 +189,13 @@ in
           email = "acme@sharzy.in";
           dnsProvider = "cloudflare";
           environmentFile = config.sops.secrets."cf_secret_for_acme".path;
+          # Since v5, lego also waits for the TXT record to show up on the system
+          # resolver, not just on the authoritative nameservers. Behind tailscale
+          # that is MagicDNS, which caches the NODATA from lego's first poll for
+          # the SOA minimum (1800s on cloudflare), so the check outlasts lego's
+          # 2-minute timeout on every retry. Let's Encrypt asks the authoritative
+          # nameservers anyway, so the authoritative check alone is enough.
+          extraLegoFlags = [ "--dns.propagation.disable-rns" ];
         };
       };
     })
