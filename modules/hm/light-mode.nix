@@ -79,8 +79,9 @@ in
       };
 
       # Everything that cannot ask the terminal itself is fed from one term-bg
-      # call, cached per tty: every query costs a round trip to the terminal,
-      # which over ssh is not free, and every fish spawned would pay it.
+      # call, passed down through the environment: every query costs a round
+      # trip to the terminal, which over ssh is not free, and every fish spawned
+      # would pay it.
       programs.fish.functions = {
         # __nivium_export NAME [VALUE...] -- export NAME, or erase it when the
         # value is empty, so that going back to dark leaves no trace
@@ -107,32 +108,35 @@ in
           end
         '';
 
-        __nivium_bg_cache = ''
-          set -l dir "$XDG_RUNTIME_DIR"
-          test -z "$dir" && set dir /tmp
-          echo "$dir/nivium-term-bg"(id -u)(tty 2>/dev/null | string replace -a / _)
-        '';
-
         __nivium_term_bg = ''
           if set -q TERM_THEME_OVERRIDE
               echo $TERM_THEME_OVERRIDE
               return
           end
-          set -l cache (__nivium_bg_cache)
-          if test -f "$cache"
-              cat "$cache"
-              return
-          end
           # Only an interactive shell may ask: tide renders the prompt in a child
           # fish, and querying there would take the terminal out from under the
-          # shell that is reading the user's keys.
+          # shell that is reading the user's keys. Such a child (which may not
+          # even have a tty) takes what its parent found.
           if not status is-interactive
-              echo dark
+              contains -- "$TERM_THEME_DETECTED" light dark
+              and echo $TERM_THEME_DETECTED
+              or echo dark
+              return
+          end
+          # An inherited answer is only trusted on the tty it was found on: the
+          # environment also leaks across terminals (a tmux server, a terminal or
+          # compositor started from a shell), and every such crossing comes with
+          # a new tty. A file keyed by tty would not do, since ptys get reused.
+          # tty prints "not a tty" on stdout when it fails
+          set -l tty (tty 2>/dev/null) || set tty
+          if test -n "$tty" -a "$__NIVIUM_THEME_TTY" = "$tty"
+              and contains -- "$TERM_THEME_DETECTED" light dark
+              echo $TERM_THEME_DETECTED
               return
           end
           set -l bg (${termBg} 2>/dev/null)
           test -z "$bg" && set bg dark
-          printf '%s\n' $bg >"$cache" 2>/dev/null
+          __nivium_export __NIVIUM_THEME_TTY $tty
           echo $bg
         '';
 
@@ -198,14 +202,12 @@ in
             # answer an OSC 11 query; with no argument, drop the pin and ask again
             set -l mode
             test (count $argv) -gt 0 && set mode $argv[1]
-            set -l cache (__nivium_bg_cache)
             switch "$mode"
                 case light dark
                     set -gx TERM_THEME_OVERRIDE $mode
-                    printf '%s\n' $mode >"$cache" 2>/dev/null
                 case ""
                     set -e TERM_THEME_OVERRIDE
-                    rm -f "$cache"
+                    set -e __NIVIUM_THEME_TTY
                 case "*"
                     echo "retheme: expected light, dark, or no argument" >&2
                     return 2
