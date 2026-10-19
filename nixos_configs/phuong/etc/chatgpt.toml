@@ -1,6 +1,6 @@
 admin_id = 629325599
 
-allowed_chats = [696093468, 442599907]
+allowed_chats = [696093468, 442599907, -1003921935827]
 
 endpoints = [
   { name = "ohmygpt", url = "https://api.ohmygpt.com", default_suffix = "/v1" },
@@ -22,8 +22,8 @@ models = [
 
   { prefix = "x", name = "grok-4.5", thinking = "high" },
 
-  { prefix = "dp", name = "deepseek-v4-pro", endpoint = "deepseek", thinking = "high" },
-  { prefix = "df", name = "deepseek-flash", endpoint = "deepseek", thinking = "high" },
+  { prefix = "dp", name = "deepseek-v4-pro", endpoint = "deepseek", thinking = "high", dummy_tool = true },
+  { prefix = "df", name = "deepseek-flash", endpoint = "deepseek", thinking = "high", dummy_tool = true },
 
   # deepseek
   { prefix = "om/dp", name = "deepseek-v4-pro", api_type = "openai_legacy" },
