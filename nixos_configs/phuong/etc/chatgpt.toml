@@ -27,21 +27,17 @@ models = [
 
   # deepseek
   { prefix = "om/dp", name = "deepseek-v4-pro", api_type = "openai_legacy" },
-  { prefix = "om/df", name = "deepseek-v4-flash", api_type = "openai_legacy" },
+  { prefix = "om/df", name = "deepseek-flash", api_type = "openai_legacy" },
   { prefix = "n/d", name = "deepseek/deepseek-v4-pro-0813", endpoint = "novita", api_type = "openai_legacy" },
 
-  # google (default to openrouter)
-  { prefix = "o/gf", endpoint = "openrouter", name = "gemini-3-flash-preview" },
-  { prefix = "o/gl", endpoint = "openrouter", name = "gemini-3.1-flash-lite-preview" },
-  { prefix = "o/gp", endpoint = "openrouter", name = "gemini-3.1-pro-preview", thinking = "high" },
-
+  # google
   { prefix = "gf", name = "gemini-3.8-flash", api_type = "openai_legacy" },
   { prefix = "gl", name = "gemini-3.5-flash-lite", api_type = "openai_legacy" },
   { prefix = "gp", name = "gemini-3.1-pro-preview", api_type = "openai_legacy", thinking = "high" },
 
   # claude
-  { prefix = "ch", name = "claude-haiku-4-5", api_type = "anthropic", suffix = "" },
-  { prefix = "cs", name = "claude-sonnet-5", api_type = "anthropic", suffix = "", thinking = "adaptive" },
-  { prefix = "co", name = "claude-opus-5", api_type = "anthropic", suffix = "", thinking = "adaptive" },
+  { prefix = "ch", name = "claude-haiku-5.5", api_type = "anthropic", suffix = "" },
+  { prefix = "cs", name = "claude-sonnet-5.5", api_type = "anthropic", suffix = "", thinking = "adaptive" },
+  { prefix = "co", name = "claude-opus-5.5", api_type = "anthropic", suffix = "", thinking = "adaptive" },
 ]
 

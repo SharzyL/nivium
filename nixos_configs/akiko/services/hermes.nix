@@ -1,4 +1,4 @@
-{ config, inputs, ... }:
+{ config, inputs, pkgs, ... }:
 
 {
   imports = [
@@ -16,6 +16,20 @@
     environment = {
       DISCORD_HOME_CHANNEL = "1557648855615672330";
     };
+    # tools for the agent, on its PATH
+    extraPackages = with pkgs; [
+      python3
+      uv
+      poppler-utils
+      nodejs
+      pnpm
+      gh
+      sqlite
+      p7zip # 7z; _7zz only provides 7zz
+      pandoc
+      ffmpeg
+      imagemagick
+    ];
     settings = {
       model = {
         provider = "deepseek";
@@ -39,6 +53,12 @@
         require_mention = true;
         auto_thread = true;
         reactions = true;
+      };
+      display = {
+        # cap on the first-line preview of a tool call, instead of the built-in 40
+        tool_preview_length = 200;
+        # show the whole multi-line command block
+        platforms.discord.tool_progress = "verbose";
       };
       group_sessions_per_user = true;
     };
