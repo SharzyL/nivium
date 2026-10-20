@@ -31,7 +31,8 @@
         sm = "submodule";
 
         p = "push";
-        pu = "pull";
+        pf = "push --force-with-lease";
+        pua = "push -u origin @";
 
         b = "branch";
         cl = "clone";
