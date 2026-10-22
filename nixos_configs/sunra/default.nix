@@ -38,7 +38,7 @@
   # holds the [server] section of the rathole config, i.e. default_token
   sops.secrets."rathole_token" = { sopsFile = ../../secrets/sunra.yaml; };
 
-  # expose akiko's sshd (which listens on 23333) as sunra:23333
+  # expose akiko's sshd as sunra:23333
   services.rathole = {
     enable = true;
     role = "server";

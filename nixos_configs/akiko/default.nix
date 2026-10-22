@@ -206,13 +206,7 @@
   hardware.nvidia-container-toolkit.enable = false;
   services.blueman.enable = true;
 
-  services.openssh = {
-    listenAddresses = [
-      { addr = "[::]"; port = 23333; }
-      { addr = "0.0.0.0"; port = 23333; }
-    ];
-    settings.PermitRootLogin = "no";
-  };
+  services.openssh.settings.PermitRootLogin = "no";
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 

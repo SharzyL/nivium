@@ -68,7 +68,7 @@
     credentialsFile = config.sops.secrets."rathole_token".path;
     settings.client = {
       remote_addr = "sunra.d.shz.al:24333";
-      services.akiko_ssh.local_addr = "127.0.0.1:23333";
+      services.akiko_ssh.local_addr = "127.0.0.1:22";
     };
   };
 
