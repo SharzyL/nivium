@@ -13,6 +13,7 @@
     nodejs
     pnpm
     uv
+    tpm2-pkcs11
 
     # media and doc cli
     imagemagick

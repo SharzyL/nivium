@@ -176,7 +176,7 @@
     ];
 
     extra-trusted-public-keys = [
-      "attic-ci:U5Sey4mUxwBXM3iFapmP0/ogODXywKLRNgRPQpEXxbo="
+      # "attic-ci:U5Sey4mUxwBXM3iFapmP0/ogODXywKLRNgRPQpEXxbo="
     ];
   };
 
