@@ -101,6 +101,10 @@ in
         };
       };
 
+      environment.etc."ssh/trusted_user_ca_keys".text = ''
+        ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIa1ySKa6MhJmDYECMefviL6eWB/vuJzH51i8LR/9T76Ezrwc/PnNOhHyJAH7zAgEX95QN8M8VuD5Xbs1ugqyuU= sharzy-akiko-ca
+      '';
+
       services.openssh = {
         enable = mkDefault true;
         listenAddresses = mkBefore [
@@ -108,6 +112,7 @@ in
           { addr = "0.0.0.0"; port = 22; }
         ];
         settings.PasswordAuthentication = mkDefault false;
+        settings.TrustedUserCAKeys = "/etc/ssh/trusted_user_ca_keys";
         extraConfig = mkAfter ''
           StreamLocalBindUnlink yes
           LoginGraceTime 0
