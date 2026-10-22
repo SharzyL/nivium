@@ -170,6 +170,8 @@
   security.pam.services.sudo.u2f.enable = true;
   nivium.u2f.skipRemote.enable = true;
 
+  security.tpm2.enable = true;
+
   security.auditd.enable = true;
 
   virtualisation.podman.enable = true;
@@ -179,7 +181,7 @@
   programs = {
     gnupg.agent = {
       enable = true;
-      enableSSHSupport = true;
+      enableSSHSupport = false; # replaced by ssh-tpm-agent (home-manager)
       enableExtraSocket = true;
     };
     gnome-disks.enable = true;
@@ -196,7 +198,7 @@
   };
   environment.stub-ld.enable = false;
 
-  users.users."sharzy".extraGroups = lib.mkBefore [ "wireshark" "cdrom" "vboxusers" ];
+  users.users."sharzy".extraGroups = lib.mkBefore [ "wireshark" "cdrom" "vboxusers" config.security.tpm2.tssGroup ];
 
   i18n.supportedLocales = [ "all" ];
 

@@ -49,16 +49,6 @@ in
           end
         '';
 
-        gpg-up = ''
-          if [ -d $GNUPGHOME ]
-            set -gx GPG_TTY (tty)
-            set -u SSH_AGENT_PID
-            if [ \( -z "$gnupg_SSH_AUTH_SOCK_by" -o "$gnupg_SSH_AUTH_SOCK_by" != "$fish_pid" \) -a -z "$SSH_CONNECTION" ]
-                set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
-            end
-          end
-        '';
-
         last_history_item = ''
           echo $history[1]
         '';
@@ -214,8 +204,6 @@ in
         end
 
         set VIRTUAL_ENV_DISABLE_PROMPT true  # prevent venv modifying prompt
-
-        gpg-up
 
         ${cfg.extraScript}
       '';

@@ -98,7 +98,7 @@ in
 
     services.gpg-agent = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
       enable = true;
-      enableSshSupport = true;
+      enableSshSupport = lib.mkDefault true;
       defaultCacheTtl = 10;
       enableExtraSocket = true;
       sshKeys = [

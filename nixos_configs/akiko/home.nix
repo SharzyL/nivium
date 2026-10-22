@@ -77,6 +77,9 @@
 
   programs.obs-studio.enable = true;
 
+  services.ssh-tpm-agent.enable = true;
+  services.gpg-agent.enableSshSupport = false;
+
   programs.fish = {
     functions = {
       "sdoc" = ''

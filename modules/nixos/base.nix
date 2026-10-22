@@ -80,7 +80,7 @@ in
 
         gnupg.agent = {
           enable = true;
-          enableSSHSupport = true;
+          enableSSHSupport = mkDefault true;
           enableExtraSocket = true;
         };
       };
