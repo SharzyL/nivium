@@ -29,6 +29,7 @@ in
       type = types.str;
     };
     enableDNSACME = mkEnableOption "enable cloudflare acme secrets";
+    sshd-greet-with-auth-info = mkEnableOption "show ssh auth info (e.g. cert identity and expiry) on ssh login" // { default = true; };
   };
 
   config = mkMerge [
@@ -189,6 +190,20 @@ in
         };
       }
     ))
+
+    (mkIf cfg.sshd-greet-with-auth-info {
+      services.openssh.settings.ExposeAuthInfo = true;
+
+      environment.loginShellInit =
+        let
+          greet = pkgs.writeShellApplication {
+            name = "ssh-auth-greet";
+            runtimeInputs = with pkgs; [ openssh coreutils gnused gawk ];
+            text = builtins.readFile ./ssh-auth-greet.sh;
+          };
+        in
+        "${greet}/bin/ssh-auth-greet";
+    })
 
     # DNS ACME config
     (mkIf cfg.enableDNSACME {
