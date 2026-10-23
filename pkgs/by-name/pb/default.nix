@@ -6,7 +6,7 @@
 }:
 
 let
-  pythonEnv = python3.withPackages (ps: [ ps.requests ]);
+  pythonEnv = python3.withPackages (ps: [ ps.requests ps.cryptography ]);
 in
 
 stdenvNoCC.mkDerivation {
