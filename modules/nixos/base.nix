@@ -102,11 +102,6 @@ in
         };
       };
 
-      security.pki.caCertificateBlacklist = [
-        "Comodo AAA Services root"
-        "emSign ECC Root CA - G3"
-      ];
-
       environment.etc."ssh/trusted_user_ca_keys".text = ''
         ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIa1ySKa6MhJmDYECMefviL6eWB/vuJzH51i8LR/9T76Ezrwc/PnNOhHyJAH7zAgEX95QN8M8VuD5Xbs1ugqyuU= sharzy-akiko-ca
       '';

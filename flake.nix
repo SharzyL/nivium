@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-unstable";
+    nixpkgs.url = "nixpkgs/nixos-unstable-small";
     nixpkgs_master.url = "nixpkgs/master";
     flake-parts.url = "flake-parts";
     flake-utils.url = "flake-utils";
