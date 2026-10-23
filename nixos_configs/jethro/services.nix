@@ -74,7 +74,6 @@
       };
     };
 
-    moltis.enable = true;
   };
 
   nivium.enableDNSACME = true;

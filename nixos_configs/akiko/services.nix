@@ -6,8 +6,6 @@
     ./services/hermes.nix
   ];
 
-  sops.secrets."thu_passwd" = { sopsFile = ../../secrets/desktop.yaml; };
-  sops.secrets."goauthing_config" = { sopsFile = ../../secrets/desktop.yaml; };
   sops.secrets."restic_env" = { owner = "sharzy"; sopsFile = ../../secrets/desktop.yaml; };
   sops.secrets."oomori_rsync_env" = { sopsFile = ../../secrets/desktop.yaml; };
   sops.secrets."cloudflared-creds" = { sopsFile = ../../secrets/akiko.yaml; };
@@ -15,10 +13,6 @@
   sops.secrets."rathole_token" = { sopsFile = ../../secrets/akiko.yaml; };
 
   nivium.services = {
-    goauthing = {
-      enable = true;
-      configFile = config.sops.secrets."goauthing_config".path;
-    };
     ddns = {
       enable = true;
       configFile = "/var/lib/nivium/ddns.json";

@@ -30,7 +30,6 @@
 
   home.packages = with pkgs; [
     sshfs
-    goauthing
     nix-output-monitor
 
     typst

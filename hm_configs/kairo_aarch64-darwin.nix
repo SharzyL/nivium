@@ -30,7 +30,6 @@
     sing-box
     rclone
     sshfs
-    goauthing
     python-ddns
     nix-output-monitor
 

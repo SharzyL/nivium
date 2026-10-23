@@ -22,11 +22,4 @@ final: prev:
   # the install path (share/lua/5.1/...) must match neovim's lua.luaversion
   # so that wrapNeovim's extraLuaPackages env picks it up.
   LuaMyNvim = final.luajitPackages.callPackage ../modules/hm/LuaMyNvim { };
-  python3 = prev.python3.override {
-    packageOverrides = pfinal: pprev: {
-      pygments-extra = pprev.pygments.overridePythonAttrs (oldAttrs: {
-        propagatedBuildInputs = (oldAttrs.propagatedBuildInputs or [ ]) ++ [ final.spice-lexer ];
-      });
-    };
-  };
 }

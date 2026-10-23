@@ -21,10 +21,6 @@ in
       unitConfig.After = [ "network.target" "nss-lookup.target" ];
 
       serviceConfig = {
-        ExecStartPre = [
-          "${pkgs.coreutils}/bin/ln -sf ${pkgs.sing-geodb.ip} %S/sing-box/geosite.db"
-          "${pkgs.coreutils}/bin/ln -sf ${pkgs.sing-geodb.site} %S/sing-box/geoip.db"
-        ];
         ExecStart = "${cfg.package}/bin/sing-box -D %S/sing-box -c %d/config.json run";
         LimitNOFILE = "infinity";
         StateDirectory = "sing-box";

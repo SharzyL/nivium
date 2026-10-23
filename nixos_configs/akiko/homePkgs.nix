@@ -67,7 +67,6 @@
     p7zip
     android-tools
     beancount
-    subconverter
     go-grip
     gh
 
@@ -108,7 +107,6 @@
     iptraf-ng # TODO: make it setcap
 
     # self-packaged things
-    goauthing
     pb
     sharzyscripts
     music-tag
@@ -117,7 +115,6 @@
     bww
 
     # tex
-    python3.pkgs.pygments-extra
     latexrun
     zathura
     texliveBasic
