@@ -5,10 +5,6 @@ final: prev:
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDeib2S3KJRAYnSLy47UJxdI3VSt1dSZ5r4jbN/EhTEI gpg@genesis"
   ];
 
-  # self-packaged packages overrides
-  efb = prev.efb.override { python3 = final.python311; };
-  logchecker = prev.logchecker.override { python3 = final.python311; };
-
   # until qbittorrent5 is supported
   qbittorrent-nox = final.libsForQt5.callPackage ./in-overlay/qbittorrent4 {
     guiSupport = false;

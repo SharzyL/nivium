@@ -1,0 +1,263 @@
+{
+  "pins": {
+    "eac-logchecker": {
+      "type": "PyPi",
+      "name": "eac-logchecker",
+      "version_upper_bound": null,
+      "version": "0.8.1",
+      "url": "https://files.pythonhosted.org/packages/fe/2c/f01a9a6d8b0fb70aa5db561b51f674e67b46bf6a95a7c92d6dfccf6165c7/eac_logchecker-0.8.1.tar.gz",
+      "hash": "sha256-aB2D7I7ntYGjlOGQv1D5GSmsNKEq8FhGCbtx+kJ+oXc="
+    },
+    "factlang-vim": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "PLSysSec",
+        "repo": "factlang.vim"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "dcc43d1246ace013a0705759095ed056ed441cab",
+      "url": "https://github.com/PLSysSec/factlang.vim/archive/dcc43d1246ace013a0705759095ed056ed441cab.tar.gz",
+      "hash": "sha256-bEcv7TuermxP5b2qk2wxxyt1xYU30Fk5+fAW1oEuiQI="
+    },
+    "filetype-nvim": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "nathom",
+        "repo": "filetype.nvim"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "15891eb2b138d54b08aef793c43901910ec6879f",
+      "url": "https://github.com/nathom/filetype.nvim/archive/15891eb2b138d54b08aef793c43901910ec6879f.tar.gz",
+      "hash": "sha256-Fw7q2k8kGszmzHlSNUYWq4I1IUkmims0JUMMNDGcvSg="
+    },
+    "fish-colored-man": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "decors",
+        "repo": "fish-colored-man"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "1ad8fff696d48c8bf173aa98f9dff39d7916de0e",
+      "url": "https://github.com/decors/fish-colored-man/archive/1ad8fff696d48c8bf173aa98f9dff39d7916de0e.tar.gz",
+      "hash": "sha256-uoZ4eSFbZlsRfISIkJQp24qPUNqxeD0JbRb/gVdRYlA="
+    },
+    "logchecker": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "OPSnet",
+        "repo": "Logchecker"
+      },
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "release_prefix": null,
+      "submodules": false,
+      "version": "0.14.4",
+      "revision": "d7d80571cbf21d62c938fbe24e5b5a477c47113c",
+      "url": "https://api.github.com/repos/OPSnet/Logchecker/tarball/refs/tags/0.14.4",
+      "hash": "sha256-qfe8GG9Oubrwv7Q9beOZ8STRM+uw5AmtpXPDudZYw6A="
+    },
+    "music-tag": {
+      "type": "PyPi",
+      "name": "music-tag",
+      "version_upper_bound": null,
+      "version": "0.4.3",
+      "url": "https://files.pythonhosted.org/packages/fc/f4/ebcdd2fc9bfaf569b795250090e4f4088dc65a5a3e32c53baa9bfc3fc296/music-tag-0.4.3.tar.gz",
+      "hash": "sha256-Cqtubu2o3w9TFuwtIZC9dFYbfgNWKrCRzo1Wh828//Y="
+    },
+    "opentype-feature-freezer": {
+      "type": "PyPi",
+      "name": "opentype-feature-freezer",
+      "version_upper_bound": null,
+      "version": "1.32.2",
+      "url": "https://files.pythonhosted.org/packages/78/c7/02ab8b0e62cb03c53cba7db11499893dcefa9abf693d8df977917094b51b/opentype-feature-freezer-1.32.2.tar.gz",
+      "hash": "sha256-zckzIL/uTi8UVUdvK1YY2C9HwNhlMvG2lnNmatzCtXM="
+    },
+    "pb": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "SharzyL",
+        "repo": "pastebin-worker"
+      },
+      "branch": "goshujin",
+      "submodules": false,
+      "revision": "affcaaa1cdf30dc120d502979cd7daeaebb81308",
+      "url": "https://github.com/SharzyL/pastebin-worker/archive/affcaaa1cdf30dc120d502979cd7daeaebb81308.tar.gz",
+      "hash": "sha256-KHqPV6CmxmsIlu+NMqISy31VyooPeiFjUYiG9U369pc="
+    },
+    "pprp": {
+      "type": "PyPi",
+      "name": "pprp",
+      "version_upper_bound": null,
+      "version": "0.2.6",
+      "url": "https://files.pythonhosted.org/packages/46/3f/04e156e217e1aa070413eae441fd6e03d80713b23208bde6921aca1fbbc4/pprp-0.2.6.tar.gz",
+      "hash": "sha256-3n3zNOn5jz7r09ke8KtmPYhfXX29Kikd7+kmgqg1Z8w=",
+      "frozen": true
+    },
+    "python-ddns": {
+      "type": "PyPi",
+      "name": "ddns",
+      "version_upper_bound": null,
+      "version": "4.2.0",
+      "url": "https://files.pythonhosted.org/packages/bd/b8/27676d96c859e767f9017591c5608cac579e1c63f5f64bc3bf85dc8eae25/ddns-4.2.0.tar.gz",
+      "hash": "sha256-kJdPKdWCqOGCo1eNI1ajTTLVCifbxR3TzmHK0JhZtqI="
+    },
+    "rime-dict": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "xiaoTaoist",
+        "repo": "rime-dict"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "f6583b1c4bf622a81ea77c03ef1d0decf31f01d9",
+      "url": "https://github.com/xiaoTaoist/rime-dict/archive/f6583b1c4bf622a81ea77c03ef1d0decf31f01d9.tar.gz",
+      "hash": "sha256-YreRy3HJiO5QEZPe2JAl6o/tq7qQKTqFQ6B2gaurXj8="
+    },
+    "rime-double-pinyin": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "rime",
+        "repo": "rime-double-pinyin"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "01a13287cbd27819be1c34fa1ddc1b3643d5001b",
+      "url": "https://github.com/rime/rime-double-pinyin/archive/01a13287cbd27819be1c34fa1ddc1b3643d5001b.tar.gz",
+      "hash": "sha256-iHaGHKwmhyciU6zKJRLyRETRR15QSHZ7ML1l4iAV6eM="
+    },
+    "rime-essay": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "rime",
+        "repo": "rime-essay"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "054920de4f54c9e5994276a96a4fc2a35cb51aa3",
+      "url": "https://github.com/rime/rime-essay/archive/054920de4f54c9e5994276a96a4fc2a35cb51aa3.tar.gz",
+      "hash": "sha256-K98ezXSFQYxcEUZ2EzTZwdA+JljAgrsGax4Wth73F80="
+    },
+    "rime-ice": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "iDvel",
+        "repo": "rime-ice"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "da1fbe602e38f26db846fa10120ee64c2b0324c0",
+      "url": "https://github.com/iDvel/rime-ice/archive/da1fbe602e38f26db846fa10120ee64c2b0324c0.tar.gz",
+      "hash": "sha256-IveGjHDllCPiRTItBl+fIlvNLnr3VRlnipnTY7e2jzM="
+    },
+    "rime-luna-pinyin": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "rime",
+        "repo": "rime-luna-pinyin"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "56b934b099dfbeab842320f13aa8b461a6ab3e42",
+      "url": "https://github.com/rime/rime-luna-pinyin/archive/56b934b099dfbeab842320f13aa8b461a6ab3e42.tar.gz",
+      "hash": "sha256-yXkF2f980Z0OMb39QQHknqodzIj3SyW23NVo+1C2p/s="
+    },
+    "rime-prelude": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "rime",
+        "repo": "rime-prelude"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "082425ea0684bca36474415d4a0e8db9b016487e",
+      "url": "https://github.com/rime/rime-prelude/archive/082425ea0684bca36474415d4a0e8db9b016487e.tar.gz",
+      "hash": "sha256-roHPpaAbsnQgnz6kupMz/kHFQWwshRYojNsdS5iFApI="
+    },
+    "rssbot": {
+      "type": "Url",
+      "url": "https://github.com/iovxw/rssbot/releases/download/v2.0.0-alpha.13/rssbot-en-x86_64-unknown-linux-musl",
+      "unpack": false,
+      "hash": "sha256-xhyEG+or695T7/zmT8yWh1ME7A2oXn1ZLTxGiSwG2NY="
+    },
+    "s1-helper": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "Fungx",
+        "repo": "Stage1stHelper"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "d86dbf1058150b59c3cb71f306a9812fab715c91",
+      "url": "https://github.com/Fungx/Stage1stHelper/archive/d86dbf1058150b59c3cb71f306a9812fab715c91.tar.gz",
+      "hash": "sha256-EAtv7dY3Gr/lDJvfqfJXeztreErqhG/2+ZzBPKhAQFY="
+    },
+    "tree-sitter-cpp": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "tree-sitter",
+        "repo": "tree-sitter-cpp"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "c009222808634c1014f82438d4883753516a2c24",
+      "url": "https://github.com/tree-sitter/tree-sitter-cpp/archive/c009222808634c1014f82438d4883753516a2c24.tar.gz",
+      "hash": "sha256-SYAs+SgXB+gBpdmyW1r6rZUalZUz45fwE+zbHk1EIFk="
+    },
+    "tree-sitter-just": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "IndianBoy42",
+        "repo": "tree-sitter-just"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "5685543a6e64f66335e25518c9ae8ffa1dae3d01",
+      "url": "https://github.com/IndianBoy42/tree-sitter-just/archive/5685543a6e64f66335e25518c9ae8ffa1dae3d01.tar.gz",
+      "hash": "sha256-lrW5E+HIqrDSWZ4+KOjIc80/wYm/WV9ZOfdLXxPIbX4="
+    },
+    "vim-barbaric": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "rlue",
+        "repo": "vim-barbaric"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "1e850ff7a888c68757d7564aa945833367fd696f",
+      "url": "https://github.com/rlue/vim-barbaric/archive/1e850ff7a888c68757d7564aa945833367fd696f.tar.gz",
+      "hash": "sha256-PIEvLUzuiq6MyucsEZKyBsHxNdm0OEaQrN1tZFU8h70="
+    },
+    "yazi-flavors": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "yazi-rs",
+        "repo": "flavors"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "1183892c904f7f0efdf4473e856ed308b7bea98d",
+      "url": "https://github.com/yazi-rs/flavors/archive/1183892c904f7f0efdf4473e856ed308b7bea98d.tar.gz",
+      "hash": "sha256-E1OUF1+mT0V3crVxkewG2Y7hRu8fO+0oRl6NlINmw+o="
+    }
+  },
+  "version": 8
+}

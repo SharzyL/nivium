@@ -2,7 +2,7 @@
 
 let
   cfg = config.nivium.fish;
-  fish-colored-man = pkgs.srcs.fish-colored-man.src; # TODO: upstream
+  fish-colored-man = pkgs.srcs.fish-colored-man; # TODO: upstream
 in
 {
   options.nivium.fish = with lib; {

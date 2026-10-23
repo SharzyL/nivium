@@ -85,7 +85,7 @@
     bubblewrap
     nix-tree
     attic-client
-    nvfetcher
+    npins
     colmena
 
     # wine

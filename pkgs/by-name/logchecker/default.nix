@@ -33,10 +33,6 @@ let
 
     nativeBuildInputs = [ python3.pkgs.setuptools ];
 
-    postPatch = ''
-      substituteInPlace setup.py --replace 'pprp==0.2.6' 'pprp==0.2.7'
-    '';
-
     propagatedBuildInputs = [ pprp ];
 
     pythonImportsCheck = [ "eac_logchecker" ];
@@ -50,7 +46,7 @@ php.buildComposerProject (finalAttrs: {
 
   composerStrictValidation = false;
 
-  vendorHash = "sha256-/LuwgRT3rCPZ6BlKurZZIJDYLLDufHgw7GlkJ2pkI0c=";
+  vendorHash = "sha256-bAuy6xr5Wn1pnLs5yVX7wNnMimJj+hJw+NZT37RNqv4=";
 
   passthru = { inherit eac_logchecker; };
 
