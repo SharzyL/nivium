@@ -37,6 +37,11 @@ in
         })
         (import ./npins { });
 
+      # master is ahead of nixpkgs' latest release
+      tree-sitter-cpp-unstable = final.tree-sitter-grammars.tree-sitter-cpp.overrideAttrs {
+        inherit (srcs.tree-sitter-cpp) src;
+      };
+
       vimPlugins = prev.vimPlugins.extend (final': prev': {
         vim-barbaric = final.vimUtils.buildVimPlugin {
           name = unstableName srcs.vim-barbaric;
@@ -51,6 +56,11 @@ in
         tree-sitter-just = final.vimUtils.buildVimPlugin {
           name = unstableName srcs.tree-sitter-just;
           inherit (srcs.tree-sitter-just) src;
+        };
+
+        factlang-vim = final.vimUtils.buildVimPlugin {
+          name = unstableName srcs.factlang-vim;
+          inherit (srcs.factlang-vim) src;
         };
       });
     };

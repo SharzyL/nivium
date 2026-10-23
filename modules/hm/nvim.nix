@@ -2,15 +2,6 @@
 
 let
   cfg = config.nivium.nvim;
-  factlang = pkgs.vimUtils.buildVimPlugin {
-    name = "factlang.vim";
-    src = pkgs.srcs.factlang-vim.src;
-  };
-
-  tree-sitter-cpp-latest = pkgs.tree-sitter-grammars.tree-sitter-cpp.overrideAttrs (oldAttrs: {
-    src = pkgs.srcs.tree-sitter-cpp.src;
-  });
-
 in
 {
   options.nivium.nvim = with lib; {
@@ -44,7 +35,7 @@ in
       vimAlias = true;
       vimdiffAlias = true;
       plugins = with pkgs.vimPlugins; [
-        factlang
+        factlang-vim
 
         # operation
         smartyank-nvim
@@ -111,7 +102,7 @@ in
             tree-sitter-lua
             tree-sitter-rust
             tree-sitter-go
-            tree-sitter-cpp-latest
+            pkgs.tree-sitter-cpp-unstable
             tree-sitter-bash
             tree-sitter-python
             tree-sitter-latex
