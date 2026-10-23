@@ -164,6 +164,9 @@
 
   security.auditd.enable = true;
 
+  # enabled by default on graphical desktops; pulls in espeak-ng with 645M of mbrola voices
+  services.speechd.enable = false;
+
   virtualisation.podman.enable = true;
 
   virtualisation.virtualbox.host.enable = true;

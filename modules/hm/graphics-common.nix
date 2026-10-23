@@ -65,6 +65,8 @@ in
     qt = {
       enable = true;
       style.name = "breeze";
+      # qt6 only, the default also pulls in the qt5 breeze and its KDE5 frameworks
+      style.package = pkgs.kdePackages.breeze;
     };
 
     xdg.mimeApps = {

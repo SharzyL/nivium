@@ -110,7 +110,6 @@ return function(vim, lsp_autostart)
         end, { buffer = bufnr, desc = 'tinymists unpin main' })
       end,
     },
-    coq_lsp = {},
     era_ls = {
       -- Not in nvim-lspconfig's registry, so cmd/filetypes/root must be given.
       cmd = { 'era-ls', 'lsp' },

@@ -70,19 +70,18 @@ in
 
   anki = prev.anki.override { mpv-unwrapped = prev.mpv-unwrapped; }; # prevent anki from recompile
 
-  my_ffmpeg = prev.ffmpeg-full.overrideAttrs (prevAttrs: {
-    configureFlags = prevAttrs.configureFlags ++ [
-      "--enable-libaribcaption"
-    ];
-    buildInputs = prevAttrs.buildInputs ++ [
-      final.libaribcaption
-    ];
+  # handbrake's ffmpeg patches (A15 pgssubdec) target 8.1.2 and do not apply to nixpkgs' 8.1.3
+  handbrake = versionGuard prev.handbrake "1.11.3" (prev.handbrake.override {
+    ffmpeg_8-full = prev.ffmpeg_8-full.override {
+      version = "8.1.2";
+      hash = "sha256-wJ3c8VVo/tK84K7bKYs/UWcln4mSO+tf/w5NLNjKhiI=";
+    };
   });
 
   mpv-unwrapped = prev.mpv-unwrapped.override {
     cddaSupport = true;
     libbluray = prev.libbluray;
-    ffmpeg = final.my_ffmpeg;
+    ffmpeg = final.ffmpeg-full;
   };
 
   vimPlugins = prev.vimPlugins.extend

@@ -36,7 +36,6 @@ in
       tinymist
       nixpkgs-fmt
       efm-langserver
-      coqPackages.coq-lsp
     ]);
 
     programs.neovim = {

@@ -22,13 +22,16 @@
     poppler-utils
     syncplay
     handbrake
-    calibre
+    # speechSupport pulls in torch via piper-tts; mbrolaSupport pulls in 645M of mbrola voices
+    (calibre.override {
+      speechSupport = false;
+      espeak-ng = espeak-ng.override { mbrolaSupport = false; };
+    })
     flac
     shntool
     cuetools
     picard
     sox
-    audacity
     mediainfo
     lame
     logchecker
