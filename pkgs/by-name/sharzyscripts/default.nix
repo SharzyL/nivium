@@ -52,7 +52,7 @@ let
     nix-sync = writeShellApplication {
       name = "nix-sync";
       text = builtins.readFile ./sysutils/nix-sync.sh;
-      runtimeInputs = with pkgs; [ jq nix ];
+      runtimeInputs = with pkgs; [ jq nix curl gnused coreutils ];
     };
 
     term-bg = writeShellApplication {
