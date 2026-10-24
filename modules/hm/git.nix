@@ -44,13 +44,6 @@
         rs = "reset";
         rv = "revert";
       };
-      commit.gpgSign = true;
-      tag.gpgSign = true;
-      gpg = {
-        format = "ssh";
-        ssh.defaultKeyCommand = "ssh-add -L";
-        ssh.allowedSignersFile = "~/.ssh/allowed_signers";
-      };
       core = {
         autocrlf = false; # disable automatic crlf conversion
         quotepath = "off"; # display unicode filename
@@ -69,6 +62,14 @@
       pull.rebase = true;
       fetch.prune = true;
       merge.conflictStyle = "diff3";
+
+      # commit.gpgSign = true;
+      # tag.gpgSign = true;
+      # gpg = {
+      #   format = "ssh";
+      #   ssh.defaultKeyCommand = "ssh-add -L";
+      #   ssh.allowedSignersFile = "~/.ssh/allowed_signers";
+      # };
     };
   };
 }
