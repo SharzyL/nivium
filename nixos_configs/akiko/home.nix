@@ -163,9 +163,6 @@
   };
 
   programs = {
-    nix-index = {
-      enable = true;
-    };
     broot.enable = true;
   };
 

@@ -27,6 +27,8 @@
 
       claude-code
       codex
+
+      home-assistant-custom-components.xiaomi_home
     ]))
   || lib.hasPrefix "https://www.jetbrains.com" (pkg.meta.homepage or "")
   # firefox-bin, used by dropbox

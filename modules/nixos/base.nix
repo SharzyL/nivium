@@ -69,11 +69,11 @@ in
 
       users.defaultUserShell = pkgs.fish;
       programs = {
-        command-not-found.enable = false;
         fish = {
           enable = true;
           useBabelfish = true;
         };
+
         neovim = {
           enable = true;
           defaultEditor = true;
@@ -82,7 +82,6 @@ in
         gnupg.agent = {
           enable = true;
           enableSSHSupport = mkDefault true;
-          enableExtraSocket = true;
         };
       };
 
@@ -95,8 +94,8 @@ in
 
         sharzy = {
           uid = mkDefault 1000;
-          isNormalUser = mkDefault true;
-          extraGroups = mkBefore [ "wheel" ];
+          isNormalUser = true;
+          extraGroups = [ "wheel" ];
           hashedPasswordFile = config.sops.secrets."user_passwd".path;
           openssh.authorizedKeys.keys = pkgs.keys;
         };

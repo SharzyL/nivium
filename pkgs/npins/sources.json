@@ -88,9 +88,9 @@
       },
       "branch": "goshujin",
       "submodules": false,
-      "revision": "affcaaa1cdf30dc120d502979cd7daeaebb81308",
-      "url": "https://github.com/SharzyL/pastebin-worker/archive/affcaaa1cdf30dc120d502979cd7daeaebb81308.tar.gz",
-      "hash": "sha256-KHqPV6CmxmsIlu+NMqISy31VyooPeiFjUYiG9U369pc="
+      "revision": "95ed86fb73e7d4b446ab38018c3a2d93cfd9f290",
+      "url": "https://github.com/SharzyL/pastebin-worker/archive/95ed86fb73e7d4b446ab38018c3a2d93cfd9f290.tar.gz",
+      "hash": "sha256-iqO35lQ/zdmD6BO6hVaXjcw+oW90lYRe+5C1aAV8k0I="
     },
     "pprp": {
       "type": "PyPi",

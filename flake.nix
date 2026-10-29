@@ -162,7 +162,6 @@
 
           homeModules = {
             default = import ./modules/hm;
-            standalone = import ./modules/hm/standalone-base.nix;
           };
 
           # TODO: find out why lib.modules.importApply not working

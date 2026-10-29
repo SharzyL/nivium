@@ -4,6 +4,7 @@
   imports = [
     ./services/jellyfin.nix
     ./services/hermes.nix
+    ./services/home-assistant.nix
   ];
 
   sops.secrets."restic_env" = { owner = "sharzy"; sopsFile = ../../secrets/desktop.yaml; };
