@@ -1,6 +1,7 @@
 { tailscale, buildGoModule }:
 
-buildGoModule rec {
+# build with the same go as tailscale, which may require a newer one than the default
+(buildGoModule.override { inherit (tailscale) go; }) rec {
   pname = "derper";
   inherit (tailscale) version src vendorHash;
 
