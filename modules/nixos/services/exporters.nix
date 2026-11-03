@@ -10,6 +10,7 @@ in
     enableNode = mkEnableOption "enable node exporter";
     enableSmart = mkEnableOption "enable smart exporter";
     enablePing = mkEnableOption "enable smokeping exporter";
+    pingHosts = mkOption { type = types.listOf types.str; default = [ ]; };
   };
 
   config = mkIf cfg.enable {
@@ -28,10 +29,7 @@ in
         enable = true;
         listenAddress = "[::]";
         port = 9102;
-        hosts = [
-          "jethro"
-          "oomori.d.shz.al"
-        ];
+        hosts = cfg.pingHosts;
       };
     };
 

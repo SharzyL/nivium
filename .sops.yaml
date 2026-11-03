@@ -1,13 +1,10 @@
 keys:
   age:
-    - &ssh      age1qqquny76zrfgy4thjv77fwntzfnlfds02d5lr5pguca4wpa9z5js0qpzal  # converted from ssh ed_25519 key
-    - &general  age1fp53ld8q6a7uswh84pa8ys9yhvutvlqu35x3ex3pz6d7gw6l0v5q7qngtr
+    - &ssh      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICYGbacmgagiCFB/xB1tordQsYbDoT1Fge4VNK5ybYXc ssh@genesis"
     - &akiko    age13elz7mxhqn7vpmskfltle4tg0skk6jxaa9dzlyc8efpmfcde79pq35el55
-    - &jethro   age1k2u5ygvyxus5wd53yk3434q02m3r6l2jc7q36x8qae5tx55049eq0l5sd8
     - &phuong   age1w7twg5vdlmysah6aewz5yd3qxuqfpj9fcn3gwdp7zal6k2kxgcuqdyg7qn
     - &sunra    age1hq65xuspp4casafnmpp8ytutgzek2wxtce3r5rvclmdfwffv5g0sl35xrg
-  pgp:
-    - &gpg      115AB673F93A781A1501E71B7F6354E5A6AAADDF
+    - &tamao    age157ku7r729up3fvtaxxhh67ucrk2wteh8k86j7kg3qnw9r4n99cxqpzrztu
 
 # all secrets can be open with gpg and ssh key
 # general secret can be open by any individual key
@@ -18,47 +15,40 @@ creation_rules:
       - age:
         # per-device keys
         - *akiko
-        - *jethro
         - *phuong
         - *sunra
+        - *tamao
 
         # cover-all keys
         - *ssh
-        - *general
-        pgp: [ *gpg ]
 
   - path_regex: secrets/desktop.yaml$
     key_groups:
       - age:
         - *akiko
         - *ssh
-        pgp: [ *gpg ]
 
   - path_regex: secrets/akiko.yaml$
     key_groups:
       - age:
         - *akiko
         - *ssh
-        pgp: [ *gpg ]
-
-  - path_regex: secrets/jethro.yaml$
-    key_groups:
-      - age:
-        - *jethro
-        - *ssh
-        pgp: [ *gpg ]
 
   - path_regex: secrets/phuong.yaml$
     key_groups:
       - age:
         - *phuong
         - *ssh
-        pgp: [ *gpg ]
 
   - path_regex: secrets/sunra.yaml$
     key_groups:
       - age:
         - *sunra
         - *ssh
-        pgp: [ *gpg ]
+
+  - path_regex: secrets/tamao.yaml$
+    key_groups:
+      - age:
+        - *tamao
+        - *ssh
 

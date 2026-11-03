@@ -5,13 +5,11 @@
     ./services/atticd.nix
   ];
 
-  sops.secrets."s1_helper_config" = { sopsFile = ../../secrets/jethro.yaml; };
-  sops.secrets."rssbot_secret" = { sopsFile = ../../secrets/jethro.yaml; };
-  sops.secrets."sb_secret" = { sopsFile = ../../secrets/jethro.yaml; };
-  sops.secrets."chatgpt_bot" = { sopsFile = ../../secrets/jethro.yaml; };
-  sops.secrets."syncplay_password" = { sopsFile = ../../secrets/jethro.yaml; };
-  sops.secrets."rosetta_env" = { sopsFile = ../../secrets/jethro.yaml; };
-  sops.secrets."cloudflared-creds" = { sopsFile = ../../secrets/jethro.yaml; };
+  sops.secrets."rssbot_secret" = { sopsFile = ../../secrets/tamao.yaml; };
+  sops.secrets."sb_secret" = { sopsFile = ../../secrets/tamao.yaml; };
+  sops.secrets."syncplay_password" = { sopsFile = ../../secrets/tamao.yaml; };
+  sops.secrets."rosetta_env" = { sopsFile = ../../secrets/tamao.yaml; };
+  sops.secrets."cloudflared-creds" = { sopsFile = ../../secrets/tamao.yaml; };
 
   security.auditd.enable = true;
 
@@ -20,22 +18,7 @@
       enable = true;
       enableNode = true;
       enablePing = true;
-    };
-
-    derper = {
-      enable = true;
-      hostname = "jethro.d.shz.al";
-      derpPort = 3043;
-    };
-
-    sing-box-server = {
-      enable = true;
-      host = "jethro.d.shz.al";
-      clients = [
-        { password = { _secret_from_env = "pwd1"; }; name = "u1"; }
-        { password = { _secret_from_env = "pwd2"; }; name = "u2"; }
-      ];
-      envFile = config.sops.secrets."sb_secret".path;
+      pingHosts = [ "tamao" "oomori.d.shz.al" ];
     };
 
     rssbot = {
@@ -43,28 +26,38 @@
       secretFile = config.sops.secrets."rssbot_secret".path;
     };
 
+    derper = {
+      enable = true;
+      hostname = "tamao.d.shz.al";
+      derpPort = 3043;
+    };
+
+    sing-box-server = {
+      enable = true;
+      host = "tamao.d.shz.al";
+      clients = [
+        { password = { _secret_from_env = "pwd1"; }; name = "u1"; }
+        { password = { _secret_from_env = "pwd2"; }; name = "u2"; }
+      ];
+      envFile = config.sops.secrets."sb_secret".path;
+    };
+
     nginx = {
       enable = true;
       sni-blocker.enable = true;
       wildcard-proxy = {
         enable = true;
-        base-domain = "jethro.d.shz.al";
+        base-domain = "tamao.d.shz.al";
         proxies = {
           # syncplay handles SSL by itself, no need to proxy
           grafana.port = config.services.grafana.settings.server.http_port;
-          attic = {
-            port = 8533; # TODO: parse
-            extraProxyConfig = ''
-              client_max_body_size 2000M;
-            '';
-          };
         };
       };
     };
 
     acme-restart = {
-      jethro-d-shz-al = {
-        certNames = [ "jethro.d.shz.al" ];
+      tamao-d-shz-al = {
+        certNames = [ "tamao.d.shz.al" ];
         servicesToRestart = [ "sing-box.service" ];
       };
       syncplay-d-shz-al = {
@@ -73,7 +66,6 @@
         servicesToRestart = [ "syncplay.service" ];
       };
     };
-
   };
 
   nivium.enableDNSACME = true;
@@ -163,8 +155,8 @@
         };
       in
       [
-        (makeNodeScrape "jethro" "jethro:9100")
-        (makeNodeScrape "jethro.ping" "jethro:9102")
+        (makeNodeScrape "tamao" "tamao:9100")
+        (makeNodeScrape "tamao.ping" "tamao:9102")
 
         (makeNodeScrape "akiko" "akiko:9100")
         (makeNodeScrape "akiko.smart" "akiko:9101")
@@ -176,7 +168,6 @@
   };
 
   services.syncplay = {
-    # group = "nginx";
     enable = true;
     port = 8964;
     passwordFile = config.sops.secrets."syncplay_password".path;

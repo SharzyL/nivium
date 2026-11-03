@@ -204,6 +204,10 @@ in
       sops.secrets."cf_secret_for_acme" = { owner = lib.mkIf (builtins.hasAttr "acme" config.users.users) "acme"; };
       security.acme = {
         acceptTerms = true;
+        # <host> and *.<host> share the challenge name _acme-challenge.<host> (and with
+        # the wildcard CNAME, the TXT record lands on <host> itself), so concurrent
+        # orders (e.g. on first deploy) overwrite each other's TXT and fail validation
+        maxConcurrentRenewals = 1;
         defaults = {
           email = "acme@sharzy.in";
           dnsProvider = "cloudflare";

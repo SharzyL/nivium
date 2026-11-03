@@ -2,7 +2,7 @@
 
 {
   sops.secrets."attic_secret" = {
-    sopsFile = ../../../secrets/jethro.yaml;
+    sopsFile = ../../../secrets/tamao.yaml;
   };
 
   services.postgresql = {
@@ -43,7 +43,7 @@
   };
 
   sops.secrets.attic_nginx_proxy_config = {
-    sopsFile = ../../../secrets/jethro.yaml;
+    sopsFile = ../../../secrets/tamao.yaml;
     owner = "nginx";
   };
   services.nginx.virtualHosts."cache.shz.al" = {

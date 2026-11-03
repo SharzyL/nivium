@@ -27,6 +27,7 @@
       enableNode = true;
       enableSmart = true;
       enablePing = true;
+      pingHosts = [ "tamao" "oomori.d.shz.al" ];
     };
     qbittorrent = {
       enable = true;

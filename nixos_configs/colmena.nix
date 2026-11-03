@@ -21,15 +21,6 @@ inputs.colmena.lib.makeHive {
     imports = [ ./akiko ];
   };
 
-  jethro = { ... }: {
-    nixpkgs.system = "x86_64-linux";
-    deployment = {
-      targetHost = "jethro.d.shz.al";
-      tags = [ "remote" ];
-    };
-    imports = [ ./jethro ];
-  };
-
   phuong = { ... }: {
     nixpkgs.system = "x86_64-linux";
     deployment = {
@@ -46,5 +37,14 @@ inputs.colmena.lib.makeHive {
       tags = [ "remote" ];
     };
     imports = [ ./sunra ];
+  };
+
+  tamao = { ... }: {
+    nixpkgs.system = "x86_64-linux";
+    deployment = {
+      targetHost = "tamao4.d.shz.al";
+      tags = [ "remote" ];
+    };
+    imports = [ ./tamao ];
   };
 }
