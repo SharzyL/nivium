@@ -29,6 +29,7 @@ in
       type = types.str;
     };
     enableDNSACME = mkEnableOption "enable cloudflare acme secrets";
+    enableBBR = mkEnableOption "use BBR as the TCP congestion control";
     sshd-greet-with-auth-info = mkEnableOption "show ssh auth info (e.g. cert identity and expiry) on ssh login" // { default = true; };
   };
 
@@ -197,6 +198,14 @@ in
           };
         in
         "${greet}/bin/ssh-auth-greet";
+    })
+
+    (mkIf cfg.enableBBR {
+      boot.kernelModules = [ "tcp_bbr" ];
+      boot.kernel.sysctl = {
+        "net.core.default_qdisc" = "fq";
+        "net.ipv4.tcp_congestion_control" = "bbr";
+      };
     })
 
     # DNS ACME config

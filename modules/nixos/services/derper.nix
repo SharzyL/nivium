@@ -15,11 +15,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    boot.kernel.sysctl = lib.mkDefault {
-      "net.ipv4.ip_forward" = 1;
-      "net.ipv6.conf.all.forwarding" = 1;
-    };
-
     nivium.systemd-hardening.derper = {
       enable = true;
 

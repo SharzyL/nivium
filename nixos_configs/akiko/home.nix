@@ -77,7 +77,14 @@
 
   programs.obs-studio.enable = true;
 
-  services.ssh-tpm-agent.enable = true;
+  services.ssh-tpm-agent = {
+    enable = true;
+    extraArgs = [ "--no-cache" ];
+  };
+  systemd.user.services.ssh-tpm-agent.Service.Environment = [
+    "SSH_ASKPASS=%h/.ssh/askpass"
+    "SSH_ASKPASS_REQUIRE=force"
+  ];
   services.gpg-agent.enableSshSupport = false;
 
   programs.fish = {

@@ -15,6 +15,7 @@
 
   nivium = {
     hostName = "tamao";
+    enableBBR = true;
 
     home.users."root" = {
       enable = true;

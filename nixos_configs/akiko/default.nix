@@ -67,6 +67,7 @@
     httpProxy = { port = 1094; };
 
     hostName = "akiko";
+    enableBBR = true;
     nix-remote.enable = true;
     graphics = {
       enable = true;

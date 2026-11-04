@@ -36,11 +36,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792494653,
-        "narHash": "sha256-QgcYi2b8Lzy/IoYZRszWB6VqwwdZYsnTB4foRagxnMA=",
+        "lastModified": 1793758761,
+        "narHash": "sha256-5jaGeMhimMTOiwgvYV1IaA9q8EjG9lk171GpJXtHoec=",
         "owner": "SharzyL",
         "repo": "chatgpt-telegram-bot",
-        "rev": "e544050cbdc6f040d026389943623017d3bd2262",
+        "rev": "a16e4c4e88b0e72d6cc74b6ce4eb6b05f3d2bacd",
         "type": "github"
       },
       "original": {
