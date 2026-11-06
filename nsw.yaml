@@ -1,0 +1,25 @@
+# hosts for `nsw` (nsw/nsw.py). Activation runs in this order, so the local
+# host comes last: switching it may restart the network the others are reached over.
+flake: .
+defaults:
+  user: root
+  build-on: local # local | target (target: iets --builder ssh-ng://user@target)
+  substitute-on-destination: true
+  # scheme of `nix copy --to`: ssh-ng (the target's nix-daemon, faster) or ssh
+  # (nix-store --serve); the copy passes --no-check-sigs, since the build is unsigned
+  copy-scheme: ssh-ng
+  diff: false # `nix store diff-closures` before activating; also `nsw --diff`
+hosts:
+  phuong:
+    target: phuong.d.shz.al
+    tags: [remote]
+  sunra:
+    target: sunra.d.shz.al
+    tags: [remote]
+    substitute-on-destination: false # behind the GFW, fetching from caches there is slower than pushing
+  tamao:
+    target: tamao4.d.shz.al
+    tags: [remote]
+  akiko:
+    target: null # local
+    tags: [desktop]

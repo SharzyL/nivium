@@ -34,6 +34,10 @@
         };
       };
     };
+
+    behindGFW = true;
+    httpProxy = { port = 1094; };
+    services.mihomo.enable = true;
   };
 
   # holds the [server] section of the rathole config, i.e. default_token

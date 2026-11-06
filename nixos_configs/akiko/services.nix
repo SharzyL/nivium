@@ -19,7 +19,6 @@
       configFile = "/var/lib/nivium/ddns.json";
     };
     flood.enable = true;
-    # sing-box-client.enable = true;
     mihomo.enable = true;
     cloudflare-warp.enable = false; # it somehow breaks dns
     exporters = {
@@ -114,14 +113,6 @@
     timerConfig.OnCalendar = "*:0/15";
     wantedBy = [ "timers.target" ];
   };
-
-  # services.openvpn.servers = {
-  #   felix = { config = '' config /var/lib/nivium/felix.ovpn ''; };
-  # };
-  # systemd.services.openvpn-felix.unitConfig = {
-  #   After = lib.mkForce [ "network-online.target" ];
-  #   Wants = lib.mkForce [ "network-online.target" ];
-  # };
 
   services.smartdns = {
     enable = true;

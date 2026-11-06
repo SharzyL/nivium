@@ -7,9 +7,13 @@ let
 
   scripts = {
     # sysutils
+    # nix and ssh come from the system: the script talks to the running daemon
+    # and to the user's ssh config, and iets is picked up from PATH when present
     nsw = writeShellApplication {
       name = "nsw";
-      text = builtins.readFile ./sysutils/nsw.sh;
+      text = ''
+        exec ${python3.withPackages (p: [ p.pyyaml ])}/bin/python3 ${../../../nsw/nsw.py} "$@"
+      '';
       runtimeInputs = with pkgs; [ coreutils nix-output-monitor ];
     };
 

@@ -16,6 +16,5 @@ update-rssbot:
 	tag=$(curl -fsSL https://api.github.com/repos/iovxw/rssbot/releases | jq -r '.[0].tag_name') && npins -d pkgs/npins add url "https://github.com/iovxw/rssbot/releases/download/$tag/rssbot-en-x86_64-unknown-linux-musl" --name rssbot
 
 deploy-remote:
-	nsw
-	colmena apply --verbose --on @remote
+	nsw @remote akiko
 

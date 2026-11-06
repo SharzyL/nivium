@@ -4,3 +4,4 @@ venv
 .idea
 **/.envrc
 .DS_Store
+__pycache__

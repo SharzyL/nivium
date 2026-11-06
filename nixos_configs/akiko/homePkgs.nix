@@ -86,7 +86,6 @@
     nix-tree
     attic-client
     npins
-    colmena
     iets
 
     # wine

@@ -21,11 +21,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    colmena = {
-      url = "github:zhaofengli/colmena";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     tg-searcher = {
       url = "github:SharzyL/tg_searcher/goshujin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -131,9 +126,6 @@
         bww
         era_ls
         hocon
-
-        # other's
-        colmena
       ]))
       # flakes without an overlay: expose their default package under a fixed name, so
       # package sets they don't support (e.g. pkgsCross.mingwW64 pulled in by dxvk) can
@@ -150,7 +142,6 @@
         imports = [
           inputs.treefmt-nix.flakeModule
           inputs.home-manager.flakeModules.home-manager
-          ./modules/flake/colmena.nix
         ];
 
         systems = lib.systems.flakeExposed;
@@ -194,8 +185,8 @@
             inherit self inputs withSystem;
           };
 
-          colmenaHive = import ./nixos_configs/colmena.nix {
-            inherit self inputs withSystem;
+          nixosConfigurations = import ./nixos_configs {
+            inherit self inputs overlay;
           };
         };
       });

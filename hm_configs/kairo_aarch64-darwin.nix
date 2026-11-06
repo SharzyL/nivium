@@ -36,7 +36,6 @@
     alacritty
 
     tailscale
-    colmena
 
     # tex
     python3.pkgs.pygments
