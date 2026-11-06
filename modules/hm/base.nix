@@ -117,6 +117,11 @@ in
 
     xdg.enable = true;
 
+    # `curl example.com` goes over https; curl >= 7.73 reads $XDG_CONFIG_HOME/curlrc
+    xdg.configFile."curlrc".text = ''
+      proto-default = "https"
+    '';
+
     home.packages = with pkgs; [
       # nix
       nh
