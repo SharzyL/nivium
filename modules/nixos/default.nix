@@ -19,6 +19,7 @@ in
     sops-nix
     home-manager
     impermanence
+
     tg-searcher
     chatgpt-telegram-bot
     green-rosetta

@@ -104,6 +104,11 @@
       url = "github:nix-community/impermanence";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    iets = {
+      url = "github:numtide/iets";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { flake-parts, ... }@inputs:
@@ -115,18 +120,30 @@
         (import ./pkgs/mypkgs-overlay.nix)
         (import ./pkgs/overlay.nix { inherit inputs; })
       ] ++ (map (f: f.overlays.default) (with inputs; [
+        # sharzy's
         tg-searcher
         chatgpt-telegram-bot
         csync
         rdict
-        colmena
         waybar
         vicishz
         green-rosetta
         bww
         era_ls
         hocon
-      ])));
+
+        # other's
+        colmena
+      ]))
+      # flakes without an overlay: expose their default package under a fixed name, so
+      # package sets they don't support (e.g. pkgsCross.mingwW64 pulled in by dxvk) can
+      # still list their attributes without forcing f.packages.${system}
+      ++ (lib.mapAttrsToList
+        (name: f: (final: prev: {
+          ${name} = f.packages.${prev.stdenv.hostPlatform.system}.default;
+        }))
+        { inherit (inputs) iets; })
+      );
     in
     flake-parts.lib.mkFlake { inherit inputs; }
       ({ self, config, withSystem, ... }: {

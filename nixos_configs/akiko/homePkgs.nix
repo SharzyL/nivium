@@ -87,6 +87,7 @@
     attic-client
     npins
     colmena
+    iets
 
     # wine
     wineWow64Packages.waylandFull

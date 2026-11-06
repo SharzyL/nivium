@@ -89,6 +89,21 @@
         "type": "github"
       }
     },
+    "crane": {
+      "locked": {
+        "lastModified": 1792350552,
+        "narHash": "sha256-292lvpvxTGKryKxh3/3tcIVi85CwYGdl4oOi113Sob8=",
+        "owner": "ipetkov",
+        "repo": "crane",
+        "rev": "e675a36b7377bebe41d548388a2501cbb16d380d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ipetkov",
+        "repo": "crane",
+        "type": "github"
+      }
+    },
     "csync": {
       "inputs": {
         "flake-parts": [
@@ -402,6 +417,27 @@
         "type": "github"
       }
     },
+    "iets": {
+      "inputs": {
+        "crane": "crane",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793876660,
+        "narHash": "sha256-ETtzzDELjbn7WoMm7JW5h6JRTpUQmrJhUdqx/TSpClk=",
+        "owner": "numtide",
+        "repo": "iets",
+        "rev": "ac6d2d885170a560432babbfa957483d3ff1ef29",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "iets",
+        "type": "github"
+      }
+    },
     "impermanence": {
       "inputs": {
         "home-manager": "home-manager_2",
@@ -671,6 +707,7 @@
         "hermes-agent": "hermes-agent",
         "hocon": "hocon",
         "home-manager": "home-manager",
+        "iets": "iets",
         "impermanence": "impermanence",
         "mac-app-util": "mac-app-util",
         "nixpkgs": "nixpkgs",
