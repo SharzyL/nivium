@@ -12,6 +12,8 @@ in
   };
 
   config = mkIf cfg.enable {
+    environment.systemPackages = [ pkgs.mihomoctl ];
+
     nivium.systemd-hardening.mihomo = {
       enable = true;
       extraAF = [ "AF_NETLINK" ];

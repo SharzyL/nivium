@@ -463,6 +463,32 @@
         "type": "github"
       }
     },
+    "mihomo-cli": {
+      "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "treefmt-nix": [
+          "treefmt-nix"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793944389,
+        "narHash": "sha256-w5k7P3Q3q6CysDqPc509nwCPk94AazGDv2sePy1pG+4=",
+        "owner": "SharzyL",
+        "repo": "mihomo-cli",
+        "rev": "0d383465a45697161e24bf37b92c789b96f5c0e7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "SharzyL",
+        "repo": "mihomo-cli",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1792617723,
@@ -665,6 +691,7 @@
         "iets": "iets",
         "impermanence": "impermanence",
         "mac-app-util": "mac-app-util",
+        "mihomo-cli": "mihomo-cli",
         "nixpkgs": "nixpkgs",
         "nixpkgs_master": "nixpkgs_master",
         "rdict": "rdict",

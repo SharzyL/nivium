@@ -78,6 +78,13 @@
       inputs.treefmt-nix.follows = "treefmt-nix";
     };
 
+    mihomo-cli = {
+      url = "github:SharzyL/mihomo-cli";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.treefmt-nix.follows = "treefmt-nix";
+    };
+
     waybar = {
       url = "github:SharzyL/WayBar/feat/niri";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -126,6 +133,7 @@
         bww
         era_ls
         hocon
+        mihomo-cli
       ]))
       # flakes without an overlay: expose their default package under a fixed name, so
       # package sets they don't support (e.g. pkgsCross.mingwW64 pulled in by dxvk) can
