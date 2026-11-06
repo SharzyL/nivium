@@ -23,7 +23,7 @@
       lspPackages = true;
       extraLangs = {
         hocon.enable = true;
-        era.enable = true;
+        # era.enable = true;
         latex.enable = true;
       };
     };
