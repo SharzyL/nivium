@@ -401,11 +401,24 @@ def pick_output(outputs) -> Optional[str]:
     return None
 
 
+_missing_warned: set[str] = set()
+
+
+def tool_present(name: str, fallback: str) -> bool:
+    """Whether `name` is on PATH; warns once per run about the fallback if not."""
+    if shutil.which(name) is not None:
+        return True
+    if name not in _missing_warned:
+        _missing_warned.add(name)
+        warn(f"{name} not on PATH, {fallback}")
+    return False
+
+
 def build_group(cfg: Config, hosts: list[Host], builder: Optional[Host], opts) -> None:
     """Build every host's toplevel in one evaluator run; record each host's outcome."""
     roots = [f"{cfg.flake_arg}#{h.attr}" for h in hosts]
-    use_iets = opts.iets and shutil.which("iets") is not None
-    use_nom = opts.nom and shutil.which("nom") is not None
+    use_iets = opts.iets and tool_present("iets", "building with plain nix build")
+    use_nom = opts.nom and tool_present("nom", "showing raw nix logs")
     out_link = str(opts.tmp / f"result-{builder.name if builder else 'local'}")
 
     if use_iets:
