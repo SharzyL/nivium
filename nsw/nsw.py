@@ -18,7 +18,9 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import threading
 import time
+from collections import deque
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
@@ -104,16 +106,9 @@ def warn(msg: str):
 
 
 def rule(title: str, right: str = ""):
-    width = shutil.get_terminal_size().columns
-    left = f"── {title} "
-    tail = f" {right} ──" if right else "──"
-    pad = max(1, width - len(strip_ansi(left)) - len(strip_ansi(tail)))
+    # a short fixed rule: a full-width one wraps badly when the window shrinks
     say("")
-    say(left + dim("─" * pad) + tail)
-
-
-def strip_ansi(s: str) -> str:
-    return re.sub(r"\033\[[0-9;]*m", "", s)
+    say(f"── {title} " + dim("─" * 8) + (f"  {dim(right)}" if right else ""))
 
 
 def fmt_elapsed(seconds: float) -> str:
@@ -340,6 +335,8 @@ class Ssh:
 
     def env(self, host: Host) -> dict[str, str]:
         """Environment that makes `nix copy` use the same multiplexed connection."""
+        if host not in self.opened:
+            self.opened.append(host)
         return {**os.environ, "NIX_SSHOPTS": shlex.join(self.opts(host))}
 
     def close_all(self):
@@ -520,13 +517,20 @@ def current_generation(host: Host, ssh: Ssh) -> str:
     else:
         res = subprocess.run(ssh.argv(host, argv), capture_output=True, text=True)
     m = re.search(r"system-(\d+)-link", res.stdout)
-    return f"gen {m.group(1)}" if m else ""
+    return m.group(1) if m else ""
 
 
-def copy_host(host: Host, opts) -> None:
-    """Push the built closure to a remote host. Sets host.status on failure."""
-    ssh: Ssh = opts.ssh
-    started = time.monotonic()
+def done_message(action: str, gen: str, elapsed: str) -> str:
+    where = f"generation {gen}" if gen else "the new configuration"
+    return {
+        "switch": f"switched to {where} in {elapsed}",
+        "boot": f"{where} set for next boot in {elapsed}",
+        "test": f"tested in {elapsed}",
+        "dry-activate": f"dry-activated in {elapsed}",
+    }.get(action, f"{action} done in {elapsed}")
+
+
+def copy_argv(host: Host) -> list[str]:
     # the target's daemon would otherwise reject the unsigned local build; the
     # ssh user is root, so it may waive the check (`nix-store --serve` never checks)
     argv = [
@@ -539,8 +543,14 @@ def copy_host(host: Host, opts) -> None:
     if host.substitute:
         argv.append("--substitute-on-destination")
     argv.append(host.out)
-    # no nom here: nix's own progress bar shows the bytes going over the wire
-    res = run(argv, env=ssh.env(host))
+    return argv
+
+
+def copy_host(host: Host, opts) -> None:
+    """Push one closure with nix's own progress output. Sets host.status on failure."""
+    ssh: Ssh = opts.ssh
+    started = time.monotonic()
+    res = run(copy_argv(host), env=ssh.env(host))
     if res.returncode != 0:
         host.status, host.note = "failed", f"nix copy exit {res.returncode}"
         bad(f"{host.name}: {host.note}")
@@ -548,10 +558,164 @@ def copy_host(host: Host, opts) -> None:
     ok(f"{host.name} copied  {dim(fmt_elapsed(time.monotonic() - started))}")
 
 
+# nix's internal-json vocabulary (src/libutil/logging.hh)
+ACT_COPY_PATH = 100
+RES_PROGRESS = 105
+RES_SET_EXPECTED = 106
+
+
+class CopyProgress:
+    """What one `nix copy --log-format internal-json` has reported so far."""
+
+    def __init__(self):
+        self.paths = [0, 0]  # done, expected
+        self.bytes_total = 0
+        self.per_path: dict[int, list[int]] = {}  # activity id -> [done, expected]
+        self.messages: list[str] = []
+        self.rc: Optional[int] = None
+        self.started = time.monotonic()
+        self.elapsed = 0.0
+        self.samples: deque[tuple[float, int]] = deque(maxlen=20)  # ~3s window
+
+    @property
+    def bytes_done(self) -> int:
+        return sum(d for d, _ in self.per_path.values())
+
+    def speed(self) -> Optional[float]:
+        """Bytes per second over the recent samples; None until there are enough."""
+        self.samples.append((time.monotonic(), self.bytes_done))
+        (t0, b0), (t1, b1) = self.samples[0], self.samples[-1]
+        if t1 - t0 < 0.5:
+            return None
+        return (b1 - b0) / (t1 - t0)
+
+    def feed(self, raw: bytes) -> None:
+        if not raw.startswith(b"@nix "):
+            text = raw.decode(errors="replace").rstrip()
+            if text:
+                self.messages.append(text)
+            return
+        try:
+            d = json.loads(raw[5:])
+        except ValueError:
+            return
+        action, ident = d.get("action"), d.get("id")
+        if action == "start" and d.get("type") == ACT_COPY_PATH:
+            self.per_path[ident] = [0, 0]
+        elif action == "result":
+            f = d.get("fields") or []
+            if d.get("type") == RES_PROGRESS and len(f) >= 2:
+                if ident in self.per_path:
+                    self.per_path[ident] = [f[0], f[1]]
+                else:  # the aggregate: done, expected, running, failed paths
+                    self.paths = [f[0], f[1]]
+            elif d.get("type") == RES_SET_EXPECTED and len(f) >= 2:
+                if f[0] == ACT_COPY_PATH:
+                    self.bytes_total = max(self.bytes_total, f[1])
+        elif action == "stop" and ident in self.per_path:
+            done, expected = self.per_path[ident]
+            self.per_path[ident] = [max(done, expected), expected]
+        elif action == "msg" and d.get("level", 9) <= 1:  # error, warn
+            if d.get("text"):
+                self.messages.append(d["text"])
+
+
+def fmt_bytes(n: int) -> str:
+    mib = n / (1 << 20)
+    if mib >= 1024:
+        return f"{mib / 1024:.2f} GiB"
+    if mib < 1:
+        return f"{n / 1024:.0f} KiB"
+    return f"{mib:.1f} MiB"
+
+
+def copy_line(host: Host, prog: CopyProgress, width: int) -> str:
+    """One status line; a bar while running, a verdict once done."""
+    label = host.label(width)
+    if prog.rc is None:
+        done, total = prog.bytes_done, max(prog.bytes_total, prog.bytes_done)
+        frac = done / total if total else 0.0
+        filled = int(frac * 20)
+        bar = cyan("━" * filled) + dim("━" * (20 - filled))
+        paths = f"{prog.paths[0]}/{prog.paths[1]} paths" if prog.paths[1] else ""
+        size = f"{fmt_bytes(done)}/{fmt_bytes(total)}" if total else ""
+        rate = prog.speed()
+        speed = dim(f"{fmt_bytes(int(rate))}/s") if rate is not None else ""
+        return f"  {label}  {bar}  {paths:<14} {size:<20} {speed}"
+    stats = dim(
+        f"{prog.paths[1]} paths, {fmt_bytes(prog.bytes_total)}, {fmt_elapsed(prog.elapsed)}"
+    )
+    if prog.rc == 0:
+        return f"  {green('✓')} {label} copied  {stats}"
+    return f"  {red('✗')} {label} nix copy exit {prog.rc}  {stats}"
+
+
+def copy_hosts(hosts: list[Host], opts) -> None:
+    """Push every closure at once; one live line per host instead of N progress bars."""
+    ssh: Ssh = opts.ssh
+    width = max(len(h.name) for h in hosts)
+    progress = {h.name: CopyProgress() for h in hosts}
+    procs = {}
+    for h in hosts:
+        argv = copy_argv(h)
+        show_cmd(argv)
+        procs[h.name] = subprocess.Popen(
+            [*argv, "--log-format", "internal-json"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.PIPE,
+            env=ssh.env(h),
+        )
+
+    def pump(name: str) -> None:
+        proc, prog = procs[name], progress[name]
+        for raw in proc.stderr:
+            prog.feed(raw)
+        prog.rc = proc.wait()
+        prog.elapsed = time.monotonic() - prog.started
+
+    threads = [
+        threading.Thread(target=pump, args=(h.name,), daemon=True) for h in hosts
+    ]
+    for t in threads:
+        t.start()
+
+    live = sys.stderr.isatty()
+
+    def render() -> None:
+        for h in hosts:
+            say(copy_line(h, progress[h.name], width))
+
+    if live:
+        sys.stderr.write("\x1b[?25l")  # hide the cursor while redrawing
+        render()
+    try:
+        while any(t.is_alive() for t in threads):
+            for t in threads:
+                t.join(0.15)
+            if live:
+                sys.stderr.write(f"\x1b[{len(hosts)}A")
+                for h in hosts:
+                    sys.stderr.write("\x1b[2K")
+                    say(copy_line(h, progress[h.name], width))
+        if not live:
+            render()
+    finally:
+        if live:
+            sys.stderr.write("\x1b[?25h")
+            sys.stderr.flush()
+
+    for h in hosts:
+        prog = progress[h.name]
+        if prog.rc != 0:
+            h.status, h.note = "failed", f"nix copy exit {prog.rc}"
+            for line in prog.messages[-8:]:
+                say(dim("      " + line))
+
+
 def activate_host(host: Host, opts, index: int, total: int) -> None:
     """Optionally diff, then activate one host whose closure is in place."""
     where = "local" if host.local else host.ssh_dest
-    rule(f"{host.label()}  {dim(where)}", f"{index}/{total}")
+    rule(f"activating {host.label()}  {dim(where)}", f"{index}/{total}")
     ssh: Ssh = opts.ssh
 
     if host.diff:
@@ -584,15 +748,8 @@ def activate_host(host: Host, opts, index: int, total: int) -> None:
             return
     host.status = opts.action
     gen = current_generation(host, ssh) if opts.action in ("switch", "boot") else ""
-    host.note = gen
-    verb = {"switch": "switched", "boot": "set for next boot", "test": "tested"}.get(
-        opts.action, opts.action
-    )
-    ok(
-        " ".join(
-            x for x in (verb, gen, dim(fmt_elapsed(time.monotonic() - started))) if x
-        )
-    )
+    host.note = f"gen {gen}" if gen else ""
+    ok(done_message(opts.action, gen, fmt_elapsed(time.monotonic() - started)))
 
 
 # ---------------------------------------------------------------------- cli --
@@ -646,12 +803,11 @@ def parse_args(argv: list[str]):
     p.add_argument(
         "--no-iets", dest="iets", action="store_false", help="build with nix, not iets"
     )
-    p.add_argument("--no-nom", dest="nom", action="store_false", help="raw nix logs")
     p.add_argument(
-        "--no-check",
-        dest="check",
+        "--no-nom",
+        dest="nom",
         action="store_false",
-        help="skip the ssh reachability check",
+        help="raw nix logs; closures are then copied one host at a time",
     )
     p.add_argument(
         "-k", "--keep-going", action="store_true", help="go on after a host fails"
@@ -687,7 +843,6 @@ def summary(hosts: list[Host]):
         "dry-activate": green("✓"),
         "built": green("✓"),
         "failed": red("✗"),
-        "unreachable": red("✗"),
         "skipped": yellow("–"),
         "pending": yellow("–"),
     }
@@ -730,30 +885,6 @@ def main() -> int:
     opts.tmp = Path(tempfile.mkdtemp(prefix="nsw."))
     opts.ssh = Ssh(opts.tmp)
     try:
-        remote = [h for h in hosts if not h.local]
-        if opts.check and remote and opts.action != "build":
-            for h in remote:
-                res = subprocess.run(
-                    [
-                        "ssh",
-                        *opts.ssh.opts(h),
-                        "-o",
-                        "ConnectTimeout=10",
-                        h.ssh_dest,
-                        "true",
-                    ]
-                )
-                if res.returncode == 0:
-                    opts.ssh.opened.append(h)
-                else:
-                    h.status, h.note = "unreachable", f"ssh exit {res.returncode}"
-            reachable = [h for h in remote if h.status != "unreachable"]
-            if reachable:
-                ok("reachable: " + " ".join(h.name for h in reachable))
-            for h in remote:
-                if h.status == "unreachable":
-                    bad(f"{h.name} unreachable, dropped")
-
         rule("build")
         groups: dict[Optional[str], list[Host]] = {}
         for h in hosts:
@@ -783,8 +914,11 @@ def main() -> int:
         ]
         if to_copy:
             rule("copy")
-            for h in to_copy:
-                copy_host(h, opts)
+            if opts.nom:
+                copy_hosts(to_copy, opts)
+            else:
+                for h in to_copy:
+                    copy_host(h, opts)
 
         todo = [h for h in hosts if h.status == "built"]
         stop = False
