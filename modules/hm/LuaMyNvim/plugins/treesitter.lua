@@ -14,9 +14,12 @@ return function(vim)
   vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 
   vim.api.nvim_create_autocmd('FileType', {
-    pattern = { 'python', 'latex', 'cmake', 'era' },
-    callback = function()
-      vim.treesitter.start()
+    pattern = { 'python', 'latex', 'cmake', 'era', 'hocon' },
+    callback = function(args)
+      -- era, hocon and latex parsers are only installed with nivium.nvim.extraLangs.<lang>.enable
+      if vim.treesitter.language.add(vim.treesitter.language.get_lang(args.match) or args.match) then
+        vim.treesitter.start()
+      end
     end,
   })
 

@@ -2,32 +2,41 @@
 
 let
   cfg = config.nivium.nvim;
+  langs = cfg.extraLangs;
 in
 {
   options.nivium.nvim = with lib; {
     enable = mkOption { type = types.bool; default = config.nivium.profile != "bare"; };
     lspPackages = mkOption { type = types.bool; default = config.nivium.profile == "full"; };
     initLua = mkOption { type = types.lines; default = ""; };
+    extraLangs = {
+      hocon.enable = mkEnableOption "HOCON support (tree-sitter grammar and language server)";
+      era.enable = mkEnableOption "Emuera ERB support (tree-sitter grammar and language server)";
+      latex.enable = mkEnableOption "LaTeX support (tree-sitter grammar, texlab and vimtex)";
+    };
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = lib.mkIf cfg.lspPackages (with pkgs; [
-      lua-language-server
-      vscode-json-languageserver
-      typescript-language-server
-      yaml-language-server
-      nil
-      gopls
-      texlab
-      rust-analyzer
-      basedpyright
-      ruff # python linter
-      clang-tools
-      beancount-language-server
-      tinymist
-      nixpkgs-fmt
-      efm-langserver
-    ]);
+    home.packages = lib.optionals cfg.lspPackages
+      (with pkgs; [
+        lua-language-server
+        vscode-json-languageserver
+        typescript-language-server
+        yaml-language-server
+        nil
+        gopls
+        rust-analyzer
+        basedpyright
+        ruff # python linter
+        clang-tools
+        beancount-language-server
+        tinymist
+        nixpkgs-fmt
+        efm-langserver
+      ])
+    ++ lib.optional langs.hocon.enable pkgs.hocon-language-server
+    ++ lib.optional langs.era.enable pkgs.era_ls
+    ++ lib.optional langs.latex.enable pkgs.texlab;
 
     programs.neovim = {
       enable = true;
@@ -105,23 +114,23 @@ in
             pkgs.tree-sitter-cpp-unstable
             tree-sitter-bash
             tree-sitter-python
-            tree-sitter-latex
             tree-sitter-fish
             tree-sitter-cmake
             tree-sitter-vimdoc # nvim bundled parser conflicts with treesitter
             tree-sitter-beancount
             tree-sitter-typst
             tree-sitter-typescript
-            pkgs.tree-sitter-era
           ]
+          ++ lib.optional langs.hocon.enable pkgs.tree-sitter-hocon
+          ++ lib.optional langs.era.enable pkgs.tree-sitter-era
+          ++ lib.optional langs.latex.enable tree-sitter-latex
         ))
         nvim-treesitter-context
         # nvim-treesitter-textobjects
-        vimtex
 
         # appearance
         onedark-nvim
-      ];
+      ] ++ lib.optional langs.latex.enable vimtex;
 
       extraLuaPackages = (_: [
         pkgs.LuaMyNvim

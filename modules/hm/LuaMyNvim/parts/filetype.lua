@@ -47,6 +47,15 @@ return function(vim)
   })
   vim.schedule(era_builtin_highlights)
 
+  vim.api.nvim_create_augroup('HoconFileType', { clear = true })
+  vim.api.nvim_create_autocmd('FileType', {
+    group = 'HoconFileType',
+    pattern = 'hocon',
+    callback = function()
+      vim.opt_local.commentstring = '# %s'
+    end,
+  })
+
   vim.api.nvim_create_augroup('TypstFileType', { clear = true })
   vim.api.nvim_create_autocmd('FileType', {
     group = 'TypstFileType',

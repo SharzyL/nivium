@@ -112,9 +112,16 @@ return function(vim, lsp_autostart)
     },
     era_ls = {
       -- Not in nvim-lspconfig's registry, so cmd/filetypes/root must be given.
+      -- Installed with nivium.nvim.extraLangs.era.enable.
       cmd = { 'era-ls', 'lsp' },
       filetypes = { 'era' },
       root_markers = { 'CSV', '.git' },
+    },
+    hocon_ls = {
+      -- Not in nvim-lspconfig's registry; installed with nivium.nvim.extraLangs.hocon.enable.
+      cmd = { 'hocon-language-server', '--stdio' },
+      filetypes = { 'hocon' },
+      root_markers = { '.git' },
     },
   }
 

@@ -23,6 +23,9 @@ return function(vim)
   vim.opt.number = true
   vim.opt.cursorline = true
 
+  -- source a trusted .nvim.lua in the working directory (asks for :trust on first use)
+  vim.opt.exrc = true
+
   -- Use 2 spaces forcibly. But vim-sleuth will handle the indent gracefully.
   -- Use the appropriate number of spaces to insert a <Tab>.
   vim.opt.expandtab = true

@@ -334,6 +334,33 @@
         "type": "github"
       }
     },
+    "hocon": {
+      "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "treefmt-nix": [
+          "treefmt-nix"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793774971,
+        "narHash": "sha256-GdISnYTwfN14BeMv2QzgHfz5Wm3joiTLqJcBpmpfYAE=",
+        "owner": "SharzyL",
+        "repo": "hocon",
+        "rev": "cc99d6220f863fda4601e721906d26c793144e4f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "SharzyL",
+        "ref": "goshujin",
+        "repo": "hocon",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -642,6 +669,7 @@
         "flake-utils": "flake-utils",
         "green-rosetta": "green-rosetta",
         "hermes-agent": "hermes-agent",
+        "hocon": "hocon",
         "home-manager": "home-manager",
         "impermanence": "impermanence",
         "mac-app-util": "mac-app-util",
