@@ -194,6 +194,7 @@ class Config:
     path: Path
     flake: Path
     hosts: list[Host]
+    defaults: dict
     flake_arg: str = field(init=False)
 
     def __post_init__(self):
@@ -301,7 +302,7 @@ def load_config(path: Path) -> Config:
                 local=target is None or name == me,
             )
         )
-    return Config(path=path, flake=flake, hosts=hosts)
+    return Config(path=path, flake=flake, hosts=hosts, defaults=defaults)
 
 
 # --------------------------------------------------------------------- ssh --
@@ -752,6 +753,52 @@ def activate_host(host: Host, opts, index: int, total: int) -> None:
     ok(done_message(opts.action, gen, fmt_elapsed(time.monotonic() - started)))
 
 
+HOME_ACTIONS = ("switch", "dry-activate", "build")
+
+
+def home_generation() -> str:
+    """Number of the current home-manager generation, "" if there is none."""
+    user = os.environ.get("USER", "")
+    for link in (
+        Path(os.environ.get("XDG_STATE_HOME", Path.home() / ".local/state"))
+        / "nix/profiles/home-manager",
+        Path(f"/nix/var/nix/profiles/per-user/{user}/home-manager"),
+    ):
+        m = re.search(
+            r"home-manager-(\d+)-link", os.readlink(link) if link.is_symlink() else ""
+        )
+        if m:
+            return m.group(1)
+    return ""
+
+
+def activate_home(host: Host, opts) -> None:
+    """Run the activation script of a built homeConfigurations.<name> here."""
+    rule(f"activating {host.label()}  {dim('home-manager')}", "1/1")
+    current = Path.home() / ".local/state/home-manager/gcroots/current-home"
+    if host.diff and current.exists():
+        res = run(["nix", "store", "diff-closures", str(current), host.out])
+        if res.returncode != 0:
+            warn(f"diff-closures exit {res.returncode}, going on")
+    if opts.dry_run:
+        ok("built, not activated")
+        return
+
+    started = time.monotonic()
+    env = dict(os.environ)
+    if opts.action == "dry-activate":
+        env["DRY_RUN"] = "1"
+    res = run([f"{host.out}/activate"], env=env)
+    if res.returncode != 0:
+        host.status, host.note = "failed", f"activate exit {res.returncode}"
+        bad(host.note)
+        return
+    host.status = opts.action
+    gen = home_generation() if opts.action == "switch" else ""
+    host.note = f"gen {gen}" if gen else ""
+    ok(done_message(opts.action, gen, fmt_elapsed(time.monotonic() - started)))
+
+
 # ---------------------------------------------------------------------- cli --
 
 
@@ -770,6 +817,12 @@ def parse_args(argv: list[str]):
         "hosts", nargs="*", metavar="HOST|@TAG", help="default: this machine"
     )
     p.add_argument("--all", action="store_true", help="every host in nsw.yaml")
+    p.add_argument(
+        "--home",
+        metavar="NAME",
+        help="instead of hosts: build homeConfigurations.NAME and activate it here, "
+        "like `home-manager switch --flake .#NAME` (actions: switch, dry-activate, build)",
+    )
     p.add_argument("-l", "--list", action="store_true", help="list hosts and exit")
     p.add_argument("-a", "--action", choices=ACTIONS, default="switch")
     p.add_argument(
@@ -858,12 +911,59 @@ def summary(hosts: list[Host]):
         say(f"  {h.label(16)} {icons[h.status]} {status:<12} {dim(note)}")
 
 
+def home_main(cfg: Config, opts) -> int:
+    """`nsw --home NAME`: one local home-manager profile, no hosts involved."""
+    if opts.hosts or opts.all:
+        die("--home takes no hosts")
+    if opts.action not in HOME_ACTIONS:
+        die(f"--home supports -a {', '.join(HOME_ACTIONS)}, not {opts.action}")
+    if opts.build_on == "target":
+        die("--home always builds locally")
+    d = cfg.defaults
+    home = Host(
+        name=opts.home,
+        target=None,
+        user=os.environ.get("USER", ""),
+        tags=[],
+        build_on="local",
+        substitute=False,
+        copy_scheme=d["copy-scheme"],
+        diff=d["diff"] if opts.diff is None else opts.diff,
+        ssh_opts=[],
+        attr=f"homeConfigurations.{opts.home}.activationPackage",
+        local=True,
+    )
+    say(f"{bold('nsw')} ▸ {opts.action}  {dim('home')} {home.name}")
+    opts.tmp = Path(tempfile.mkdtemp(prefix="nsw."))
+    opts.ssh = Ssh(opts.tmp)
+    try:
+        rule("build")
+        build_group(cfg, [home], None, opts)
+        if opts.action == "build":
+            if home.out:
+                print(home.out)
+        elif home.status == "built":
+            activate_home(home, opts)
+        summary([home])
+        good = {"built"} if opts.dry_run or opts.action == "build" else {opts.action}
+        return 0 if home.status in good else 1
+    except KeyboardInterrupt:
+        say("")
+        warn("interrupted")
+        return 130
+    finally:
+        shutil.rmtree(opts.tmp, ignore_errors=True)
+
+
 def main() -> int:
     opts = parse_args(sys.argv[1:])
     cfg = load_config(find_config(opts.config))
     if opts.list:
         list_hosts(cfg)
         return 0
+
+    if opts.home:
+        return home_main(cfg, opts)
 
     hosts = cfg.select(opts.hosts, opts.all)
     for h in hosts:
