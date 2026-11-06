@@ -58,6 +58,12 @@
     enable = true;
   };
 
+  # DHCP hands out Alibaba's VPC resolvers 100.100.2.136/138, which sit inside
+  # tailscale's CGNAT range; tailscale's ts-input chain drops their replies as
+  # spoofed, so every forwarded query times out. Use public resolvers instead.
+  networking.nameservers = [ "223.5.5.5" "119.29.29.29" ];
+  networking.dhcpcd.extraConfig = "nohook resolv.conf";
+
   security.sudo.wheelNeedsPassword = false;
 
   system.stateVersion = "25.05";
