@@ -76,19 +76,22 @@ in
     nix = {
       package = lib.mkDefault pkgs.nixVersions.latest; # to ensure that it is using the same nix as installer
       settings = with lib; {
-        # note that hm depends on this option to set home.profileDirectory
         use-xdg-base-directories = true;
-
         extra-experimental-features = mkBefore [ "nix-command" "flakes" ];
       };
-      nixPath = [ "nixpkgs=${inputs.nixpkgs}" "home-manager=${inputs.home-manager}" ];
-      registry."nixpkgs".flake = inputs.nixpkgs;
-      registry."treefmt-nix".flake = inputs.treefmt-nix;
-      registry."flake-parts".flake = inputs.flake-parts;
-      registry."home-manager".flake = inputs.nixpkgs;
-      registry."p".flake = inputs.nixpkgs;
-      registry."f".flake = self;
-      registry."hm".flake = inputs.home-manager;
+      nixPath = [
+        "nixpkgs=${inputs.nixpkgs}"
+        "home-manager=${inputs.home-manager}"
+      ];
+      registry = {
+        "nixpkgs".flake = inputs.nixpkgs;
+        "treefmt-nix".flake = inputs.treefmt-nix;
+        "flake-parts".flake = inputs.flake-parts;
+        "home-manager".flake = inputs.nixpkgs;
+        "p".flake = inputs.nixpkgs;
+        "f".flake = self;
+        "hm".flake = inputs.home-manager;
+      };
     };
 
     programs.gpg = {
