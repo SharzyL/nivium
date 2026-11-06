@@ -1,14 +1,16 @@
 # hosts for `nsw` (nsw/nsw.py). Activation runs in this order, so the local
 # host comes last: switching it may restart the network the others are reached over.
-flake: .
-defaults:
-  user: root
-  build-on: local # local | target (target: iets --builder ssh-ng://user@target)
-  substitute-on-destination: true
-  # scheme of `nix copy --to`: ssh-ng (the target's nix-daemon, faster) or ssh
-  # (nix-store --serve); the copy passes --no-check-sigs, since the build is unsigned
-  copy-scheme: ssh-ng
-  diff: true # `nix store diff-closures` before activating; skip with `nsw --no-diff`
+#
+# everything commented out below is the built-in default
+# flake: .
+# defaults:
+#   user: root
+#   build-on: local # local | target (target: iets --builder ssh-ng://user@target)
+#   substitute-on-destination: true
+#   # scheme of `nix copy --to`: ssh-ng (the target's nix-daemon, faster) or ssh
+#   # (nix-store --serve); the copy passes --no-check-sigs, since the build is unsigned
+#   copy-scheme: ssh-ng
+#   diff: true # `nix store diff-closures` before activating; skip with `nsw --no-diff`
 hosts:
   phuong:
     target: phuong.d.shz.al
