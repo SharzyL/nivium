@@ -8,7 +8,7 @@ defaults:
   # scheme of `nix copy --to`: ssh-ng (the target's nix-daemon, faster) or ssh
   # (nix-store --serve); the copy passes --no-check-sigs, since the build is unsigned
   copy-scheme: ssh-ng
-  diff: false # `nix store diff-closures` before activating; also `nsw --diff`
+  diff: true # `nix store diff-closures` before activating; skip with `nsw --no-diff`
 hosts:
   phuong:
     target: phuong.d.shz.al

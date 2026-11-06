@@ -31,7 +31,7 @@ DEFAULTS = {
     "build-on": "local",
     "substitute-on-destination": True,
     "copy-scheme": "ssh-ng",
-    "diff": False,
+    "diff": True,
     "ssh-opts": [],
 }
 HOST_KEYS = set(DEFAULTS) | {"target", "tags", "attr"}
@@ -554,7 +554,7 @@ def activate_host(host: Host, opts, index: int, total: int) -> None:
     rule(f"{host.label()}  {dim(where)}", f"{index}/{total}")
     ssh: Ssh = opts.ssh
 
-    if opts.diff:
+    if host.diff:
         argv = remote_closure_cmd(host, host.out)
         res = run(argv) if host.local else ssh.run(host, argv)
         if res.returncode != 0:
@@ -632,10 +632,16 @@ def parse_args(argv: list[str]):
         "--no-substitute-on-destination", dest="substitute", action="store_false"
     )
     p.add_argument("--show-trace", action="store_true")
-    p.add_argument(
+    diff = p.add_mutually_exclusive_group()
+    diff.add_argument(
         "--diff",
+        dest="diff",
         action="store_true",
-        help="show `nix store diff-closures` before activating",
+        default=None,
+        help="show `nix store diff-closures` before activating (default)",
+    )
+    diff.add_argument(
+        "--no-diff", dest="diff", action="store_false", help="skip the closure diff"
     )
     p.add_argument(
         "--no-iets", dest="iets", action="store_false", help="build with nix, not iets"
@@ -712,9 +718,8 @@ def main() -> int:
             h.build_on = "local"
         if opts.substitute is not None:
             h.substitute = opts.substitute
-        if opts.diff:
-            h.diff = True
-    opts.diff = any(h.diff for h in hosts)
+        if opts.diff is not None:
+            h.diff = opts.diff
 
     others = [h.name for h in cfg.hosts if h not in hosts]
     say(
