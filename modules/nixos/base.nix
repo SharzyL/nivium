@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, self, ... }:
 
 # what every nivium host gets; the toggles live in ./nivium.nix
 
@@ -35,7 +35,24 @@ in
       builders-use-substitutes = false;
       use-cgroups = true;
     };
+    # pin the registry to the locked channel tarball rather than to the flake's
+    # copy of the nixpkgs tree: that copy is 214 MiB of every system closure
+    registry.nixpkgs.to = self.lib.registryPin "nixpkgs";
+    nixPath = [ "nixpkgs=flake:nixpkgs" ];
   };
+  nixpkgs.flake = {
+    setFlakeRegistry = false;
+    setNixPath = false;
+  };
+
+  # ~85 MiB of manuals and the generate-config toolchain; a host that wants
+  # them sets these back to true
+  documentation = {
+    doc.enable = mkDefault false;
+    info.enable = mkDefault false;
+    nixos.enable = mkDefault false;
+  };
+  system.tools.nixos-generate-config.enable = mkDefault false;
 
   time.timeZone = mkDefault "Asia/Shanghai";
 

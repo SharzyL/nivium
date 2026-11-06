@@ -117,6 +117,11 @@
     let
       lib = inputs.nixpkgs.lib;
       mypkgs = import ./pkgs/mypkgs.nix { inherit lib inputs; };
+      lock = builtins.fromJSON (builtins.readFile ./flake.lock);
+      # the locked record of an input, usable as a flake registry target: the
+      # channel tarball for nixpkgs (nixos-unstable-small resolves to one), github
+      # for the rest. Unlike `flake = inputs.x` it keeps the tree out of closures.
+      registryPin = name: lock.nodes.${lock.nodes.root.inputs.${name}}.locked;
       overlay = lib.composeManyExtensions ([
         mypkgs.overlay
         (import ./pkgs/mypkgs-overlay.nix)
@@ -182,6 +187,7 @@
 
         flake = {
           inherit inputs;
+          lib = { inherit registryPin; };
           nixosModules.default = import ./modules/nixos;
 
           homeModules = {

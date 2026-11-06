@@ -79,19 +79,26 @@ in
         use-xdg-base-directories = true;
         extra-experimental-features = mkBefore [ "nix-command" "flakes" ];
       };
+      # pins by locked tarball/github record rather than by store path: `flake =
+      # inputs.x` would keep the whole input tree (nixpkgs alone is 214 MiB) in
+      # the closure
       nixPath = [
-        "nixpkgs=${inputs.nixpkgs}"
-        "home-manager=${inputs.home-manager}"
+        "nixpkgs=flake:nixpkgs"
+        "home-manager=flake:home-manager"
       ];
-      registry = {
-        "nixpkgs".flake = inputs.nixpkgs;
-        "treefmt-nix".flake = inputs.treefmt-nix;
-        "flake-parts".flake = inputs.flake-parts;
-        "home-manager".flake = inputs.nixpkgs;
-        "p".flake = inputs.nixpkgs;
-        "f".flake = self;
-        "hm".flake = inputs.home-manager;
-      };
+      registry =
+        let
+          pin = name: { to = self.lib.registryPin name; };
+        in
+        {
+          nixpkgs = pin "nixpkgs";
+          p = pin "nixpkgs";
+          home-manager = pin "home-manager";
+          hm = pin "home-manager";
+          treefmt-nix = pin "treefmt-nix";
+          flake-parts = pin "flake-parts";
+          f.flake = self;
+        };
     };
 
     programs.gpg = {
@@ -113,6 +120,8 @@ in
     programs.direnv = {
       enable = true;
       nix-direnv.enable = true;
+      # otherwise it links against pkgs.nix, a second nix beside config.nix.package
+      nix-direnv.package = pkgs.nix-direnv.override { nix = config.nix.package; };
     };
 
     xdg.enable = true;
@@ -123,9 +132,6 @@ in
     '';
 
     home.packages = with pkgs; [
-      # nix
-      nh
-
       # classical
       tmux
       git
@@ -158,15 +164,14 @@ in
       ripgrep
       bat
       delta
-
-      # dev tools
-      cmake
-      ninja
-      gnumake
     ];
   }
     (lib.mkIf (profile == "full") {
       home.packages = with pkgs; [
+        nh
+        cmake
+        ninja
+        gnumake
         trash-cli
         just
         sharzyscripts.sysutils
