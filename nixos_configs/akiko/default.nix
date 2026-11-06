@@ -68,7 +68,6 @@
 
     hostName = "akiko";
     enableBBR = true;
-    nix-remote.enable = true;
     graphics = {
       enable = true;
       user = "sharzy";
