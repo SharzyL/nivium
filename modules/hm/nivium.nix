@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 # the `nivium.*` options and the config each toggle turns on
 
@@ -31,6 +31,21 @@ in
   };
 
   config = mkMerge [
+    (mkIf (cfg.profile == "full") {
+      home.packages = with pkgs; [
+        nh
+        cmake
+        ninja
+        gnumake
+        trash-cli
+        just
+        sharzyscripts.sysutils
+        iets
+        nix-output-monitor
+      ];
+      programs.yazi.enable = true;
+    })
+
     (mkIf cfg.bashProfileExecFish {
       home.file.".bash_profile".text = ''
         if [[ $- == *i* ]] && which fish >/dev/null; then

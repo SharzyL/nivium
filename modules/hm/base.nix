@@ -1,12 +1,7 @@
-{ config, pkgs, lib, inputs, self, ... }:
+{ config, pkgs, lib, self, ... }:
 
-# what every nivium profile gets; the toggles live in ./nivium.nix
-
-let
-  profile = config.nivium.profile;
-in
 {
-  config = lib.mkMerge [{
+  config = {
     programs.home-manager.enable = true;
 
     home.stateVersion = "26.05";
@@ -144,19 +139,5 @@ in
       bat
       delta
     ];
-  }
-    (lib.mkIf (profile == "full") {
-      home.packages = with pkgs; [
-        nh
-        cmake
-        ninja
-        gnumake
-        trash-cli
-        just
-        sharzyscripts.sysutils
-        iets
-        nix-output-monitor
-      ];
-      programs.yazi.enable = true;
-    })];
+  };
 }
