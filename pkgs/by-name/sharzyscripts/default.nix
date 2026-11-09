@@ -5,6 +5,14 @@ let
     (python3.pkgs.toPythonModule music-tag)
   ]);
 
+  # writeShellApplication with the platform-specific runtime inputs listed apart:
+  # the script is only available where all of them are
+  writePlatformScript = { platformInputs, runtimeInputs ? [ ], ... }@args:
+    writeShellApplication (removeAttrs args [ "platformInputs" ] // {
+      runtimeInputs = runtimeInputs ++ platformInputs;
+      meta.platforms = lib.foldl' (ps: p: lib.intersectLists ps p.meta.platforms) lib.platforms.all platformInputs;
+    });
+
   scripts = {
     # sysutils
     # nix and ssh come from the system: the script talks to the running daemon
@@ -17,10 +25,11 @@ let
       runtimeInputs = with pkgs; [ coreutils ];
     };
 
-    sc_monitor = writeShellApplication {
+    sc_monitor = writePlatformScript {
       name = "sc_monitor";
       text = builtins.readFile ./sysutils/sc_monitor.sh;
-      runtimeInputs = with pkgs; [ coreutils inotify-tools ];
+      runtimeInputs = with pkgs; [ coreutils ];
+      platformInputs = with pkgs; [ inotify-tools ];
     };
 
     vr = writeShellApplication {
@@ -92,10 +101,11 @@ let
       runtimeInputs = with pkgs; [ openssl coreutils unixtools.xxd ];
     };
 
-    bt-battery = writeShellApplication {
+    bt-battery = writePlatformScript {
       name = "bt-battery";
       text = builtins.readFile ./misc/bt-battery.sh;
-      runtimeInputs = with pkgs; [ gnugrep upower findutils coreutils gawk ];
+      runtimeInputs = with pkgs; [ gnugrep findutils coreutils gawk ];
+      platformInputs = with pkgs; [ upower ];
     };
 
     totpctl = writeShellApplication {
@@ -104,22 +114,26 @@ let
       runtimeInputs = with pkgs; [ coreutils gnupg scripts.totp ];
     };
 
-    tun-route = writeShellApplication {
+    tun-route = writePlatformScript {
       name = "tun-route";
       text = builtins.readFile ./misc/tun-route.sh;
-      runtimeInputs = with pkgs; [ coreutils glibc.getent iproute2 gawk ];
+      runtimeInputs = with pkgs; [ coreutils gawk ];
+      platformInputs = with pkgs; [ glibc.getent iproute2 ];
     };
   };
+
+  # drop scripts whose platformInputs are unavailable on the host
+  available = lib.filter (lib.meta.availableOn pkgs.stdenv.hostPlatform);
 
   groups = {
     sysutils = symlinkJoin {
       name = "sharzyscripts-sysutils";
-      paths = with scripts; [ nsw sc_monitor vr direnv-gc crun nix-sync term-bg ];
+      paths = available (with scripts; [ nsw sc_monitor vr direnv-gc crun nix-sync term-bg ]);
     };
 
     musutils = symlinkJoin {
       name = "sharzyscripts-musutils";
-      paths = with scripts; [ cue-lint renamer cover-export ];
+      paths = available (with scripts; [ cue-lint renamer cover-export ]);
     };
   };
 in
@@ -127,5 +141,5 @@ in
 symlinkJoin
   {
     name = "sharzyscripts";
-    paths = builtins.attrValues scripts;
+    paths = available (builtins.attrValues scripts);
   } // scripts // groups

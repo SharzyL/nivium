@@ -6,7 +6,12 @@
     flake-utils.url = "flake-utils";
     mac-app-util = {
       url = "github:hraban/mac-app-util";
-      inputs.cl-nix-lite.url = "github:r4v3n6101/cl-nix-lite/url-fix";
+      inputs.cl-nix-lite = {
+        url = "github:hraban/cl-nix-lite";
+        inputs.nixpkgs.follows = "nixpkgs";
+        inputs.flake-parts.follows = "flake-parts";
+        inputs.treefmt-nix.follows = "treefmt-nix";
+      };
       inputs.treefmt-nix.follows = "treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };

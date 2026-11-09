@@ -26,7 +26,11 @@
     '';
   };
 
-  programs.git.settings.user.signingKey = "~/.ssh/id_ed25519";
+  home.sessionVariables = {
+    GDK_DPI_SCALE = "0.7";
+    SSH_SK_PROVIDER = "/usr/lib/ssh-keychain.dylib";
+    HTTPS_PROXY = "http://127.0.0.1:1094";
+  };
 
   home.packages = with pkgs; [
     sshfs
