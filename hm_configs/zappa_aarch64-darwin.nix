@@ -30,7 +30,6 @@
 
   home.packages = with pkgs; [
     sshfs
-    nix-output-monitor
 
     typst
     tinymist

@@ -31,7 +31,6 @@
     rclone
     sshfs
     python-ddns
-    nix-output-monitor
 
     alacritty
 

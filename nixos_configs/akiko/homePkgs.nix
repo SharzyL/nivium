@@ -80,13 +80,11 @@
     nixpkgs-review
     nixpkgs-fmt
     nix-prefetch
-    nix-output-monitor
     nix-init
     bubblewrap
     nix-tree
     attic-client
     npins
-    iets
 
     # wine
     wineWow64Packages.waylandFull

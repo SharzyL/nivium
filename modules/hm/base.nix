@@ -175,6 +175,8 @@ in
         trash-cli
         just
         sharzyscripts.sysutils
+        iets
+        nix-output-monitor
       ];
       programs.yazi.enable = true;
     })];
