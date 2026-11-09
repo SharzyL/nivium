@@ -1,44 +1,15 @@
 { config, pkgs, lib, inputs, self, ... }:
 
+# what every nivium profile gets; the toggles live in ./nivium.nix
+
 let
   profile = config.nivium.profile;
 in
 {
-  options.nivium = {
-    profile = with lib; mkOption {
-      # bare: has fish
-      # minimal: has nvim
-      # full: has nvim and lsp and some extra tools
-      type = types.enum [ "full" "minimal" "bare" ];
-      default = "full";
-    };
-    bashProfileExecFish = with lib; mkOption {
-      type = types.bool;
-      default = false;
-    };
-    is-trusted-user = with lib; mkOption {
-      type = types.bool;
-      default = true;
-      description = ''
-        Whether the user is in nix's `trusted-users`. Some nix.conf settings
-        (e.g. `use-xdg-base-directories`) are ignored with a warning for
-        untrusted users, so they are only set when this is true.
-      '';
-    };
-  };
-
   config = lib.mkMerge [{
     programs.home-manager.enable = true;
 
     home.stateVersion = "26.05";
-
-    home.file.".bash_profile" = lib.mkIf config.nivium.bashProfileExecFish {
-      text = ''
-        if [[ $- == *i* ]] && which fish >/dev/null; then
-          exec fish
-        fi
-      '';
-    };
 
     # ssh shells does not get systemd variables, force it here
     programs.fish.shellInit = lib.mkIf pkgs.stdenv.hostPlatform.isLinux ''
@@ -85,7 +56,6 @@ in
     nix = {
       package = lib.mkDefault pkgs.nixVersions.latest; # to ensure that it is using the same nix as installer
       settings = with lib; {
-        use-xdg-base-directories = mkIf config.nivium.is-trusted-user true;
         extra-experimental-features = mkBefore [ "nix-command" "flakes" ];
       };
       # pins by locked tarball/github record rather than by store path: `flake =

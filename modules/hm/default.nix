@@ -11,6 +11,7 @@
     ./sway.nix
     ./niri.nix
     ./base.nix
+    ./nivium.nix
     ./tmux.nix
     ./attic-cache.nix
     ./fcitx5-rime.nix
