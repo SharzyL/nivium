@@ -329,6 +329,10 @@ class Ssh:
     def argv(self, host: Host, remote: list[str]) -> list[str]:
         return ["ssh", *self.opts(host), host.ssh_dest, "--", shlex.join(remote)]
 
+    def shell(self, host: Host, script: str) -> list[str]:
+        """Like argv, but `script` is handed to the remote shell verbatim."""
+        return ["ssh", *self.opts(host), host.ssh_dest, "--", script]
+
     def run(self, host: Host, remote: list[str], **kw) -> subprocess.CompletedProcess:
         if host not in self.opened:
             self.opened.append(host)
@@ -812,6 +816,53 @@ def activate_home(host: Host, opts) -> None:
     ok(done_message(opts.action, gen, fmt_elapsed(time.monotonic() - started)))
 
 
+# -------------------------------------------------------------------- exec --
+
+
+def local_shell_argv(host: Host, script: str) -> list[str]:
+    """`sh -c script` as the host's configured user, through sudo when that is not us."""
+    argv = ["sh", "-c", script]
+    if host.user != os.environ.get("USER", ""):
+        argv = ["sudo", "-u", host.user, "--", *argv]
+    return argv
+
+
+def exec_main(cfg: Config, hosts: list[Host], opts) -> int:
+    """`nsw --batch-exec CMD`: run one shell command on each selected host, nothing else."""
+    script: str = opts.batch_exec
+    others = [h.name for h in cfg.hosts if h not in hosts]
+    say(
+        f"{bold('nsw')} ▸ exec  {', '.join(h.name for h in hosts)}"
+        + (dim(f"   ({', '.join(others)} not selected)") if others else "")
+    )
+    opts.tmp = Path(tempfile.mkdtemp(prefix="nsw."))
+    opts.ssh = Ssh(opts.tmp)
+    try:
+        for i, h in enumerate(hosts, 1):
+            where = "local" if h.local else h.ssh_dest
+            rule(f"{h.label()}  {dim(where)}", f"{i}/{len(hosts)}")
+            if h.local:
+                argv = local_shell_argv(h, script)
+            else:
+                argv = opts.ssh.shell(h, script)
+                opts.ssh.opened.append(h)
+            res = run(argv)
+            if res.returncode == 0:
+                h.status = "done"
+            else:
+                h.status, h.note = "failed", f"exit {res.returncode}"
+                bad(h.note)
+        summary(hosts)
+        return 0 if all(h.status == "done" for h in hosts) else 1
+    except KeyboardInterrupt:
+        say("")
+        warn("interrupted")
+        return 130
+    finally:
+        opts.ssh.close_all()
+        shutil.rmtree(opts.tmp, ignore_errors=True)
+
+
 # ---------------------------------------------------------------------- cli --
 
 
@@ -835,6 +886,12 @@ def parse_args(argv: list[str]):
         metavar="NAME",
         help="instead of hosts: build homeConfigurations.NAME and activate it here, "
         "like `home-manager switch --flake .#NAME` (actions: switch, dry-activate, build)",
+    )
+    p.add_argument(
+        "--batch-exec",
+        metavar="CMD",
+        help="instead of building: run the shell command CMD on each selected host "
+        "(over ssh, or locally as the host's user) and nothing else",
     )
     p.add_argument("-l", "--list", action="store_true", help="list hosts and exit")
     p.add_argument("-a", "--action", choices=ACTIONS, default="switch")
@@ -908,6 +965,7 @@ def summary(hosts: list[Host]):
         "test": green("✓"),
         "dry-activate": green("✓"),
         "built": green("✓"),
+        "done": green("✓"),
         "failed": red("✗"),
         "skipped": yellow("–"),
         "pending": yellow("–"),
@@ -976,9 +1034,13 @@ def main() -> int:
         return 0
 
     if opts.home:
+        if opts.batch_exec:
+            die("--batch-exec and --home do not mix")
         return home_main(cfg, opts)
 
     hosts = cfg.select(opts.hosts, opts.all)
+    if opts.batch_exec:
+        return exec_main(cfg, hosts, opts)
     for h in hosts:
         if opts.build_on:
             h.build_on = opts.build_on
