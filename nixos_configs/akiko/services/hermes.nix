@@ -67,6 +67,12 @@
     HTTPS_PROXY = "http://127.0.0.1:1094";
     HTTP_PROXY = "http://127.0.0.1:1094";
   };
+  # the module's ProtectSystem=strict only opens stateDir and the workspace; the
+  # mihomo config (0640 hermes:hermes, set by hand) is edited by the agent.
+  # mihomo reads a LoadCredential snapshot, so a write only lands on restart.
+  systemd.services.hermes-agent.serviceConfig.ReadWritePaths = [
+    config.nivium.services.mihomo.configFile
+  ];
   # the module keeps stateDir and workspace at 2770 hermes:hermes; the default
   # ACL keeps files created by group members (umask 022) writable by hermes
   systemd.tmpfiles.rules = [
