@@ -54,7 +54,7 @@ in
   };
   system.tools.nixos-generate-config.enable = mkDefault false;
 
-  time.timeZone = mkDefault "Asia/Shanghai";
+  time.timeZone = mkDefault "Asia/Singapore";
 
   users.defaultUserShell = pkgs.fish;
   programs = {
