@@ -16,6 +16,15 @@ in
       type = types.bool;
       default = false;
     };
+    is-trusted-user = with lib; mkOption {
+      type = types.bool;
+      default = true;
+      description = ''
+        Whether the user is in nix's `trusted-users`. Some nix.conf settings
+        (e.g. `use-xdg-base-directories`) are ignored with a warning for
+        untrusted users, so they are only set when this is true.
+      '';
+    };
   };
 
   config = lib.mkMerge [{
@@ -76,7 +85,7 @@ in
     nix = {
       package = lib.mkDefault pkgs.nixVersions.latest; # to ensure that it is using the same nix as installer
       settings = with lib; {
-        use-xdg-base-directories = true;
+        use-xdg-base-directories = mkIf config.nivium.is-trusted-user true;
         extra-experimental-features = mkBefore [ "nix-command" "flakes" ];
       };
       # pins by locked tarball/github record rather than by store path: `flake =
