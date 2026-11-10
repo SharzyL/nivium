@@ -11,10 +11,12 @@
   services.hermes-agent = {
     enable = true;
     # the flake's default is `full`, 16 optional extras (local whisper,
-    # dingtalk, feishu, bedrock, ...); messaging ships discord and is 0.7 GiB
-    # smaller. The pm-pinned ffmpeg is a 432 MiB static binary fetched by
-    # URL; nixpkgs' headless one is cached and is only a PATH entry.
-    package = inputs.hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.messaging.override (prev: {
+    # dingtalk, feishu, bedrock, ...), 0.7 GiB more than the two platforms we
+    # use; extras resolve at first use otherwise, which cannot write to the
+    # store. The pm-pinned ffmpeg is a 432 MiB static binary fetched by URL;
+    # nixpkgs' headless one is cached and is only a PATH entry.
+    package = inputs.hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.minimal.override (prev: {
+      defaultDependencyGroups = [ "discord" "telegram" ];
       pmPackages = prev.pmPackages // { ffmpeg = pkgs.ffmpeg-headless; };
     });
     addToSystemPackages = true;
