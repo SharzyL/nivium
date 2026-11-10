@@ -10,24 +10,30 @@
 
   services.hermes-agent = {
     enable = true;
+    # the flake's default is `full`, 16 optional extras (local whisper,
+    # dingtalk, feishu, bedrock, ...); messaging ships discord and is 0.7 GiB
+    # smaller. The pm-pinned ffmpeg is a 432 MiB static binary fetched by
+    # URL; nixpkgs' headless one is cached and is only a PATH entry.
+    package = inputs.hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.messaging.override (prev: {
+      pmPackages = prev.pmPackages // { ffmpeg = pkgs.ffmpeg-headless; };
+    });
     addToSystemPackages = true;
     # expects DEEPSEEK_API_KEY, OHMYGPT_API_KEY, DISCORD_BOT_TOKEN, DISCORD_ALLOWED_USERS
     environmentFiles = [ config.sops.secrets."hermes_env".path ];
     environment = {
       DISCORD_HOME_CHANNEL = "1557648855615672330";
     };
-    # tools for the agent, on its PATH
+    # tools for the agent, on its PATH (the wrapper already adds node, ffmpeg,
+    # ripgrep, git and ssh)
     extraPackages = with pkgs; [
       python3
       uv
       poppler-utils
-      nodejs
       pnpm
       gh
       sqlite
       p7zip # 7z; _7zz only provides 7zz
       pandoc
-      ffmpeg
       imagemagick
     ];
     settings = {
