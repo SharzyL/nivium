@@ -78,6 +78,15 @@
   systemd.tmpfiles.rules = [
     "a+ ${config.services.hermes-agent.workingDirectory} - - - - default:group::rwX,default:mask::rwX,default:other::---"
   ];
+  # the module also puts HERMES_HOME at 2770, but hermes refuses some commands
+  # when its home is writable by another user. tmpfiles keeps the first line it
+  # sees for a path: this file sorts before 00-nixos.conf, so the module's line
+  # is dropped, and the resetup after every switch undoes the module's chmod.
+  systemd.tmpfiles.settings."00-hermes-home"."${config.services.hermes-agent.stateDir}/.hermes".d = {
+    mode = "2750";
+    user = config.services.hermes-agent.user;
+    group = config.services.hermes-agent.group;
+  };
 
   # lets sharzy edit the workspace through ~/ws/hermes
   users.users."sharzy".extraGroups = [ "hermes" ];
