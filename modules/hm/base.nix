@@ -71,9 +71,6 @@
           hm = pin "home-manager";
           treefmt-nix = pin "treefmt-nix";
           flake-parts = pin "flake-parts";
-          # not `flake = self`: that would put the tree in the closure and
-          # read self.rev/narHash, so every commit rebuilt registry.json
-          f.to = { type = "github"; owner = "SharzyL"; repo = "nivium"; ref = "goshujin"; };
         };
     };
 
