@@ -528,14 +528,35 @@ def activation_cmds(host: Host, action: str) -> list[list[str]]:
     return cmds
 
 
-def current_generation(host: Host, ssh: Ssh) -> str:
-    argv = ["readlink", PROFILE]
+def readlink_on(host: Host, ssh: Ssh, path: str, resolve: bool = False) -> str:
+    """What the symlink `path` points to on the host; "" if it does not exist.
+
+    With `resolve`, follow the chain to the end (`readlink -e`)."""
+    argv = ["readlink", *(["-e"] if resolve else []), path]
     if host.local:
         res = subprocess.run(argv, capture_output=True, text=True)
     else:
         res = subprocess.run(ssh.argv(host, argv), capture_output=True, text=True)
-    m = re.search(r"system-(\d+)-link", res.stdout)
+    return res.stdout.strip() if res.returncode == 0 else ""
+
+
+def current_generation(host: Host, ssh: Ssh) -> str:
+    m = re.search(r"system-(\d+)-link", readlink_on(host, ssh, PROFILE))
     return m.group(1) if m else ""
+
+
+def already_active(host: Host, ssh: Ssh, action: str) -> bool:
+    """Whether `action` would change nothing: the host already runs (and, for
+    switch/boot, already has in its profile) the closure we just built."""
+    checks = {
+        "switch": ["/run/current-system", PROFILE],
+        "boot": [PROFILE],
+        "test": ["/run/current-system"],
+        "dry-activate": ["/run/current-system"],
+    }.get(action, [])
+    return bool(checks) and all(
+        readlink_on(host, ssh, link, resolve=True) == host.out for link in checks
+    )
 
 
 def done_message(action: str, gen: str, elapsed: str) -> str:
@@ -736,6 +757,11 @@ def activate_host(host: Host, opts, index: int, total: int) -> None:
     rule(f"activating {host.label()}  {dim(where)}", f"{index}/{total}")
     ssh: Ssh = opts.ssh
 
+    if not opts.force_activate and already_active(host, ssh, opts.action):
+        host.status, host.note = "unchanged", "already active, --force-activate to redo"
+        ok(f"already running this closure, nothing to {opts.action}")
+        return
+
     if host.diff:
         argv = remote_closure_cmd(host, host.out)
         res = run(argv) if host.local else ssh.run(host, argv)
@@ -793,6 +819,15 @@ def activate_home(host: Host, opts) -> None:
     """Run the activation script of a built homeConfigurations.<name> here."""
     rule(f"activating {host.label()}  {dim('home-manager')}", "1/1")
     current = Path.home() / ".local/state/home-manager/gcroots/current-home"
+    if (
+        not opts.force_activate
+        and opts.action != "build"
+        and current.exists()
+        and os.path.realpath(current) == host.out
+    ):
+        host.status, host.note = "unchanged", "already active, --force-activate to redo"
+        ok(f"already running this closure, nothing to {opts.action}")
+        return
     if host.diff and current.exists():
         res = run(["nix", "store", "diff-closures", str(current), host.out])
         if res.returncode != 0:
@@ -899,6 +934,12 @@ def parse_args(argv: list[str]):
         "-n", "--dry-run", action="store_true", help="build and copy, activate nothing"
     )
     p.add_argument(
+        "--force-activate",
+        action="store_true",
+        help="activate even when the host already runs the built closure "
+        "(by default such hosts are reported as unchanged and left alone)",
+    )
+    p.add_argument(
         "--build-on", choices=("local", "target"), help="override for every host"
     )
     sub = p.add_mutually_exclusive_group()
@@ -966,6 +1007,7 @@ def summary(hosts: list[Host]):
         "dry-activate": green("✓"),
         "built": green("✓"),
         "done": green("✓"),
+        "unchanged": green("="),
         "failed": red("✗"),
         "skipped": yellow("–"),
         "pending": yellow("–"),
@@ -1016,7 +1058,11 @@ def home_main(cfg: Config, opts) -> int:
         elif home.status == "built":
             activate_home(home, opts)
         summary([home])
-        good = {"built"} if opts.dry_run or opts.action == "build" else {opts.action}
+        good = (
+            {"built"}
+            if opts.dry_run or opts.action == "build"
+            else {opts.action, "unchanged"}
+        )
         return 0 if home.status in good else 1
     except KeyboardInterrupt:
         say("")
@@ -1109,7 +1155,7 @@ def main() -> int:
                 ):
                     stop = True
         summary(hosts)
-        good = {"built"} if opts.dry_run else {opts.action}
+        good = {"built"} if opts.dry_run else {opts.action, "unchanged"}
         return 0 if all(h.status in good for h in hosts) else 1
     except KeyboardInterrupt:
         say("")
