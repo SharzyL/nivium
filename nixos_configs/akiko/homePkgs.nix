@@ -136,6 +136,7 @@
     blender
     pavucontrol
     wezterm # for connection from wezterm
+    paseo
 
     # design
     gimp

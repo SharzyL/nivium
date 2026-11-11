@@ -33,6 +33,12 @@ in
 
   # zoom-us = nixpkgs_master.zoom-us;
 
+  # nixpkgs (0.12.0 on both branches) lags the releases; the source ships its
+  # own package.nix with the npm deps hash kept current by upstream CI, so use
+  # that on the npins-pinned release (`npins -d pkgs/npins update paseo`)
+  paseo = versionGuard prev.paseo (lib.removePrefix "v" final.srcs.paseo.version)
+    (final.callPackage "${final.srcs.paseo.src}/nix/package.nix" { });
+
   firefox = prev.firefox.overrideAttrs (old: {
     buildCommand = old.buildCommand + ''
       substituteInPlace $out/share/applications/firefox.desktop \
