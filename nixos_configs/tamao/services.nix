@@ -8,7 +8,6 @@
   sops.secrets."rssbot_secret" = { sopsFile = ../../secrets/tamao.yaml; };
   sops.secrets."sb_secret" = { sopsFile = ../../secrets/tamao.yaml; };
   sops.secrets."syncplay_password" = { sopsFile = ../../secrets/tamao.yaml; };
-  sops.secrets."rosetta_env" = { sopsFile = ../../secrets/tamao.yaml; };
   sops.secrets."cloudflared-creds" = { sopsFile = ../../secrets/tamao.yaml; };
 
   security.auditd.enable = true;
@@ -82,22 +81,11 @@
     configFile = "%S/tg-searcher/config.yaml"; # require manually copy to host
   };
 
-  services.green-rosetta = {
-    enable = true;
-    listen = "127.0.0.1:2445";
-    configFile = ./green-rosetta.toml;
-    envFile = config.sops.secrets."rosetta_env".path;
-  };
-
   services.cloudflared = {
     enable = true;
     tunnels."967176fc-b025-4fcd-8f71-84957718a1b9" = {
       credentialsFile = config.sops.secrets."cloudflared-creds".path;
-      ingress = {
-        "rosetta.sharzy.in" = {
-          service = "http://${config.services.green-rosetta.listen}";
-        };
-      };
+      ingress = { };
       default = "http_status:404";
     };
   };

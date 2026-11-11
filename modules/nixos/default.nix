@@ -22,7 +22,6 @@ in
 
     tg-searcher
     chatgpt-telegram-bot
-    green-rosetta
   ])) ++ (dirFiles "services") ++ (dirFiles "programs");
 }
 

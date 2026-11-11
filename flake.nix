@@ -55,13 +55,6 @@
       inputs.treefmt-nix.follows = "treefmt-nix";
     };
 
-    green-rosetta = {
-      url = "github:SharzyL/green_rosetta/goshujin";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-parts.follows = "flake-parts";
-      inputs.treefmt-nix.follows = "treefmt-nix";
-    };
-
     hocon = {
       url = "github:SharzyL/hocon/goshujin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -139,7 +132,6 @@
         rdict
         waybar
         vicishz
-        green-rosetta
         bww
         era_ls
         hocon
