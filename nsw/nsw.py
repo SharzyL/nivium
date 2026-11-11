@@ -898,6 +898,143 @@ def exec_main(cfg: Config, hosts: list[Host], opts) -> int:
         shutil.rmtree(opts.tmp, ignore_errors=True)
 
 
+# ------------------------------------------------------------------- probe --
+
+# NixOS records no build time (builds are reproducible), so what a host can
+# tell about its generation is when it was activated (the mtime of
+# /run/current-system), when it was booted (/run/booted-system), its
+# generation number and the nixpkgs date in its version string. Whether it is
+# behind the checkout is found by evaluating the checkout and comparing paths.
+PROBE_SCRIPT = """
+echo current=$(readlink /run/current-system)
+echo booted=$(readlink /run/booted-system)
+echo profile=$(readlink /nix/var/nix/profiles/system)
+echo activated=$(stat -c %Y /run/current-system)
+echo booted_at=$(stat -c %Y /run/booted-system)
+echo version=$(cat /run/current-system/nixos-version)
+echo now=$(date +%s)
+for s in booted current; do
+  echo boot_parts_$s=$(cd /run/$s-system && readlink kernel kernel-modules initrd systemd | tr '\\n' ' ')
+done
+"""
+
+
+def probe_host(host: Host, ssh: Ssh) -> dict[str, str]:
+    argv = ["sh", "-c", PROBE_SCRIPT]
+    if not host.local:
+        argv = ssh.argv(host, argv)
+        ssh.opened.append(host)
+    res = subprocess.run(argv, capture_output=True, text=True)
+    if res.returncode != 0:
+        err = res.stderr.strip().splitlines()
+        raise RuntimeError(err[-1] if err else f"exit {res.returncode}")
+    return dict(line.split("=", 1) for line in res.stdout.splitlines() if "=" in line)
+
+
+def eval_toplevels(cfg: Config, hosts: list[Host], opts) -> dict[str, Optional[str]]:
+    """The store path each host's attr evaluates to in the checkout, None on error."""
+    # one evaluator run for every host (they share nixpkgs); a host whose attr
+    # is missing or fails to evaluate comes back null rather than failing the
+    # others (tryEval catches throw/assert only, hence the hasAttr walk)
+    walk = (
+        "(x: ks: if ks == [ ] then x "
+        "else if builtins.isAttrs x && builtins.hasAttr (builtins.head ks) x "
+        "then walk x.${builtins.head ks} (builtins.tail ks) else null)"
+    )
+    attrs = " ".join(
+        f'"{h.name}" = [ {" ".join(json.dumps(k) for k in h.attr.split("."))} ];'
+        for h in hosts
+    )
+    expr = (
+        f"let walk = {walk}; f = builtins.getFlake {json.dumps(str(cfg.flake))}; "
+        "try = ks: let v = walk f ks; r = builtins.tryEval (if v == null then null else v.outPath); "
+        "in if r.success then r.value else null; "
+        f"in builtins.mapAttrs (_: try) {{ {attrs} }}"
+    )
+    if opts.iets and tool_present("iets", "evaluating with nix"):
+        argv = ["iets", "eval", "--json", "--impure", "-E", expr]
+    else:
+        argv = ["nix", "eval", "--json", "--impure", "--expr", expr]
+    say(dim("$ " + argv[0] + " eval  # " + ", ".join(h.name for h in hosts)))
+    res = subprocess.run(argv, capture_output=True, text=True, cwd=cfg.flake)
+    if res.returncode != 0:
+        warn(f"evaluation failed: {eval_error(res.stderr) or f'exit {res.returncode}'}")
+        return {h.name: None for h in hosts}
+    return json.loads(res.stdout)
+
+
+def eval_error(stderr: str) -> str:
+    """The message of the last `error:` line that carries one (nix puts the
+    trace between a bare `error:` and the real message)."""
+    msgs = [
+        l[len("error:") :].strip()
+        for l in stderr.splitlines()
+        if l.startswith("error:") and l[len("error:") :].strip()
+    ]
+    return msgs[-1] if msgs else ""
+
+
+def fmt_age(seconds: float) -> str:
+    seconds = int(seconds)
+    if seconds < 3600:
+        return f"{max(seconds // 60, 0)}m"
+    if seconds < 86400:
+        return f"{seconds // 3600}h"
+    return f"{seconds // 86400}d"
+
+
+def nixpkgs_date(version: str) -> str:
+    """26.11.20261021.dce1caf -> 2026-10-21; anything else verbatim."""
+    m = re.match(r"\d+\.\d+\.(\d{4})(\d{2})(\d{2})\.", version)
+    return f"{m.group(1)}-{m.group(2)}-{m.group(3)}" if m else version
+
+
+def probe_main(cfg: Config, hosts: list[Host], opts) -> int:
+    """`nsw --probe`: how old each host's running generation is, and whether the checkout differs."""
+    say(f"{bold('nsw')} ▸ probe  {', '.join(h.name for h in hosts)}")
+    opts.tmp = Path(tempfile.mkdtemp(prefix="nsw."))
+    opts.ssh = Ssh(opts.tmp)
+    try:
+        rule("probe")
+        wanted = eval_toplevels(cfg, hosts, opts)
+        failed = 0
+        for h in hosts:
+            try:
+                p = probe_host(h, opts.ssh)
+            except RuntimeError as e:
+                failed += 1
+                say(f"  {h.label(16)} {red('✗')} {e}")
+                continue
+            now = int(p.get("now", time.time()))
+            m = re.search(r"system-(\d+)-link", p.get("profile", ""))
+            gen = f"gen {m.group(1)}" if m else "gen ?"
+            parts = [
+                f"{gen:<9}",
+                f"nixpkgs {nixpkgs_date(p.get('version', '?'))}",
+                f"activated {fmt_age(now - int(p['activated']))} ago",
+                f"booted {fmt_age(now - int(p['booted_at']))} ago",
+            ]
+            # a switch only needs a reboot when what the kernel booted differs
+            if p.get("boot_parts_booted") != p.get("boot_parts_current"):
+                parts.append(yellow("reboot pending"))
+            want = wanted.get(h.name)
+            if want is None:
+                parts.append(dim("checkout: ?"))
+            elif want == p.get("current"):
+                parts.append(green("= checkout"))
+            else:
+                parts.append(red("≠ checkout"))
+            say(f"  {h.label(16)} " + "  ".join(parts))
+        return 1 if failed else 0
+    except KeyboardInterrupt:
+        say("")
+        warn("interrupted")
+        return 130
+    finally:
+        opts.ssh.close_all()
+        shutil.rmtree(opts.tmp, ignore_errors=True)
+
+
 # ---------------------------------------------------------------------- cli --
 
 
@@ -927,6 +1064,12 @@ def parse_args(argv: list[str]):
         metavar="CMD",
         help="instead of building: run the shell command CMD on each selected host "
         "(over ssh, or locally as the host's user) and nothing else",
+    )
+    p.add_argument(
+        "--probe",
+        action="store_true",
+        help="instead of building: show each selected host's generation, when it was "
+        "activated and booted, and whether the checkout evaluates to something else",
     )
     p.add_argument("-l", "--list", action="store_true", help="list hosts and exit")
     p.add_argument("-a", "--action", choices=ACTIONS, default="switch")
@@ -1080,13 +1223,15 @@ def main() -> int:
         return 0
 
     if opts.home:
-        if opts.batch_exec:
-            die("--batch-exec and --home do not mix")
+        if opts.batch_exec or opts.probe:
+            die("--batch-exec and --probe do not take --home")
         return home_main(cfg, opts)
 
     hosts = cfg.select(opts.hosts, opts.all)
     if opts.batch_exec:
         return exec_main(cfg, hosts, opts)
+    if opts.probe:
+        return probe_main(cfg, hosts, opts)
     for h in hosts:
         if opts.build_on:
             h.build_on = opts.build_on
