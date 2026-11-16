@@ -29,6 +29,7 @@
         m = "merge";
         l = "log";
         sm = "submodule";
+        wt = "worktree";
 
         p = "push";
         pf = "push --force-with-lease";

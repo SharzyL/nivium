@@ -1,4 +1,4 @@
-{ config, inputs, pkgs, ... }:
+{ config, inputs, pkgs, lib, ... }:
 
 {
   imports = [
@@ -95,6 +95,8 @@
     user = config.services.hermes-agent.user;
     group = config.services.hermes-agent.group;
   };
+
+  systemd.services.hermes-agent.serviceConfig.UMask = lib.mkForce "0027";
 
   # lets sharzy edit the workspace through ~/ws/hermes
   users.users."sharzy".extraGroups = [ "hermes" ];
