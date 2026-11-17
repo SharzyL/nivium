@@ -86,15 +86,20 @@
   systemd.tmpfiles.rules = [
     "a+ ${config.services.hermes-agent.workingDirectory} - - - - default:group::rwX,default:mask::rwX,default:other::---"
   ];
-  # the module also puts HERMES_HOME at 2770, but hermes refuses some commands
-  # when its home is writable by another user. tmpfiles keeps the first line it
-  # sees for a path: this file sorts before 00-nixos.conf, so the module's line
-  # is dropped, and the resetup after every switch undoes the module's chmod.
+  # the module also puts HERMES_HOME at 2770, but hermes refuses cron jobs and
+  # some commands when its home is writable by another user. tmpfiles keeps the
+  # first line it sees for a path: this file sorts before 00-nixos.conf, so the
+  # module's line is dropped. That covers boot only: systemd-tmpfiles-resetup
+  # re-runs on a switch just when tmpfiles.d changed, while the module's
+  # activation script chmods 2770 on every switch, so redo it right after.
   systemd.tmpfiles.settings."00-hermes-home"."${config.services.hermes-agent.stateDir}/.hermes".d = {
     mode = "2750";
     user = config.services.hermes-agent.user;
     group = config.services.hermes-agent.group;
   };
+  system.activationScripts.hermes-home-mode = lib.stringAfter [ "hermes-agent-setup" ] ''
+    chmod 2750 ${config.services.hermes-agent.stateDir}/.hermes
+  '';
 
   systemd.services.hermes-agent.serviceConfig.UMask = lib.mkForce "0027";
 
