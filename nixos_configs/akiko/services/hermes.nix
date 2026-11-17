@@ -86,12 +86,14 @@
   systemd.tmpfiles.rules = [
     "a+ ${config.services.hermes-agent.workingDirectory} - - - - default:group::rwX,default:mask::rwX,default:other::---"
   ];
-  # the module also puts HERMES_HOME at 2770, but hermes refuses cron jobs and
-  # some commands when its home is writable by another user. tmpfiles keeps the
-  # first line it sees for a path: this file sorts before 00-nixos.conf, so the
-  # module's line is dropped. That covers boot only: systemd-tmpfiles-resetup
-  # re-runs on a switch just when tmpfiles.d changed, while the module's
-  # activation script chmods 2770 on every switch, so redo it right after.
+  # the module makes HERMES_HOME 2770 so that group members can share it, and
+  # hermes accepts a group-writable home only while the group has no member
+  # but hermes itself (it guards the gateway socket inside). sharzy is in the
+  # group, so 2770 makes cron jobs fail with unsafe_control_permissions.
+  # tmpfiles keeps the first line it sees for a path: this file sorts before
+  # 00-nixos.conf, so the module's line is dropped. That covers boot only:
+  # systemd-tmpfiles-resetup re-runs on a switch just when tmpfiles.d changed,
+  # while the module's activation script chmods 2770 on every switch, so redo it.
   systemd.tmpfiles.settings."00-hermes-home"."${config.services.hermes-agent.stateDir}/.hermes".d = {
     mode = "2750";
     user = config.services.hermes-agent.user;
