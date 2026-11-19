@@ -1,5 +1,16 @@
 { config, inputs, pkgs, lib, ... }:
 
+let
+  # hermes patches patchelf against a 0.19.2 bug (NixOS/patchelf#674), but
+  # nixpkgs reverted to 0.15.2, which the patch does not apply to and which
+  # lacks the bug; rebuild hermes' pm packages on nixpkgs' patchelf as is
+  pmPackages =
+    assert lib.assertMsg (lib.versionOlder pkgs.patchelf.version "0.19")
+      "nixpkgs has patchelf ${pkgs.patchelf.version} again, hermes' own pmPackages should build";
+    lib.filterAttrs (_: lib.isDerivation) (pkgs.callPackage "${inputs.hermes-agent}/nix/pm-packages.nix" {
+      patchelf = pkgs.patchelf // { overrideAttrs = _: pkgs.patchelf; };
+    });
+in
 {
   imports = [
     inputs.hermes-agent.nixosModules.default
@@ -17,7 +28,7 @@
     # nixpkgs' headless one is cached and is only a PATH entry.
     package = inputs.hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.minimal.override (prev: {
       defaultDependencyGroups = [ "discord" "telegram" ];
-      pmPackages = prev.pmPackages // { ffmpeg = pkgs.ffmpeg-headless; };
+      pmPackages = pmPackages // { ffmpeg = pkgs.ffmpeg-headless; };
     });
     addToSystemPackages = true;
     # expects DEEPSEEK_API_KEY, OHMYGPT_API_KEY, DISCORD_BOT_TOKEN, DISCORD_ALLOWED_USERS

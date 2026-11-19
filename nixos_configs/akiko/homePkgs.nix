@@ -67,7 +67,6 @@
     p7zip
     android-tools
     beancount
-    go-grip
     gh
 
     git-filter-repo
@@ -113,7 +112,6 @@
     bww
 
     # tex
-    latexrun
     zathura
     texliveBasic
 

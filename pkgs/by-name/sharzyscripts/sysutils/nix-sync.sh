@@ -1,13 +1,55 @@
 #!/usr/bin/env bash
 
 registry="$HOME/.config/nix/registry.json"
+lock=
+
+usage() {
+  echo "usage: nix-sync [-l|--lock <flake.lock or flake dir>]"
+  echo "pin nixpkgs, flake-parts and treefmt-nix of ./flake.lock to the revs in the user registry, or in the given lock file"
+}
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    -l | --lock)
+      lock="${2:?--lock needs a path}"
+      shift 2
+      ;;
+    -h | --help)
+      usage
+      exit
+      ;;
+    *)
+      usage >&2
+      exit 1
+      ;;
+  esac
+done
+
+if [ -d "$lock" ]; then
+  lock="$lock/flake.lock"
+fi
+
+# the locked ref of the given flake id: the root input of that name in the lock
+# file if given (nothing if it follows another input), otherwise the registry entry
+get_locked() {
+  if [ -n "$lock" ]; then
+    jq -c --arg id "$1" '.nodes[.nodes.root.inputs[$id] | strings].locked' "$lock"
+  else
+    jq -c --arg id "$1" '.flakes | map(select(.from.id == $id)) | .[0].to' "$registry"
+  fi
+}
 
 get_rev() {
-  jq -r --arg id "$1" '.flakes | map(select(.from.id == $id)) | .[0].to.rev' "$registry"
+  get_locked "$1" | jq -r .rev
 }
 
 get_path() {
-  jq -r --arg id "$1" '.flakes | map(select(.from.id == $id)) | .[0].to.path' "$registry"
+  get_locked "$1" | jq -r .path
+}
+
+# a locked tarball is already an immutable release url
+get_url() {
+  get_locked "$1" | jq -r 'select(.type == "tarball") | .url'
 }
 
 # print the tarball url of the channel release at the given rev, if any
@@ -45,7 +87,10 @@ treefmt_nix_rev=$(get_rev treefmt-nix)
 args=(nix flake update --no-warn-dirty nixpkgs flake-parts treefmt-nix)
 
 if [ -n "$nixpkgs_rev" ] && [ "$nixpkgs_rev" != "null" ]; then
-  nixpkgs_url=$(channel_url "$nixpkgs_rev" "$(get_path nixpkgs)")
+  nixpkgs_url=$(get_url nixpkgs)
+  if [ -z "$nixpkgs_url" ]; then
+    nixpkgs_url=$(channel_url "$nixpkgs_rev" "$(get_path nixpkgs)")
+  fi
   args+=(--override-flake nixpkgs "${nixpkgs_url:-github:NixOS/nixpkgs/$nixpkgs_rev}")
 fi
 

@@ -434,8 +434,9 @@ def build_group(cfg: Config, hosts: list[Host], builder: Optional[Host], opts) -
         else:
             argv += ["--out-link", out_link]
     else:
+        # `nom build` runs nix build itself and passes its --json stdout through
         argv = [
-            "nix",
+            "nom" if use_nom else "nix",
             "build",
             *roots,
             "--json",
@@ -443,8 +444,6 @@ def build_group(cfg: Config, hosts: list[Host], builder: Optional[Host], opts) -
             "--out-link",
             out_link,
         ]
-        if use_nom:
-            argv += ["--log-format", "internal-json", "-v"]
         if builder:
             argv += ["--builders", builder.builder_url, "--max-jobs", "0"]
     if opts.show_trace:
@@ -455,7 +454,7 @@ def build_group(cfg: Config, hosts: list[Host], builder: Optional[Host], opts) -
     if builder:
         env["NIX_SSHOPTS"] = shlex.join(opts.ssh.opts(builder))
     started = time.monotonic()
-    res, out = with_nom(argv, use_nom, env=env, cwd=cfg.flake)
+    res, out = with_nom(argv, use_iets and use_nom, env=env, cwd=cfg.flake)
     elapsed = fmt_elapsed(time.monotonic() - started)
 
     try:
@@ -1108,7 +1107,10 @@ def parse_args(argv: list[str]):
         "--no-diff", dest="diff", action="store_false", help="skip the closure diff"
     )
     p.add_argument(
-        "--no-iets", dest="iets", action="store_false", help="build with nix, not iets"
+        "--no-iets",
+        dest="iets",
+        action="store_false",
+        help="build with nix (`nom build` when nom is on PATH), not iets",
     )
     p.add_argument(
         "--no-nom",

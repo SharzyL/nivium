@@ -24,20 +24,16 @@ in
     });
   }));
 
-  latexrun = (prev.latexrun.overrideAttrs (oldAttrs: {
-    patches = (prev.patches or [ ]) ++ [ ./patches/latexrun.patch ];
-  }));
-
   # to prevent collision with rustup
   rust-analyzer = lib.hiPrio prev.rust-analyzer;
 
-  # zoom-us = nixpkgs_master.zoom-us;
-
-  # nixpkgs (0.12.0 on both branches) lags the releases; the source ships its
-  # own package.nix with the npm deps hash kept current by upstream CI, so use
-  # that on the npins-pinned release (`npins -d pkgs/npins update paseo`)
-  paseo = versionGuard prev.paseo (lib.removePrefix "v" final.srcs.paseo.version)
-    (final.callPackage "${final.srcs.paseo.src}/nix/package.nix" { });
+  # inputs.waybar (the feat/niri fork) builds on this one but branched before
+  # upstream gained these meson options, which meson rejects as unknown
+  waybar = prev.waybar.overrideAttrs (old: {
+    mesonFlags = lib.filter
+      (f: !lib.any (o: lib.hasPrefix "-D${o}=" f) [ "wwan" "mango" "umbriel" ])
+      old.mesonFlags;
+  });
 
   firefox = prev.firefox.overrideAttrs (old: {
     buildCommand = old.buildCommand + ''
@@ -128,12 +124,6 @@ in
         vim-argumentative = removeLicense "vim-argumentative";
         barbar-nvim = removeLicense "barbar-nvim";
       });
-
-  go-grip = prev.go-grip.overrideAttrs (oldAttrs: {
-    patches = (oldAttrs.patches or [ ]) ++ [
-      ./patches/go-grip.patch
-    ];
-  });
 
   mathematica = (prev.mathematica.override rec {
     version = "13.2.0";

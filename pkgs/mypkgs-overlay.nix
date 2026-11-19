@@ -9,6 +9,8 @@ final: prev:
   qbittorrent-nox = final.libsForQt5.callPackage ./in-overlay/qbittorrent4 {
     guiSupport = false;
     inherit (final.apple_sdk.frameworks) Cocoa;
+    # 4.6 predates libtorrent 2.1's storage API, nixpkgs' default now
+    libtorrent-rasterbar = final.libtorrent-rasterbar-2_0_x;
   };
 
   torrenttools = final.callPackage ./in-overlay/torrenttools { };
