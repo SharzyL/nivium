@@ -1,5 +1,31 @@
 {
   "nodes": {
+    "bw-touch": {
+      "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "treefmt-nix": [
+          "treefmt-nix"
+        ]
+      },
+      "locked": {
+        "lastModified": 1795241221,
+        "narHash": "sha256-NGie7bVv5PaNrPOShRa4x36ZF4VqCxnS+kxna5thAjI=",
+        "owner": "SharzyL",
+        "repo": "bw-touch",
+        "rev": "f91d6367ef2f39acd1fecb5bac24be5cd3c08f50",
+        "type": "github"
+      },
+      "original": {
+        "owner": "SharzyL",
+        "repo": "bw-touch",
+        "type": "github"
+      }
+    },
     "bww": {
       "inputs": {
         "flake-parts": "flake-parts",
@@ -640,6 +666,7 @@
     },
     "root": {
       "inputs": {
+        "bw-touch": "bw-touch",
         "bww": "bww",
         "chatgpt-telegram-bot": "chatgpt-telegram-bot",
         "csync": "csync",

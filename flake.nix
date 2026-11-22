@@ -88,6 +88,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    bw-touch = {
+      url = "github:SharzyL/bw-touch";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.treefmt-nix.follows = "treefmt-nix";
+    };
+
     hermes-agent = {
       url = "github:NousResearch/hermes-agent";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -136,6 +143,7 @@
         era_ls
         hocon
         mihomo-cli
+        bw-touch
       ]))
       # flakes without an overlay: expose their default package under a fixed name, so
       # package sets they don't support (e.g. pkgsCross.mingwW64 pulled in by dxvk) can

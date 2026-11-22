@@ -110,6 +110,7 @@
     csync
     rdict
     bww
+    bw-touch
 
     # tex
     zathura
